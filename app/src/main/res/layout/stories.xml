@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix"
+    android:layout_marginBottom="8dp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7">
+
+                    <TextView
+                        android:id="@+id/Story_title"
+                        style="@style/story_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TAMIL NADU CHIEF MINISTER POWER STRUGGLE"
+                        android:textAllCaps="true"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3">
+
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/button"
+                        android:padding="10dp"
+                        android:text="Follow"
+                        android:textColor="#ffffff"
+                        android:paddingRight="22dp"
+                        android:id="@+id/followbutton"
+                        android:onClick="onClick"
+                        android:textStyle="bold"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+
+                android:layout_weight="8">
+                <!--android:layout_marginBottom="22dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"-->
+
+
+                <ImageView
+                    android:id="@+id/main_image"
+                    style="@style/hero_image"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/share_icon" />
+
+               <!--<View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/gradient"/>-->
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+
+
+                    android:layout_alignParentBottom="true"
+                    android:background="#B3000000">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginBottom="5dp">
+
+                        <TextView
+                            android:id="@+id/date"
+                            style="@style/date"
+                            android:text="21" />
+
+                        <TextView
+                            android:id="@+id/month"
+                            style="@style/month_year"
+                            android:text="JAN" />
+
+                        <TextView
+                            android:id="@+id/year"
+                            style="@style/month_year"
+                            android:text="2017" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="2.5dp"
+                        android:paddingTop="2.5dp">
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#ffffff"
+                            />
+                    </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight= "9"
+                            android:paddingBottom="5dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                >
+
+                                <TextView
+                                    android:id="@+id/substory_title"
+                                    style="@style/substory_title"
+                                    android:text="Corbyn vows to 'turn back Tory tide'"
+                                    android:minLines="2"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_gravity="bottom"
+                                android:layout_marginTop="5dp">
+
+
+
+                                <TextView
+                                    android:id="@+id/number_of_articles"
+                                    style="@style/number_of_articles_videos"
+                                    android:text="5 ARTICLES"
+                                    android:layout_marginLeft="6dp"
+                                    android:gravity="bottom"/>
+
+                                <TextView
+                                    android:id="@+id/number_of_videos"
+                                    style="@style/number_of_articles_videos"
+                                    android:text="EXPLORE IN DEPTH"
+                                    android:layout_marginLeft="10dp"
+                                    android:textColor="#f44336"
+                                    android:gravity="bottom"/>
+
+                            </LinearLayout>
+
+
+
+                        </LinearLayout>
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#f44336" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

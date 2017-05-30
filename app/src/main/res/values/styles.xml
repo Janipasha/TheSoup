@@ -1,0 +1,109 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#000000</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorAccent">#000000</item>
+        <item name="colorControlNormal">#ffffff</item>
+
+    </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
+
+    <style name="AppTheme.WhiteAccent">
+        <item name="colorAccent">#ffffff</item> <!-- Whatever color you want-->
+    </style>
+
+    <style name="story_title">
+        <item name="android:textSize">15sp</item>
+        <item name="fontPath">fonts/OpenSans-ExtraBold.ttf</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+
+    <style name="tag">
+        <item name="android:textSize">10sp</item>
+        <item name="fontPath">fonts/OpenSans-Bold.ttf</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textColor">#f44336</item>
+    </style>
+
+    <style name="share_love_icon">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+    </style>
+
+    <style name="follow_icon">
+        <item name="android:layout_width">75dp</item>
+        <item name="android:layout_height">75dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <!-- <item name="android:layout_marginRight">0dp</item>-->
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <style name="hero_image">
+        <!--<item name="android:layout_width">468dp</item>
+        <item name="android:layout_height">275dp</item>-->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+    <style name="date">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="fontPath">fonts/OpenSans-ExtraBold.ttf</item>
+
+    </style>
+
+    <style name="month_year">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#ffffff</item>
+
+    </style>
+
+
+    <style name="substory_title">
+        <item name="android:textSize">13sp</item>
+        <item name="fontPath">fonts/OpenSans-Semibold.ttf</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">6dp</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="number_of_articles_videos">
+        <item name="android:textSize">8sp</item>
+        <item name="fontPath">fonts/OpenSans-ExtraBold.ttf</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="bottom_share_love_icon">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+</resources>
+
+
+

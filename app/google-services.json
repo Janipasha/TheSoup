@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "548883092457",
+    "firebase_url": "https://the-soup-app.firebaseio.com",
+    "project_id": "the-soup-app",
+    "storage_bucket": "the-soup-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548883092457:android:0c67fe78933d3fcd",
+        "android_client_info": {
+          "package_name": "in.thesoup.thesoup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548883092457-e1fa1prbce8q71sgtsks2o8oj2q0p9q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCz4pxZGxWeAt1AfMgeHuA5ONnb2Apa0ks"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
