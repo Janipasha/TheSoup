@@ -27,7 +27,7 @@
             android:resource="@color/colorAccent" />
 
 
-        <activity android:name=".Activities.MainActivity"></activity>
+        <activity android:name=".Activities.MainActivity"/>
 
         <activity
             android:name=".Activities.SplashActivity"
@@ -39,9 +39,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activities.DetailsActivity"></activity>
-        <activity android:name=".Activities.ArticlesActivity"></activity>
-        <activity android:name=".Activities.ArticleWebViewActivity"></activity>
+        <activity android:name=".Activities.DetailsActivity">
+        </activity>
+        <activity android:name=".Activities.FilterActivity"/>
+        <activity android:name=".Activities.ArticlesActivity"/>
+        <activity android:name=".Activities.ArticleWebViewActivity"/>
 
 
         <activity android:name=".Activities.LoginActivity" />

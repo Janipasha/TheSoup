@@ -19,6 +19,18 @@
         <item name="colorAccent">#ffffff</item> <!-- Whatever color you want-->
     </style>
 
+    //*****************************************************************
+    <style name="AppTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/YourTextAppareance</item>
+    </style>
+
+
+    <style name="YourTextAppareance" parent="TextAppearance.Design.Tab">
+        <item name="fontPath">proxima-nova-black.ttf</item>
+    </style>
+
+    //*********************************************************
+
     <style name="story_title">
         <item name="android:textSize">15sp</item>
         <item name="fontPath">fonts/OpenSans-ExtraBold.ttf</item>

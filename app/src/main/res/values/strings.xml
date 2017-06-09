@@ -7,4 +7,10 @@
     <string name="fb_login_protocol_scheme">fb1909173329108872</string>
     <string name="contentdescimage">mainimage</string>
 
+    <string name="action_settings">Settings</string>
+
+    <!-- Button text -->
+    <string name="btn_logout_from_google">Logout from Google</string>
+    <string name="btn_revoke_access">Revoke Access</string>
+
 </resources>

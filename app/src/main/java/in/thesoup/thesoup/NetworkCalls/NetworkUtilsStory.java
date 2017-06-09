@@ -1,9 +1,12 @@
 package in.thesoup.thesoup.NetworkCalls;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -16,9 +19,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import in.thesoup.thesoup.Activities.DetailsActivity;
+import in.thesoup.thesoup.Activities.MainActivity;
+import in.thesoup.thesoup.Fragments.MyFeedFragment;
 import in.thesoup.thesoup.GSONclasses.SinglestoryGSON.Substories;
 import in.thesoup.thesoup.SoupContract;
 import in.thesoup.thesoup.gsonConversion;
+
+import static android.os.Build.VERSION_CODES.M;
 
 /**
  * Created by Jani on 13-04-2017.
@@ -89,10 +97,35 @@ public class NetworkUtilsStory {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Auto-generated method stub
 
-                    }
-                }){
+                        NetworkResponse response = error.networkResponse;
+
+
+                        if (response != null && response.data != null) {
+
+                            NetworkResponse networkResponse = error.networkResponse;
+
+                            //TODO: error response write for fragment
+
+                            if (networkResponse != null) {
+                                if (networkResponse.statusCode == 404) {
+                                    if (mcontext instanceof DetailsActivity) {
+                                        if (!params.get("page").equals("0")) {
+
+                                            DetailsActivity activity = (DetailsActivity) mcontext;
+
+                                            activity.stopProgress();
+
+
+                                        }
+
+                                        // Auto-generated method stub
+
+                                    }
+                                }
+                            }
+                        }
+                    }}){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String,String> headerParam = new HashMap<>();

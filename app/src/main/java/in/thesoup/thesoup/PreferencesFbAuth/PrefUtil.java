@@ -17,6 +17,20 @@ public class PrefUtil {
         this.activity = activity;
     }
 
+    public void saveTotalRefresh(String totalrefresh){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(SoupContract.TOTAL_REFRESH, totalrefresh);
+        editor.apply();
+
+
+    }
+
+    public String getTotalRefresh(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        return prefs.getString(SoupContract.TOTAL_REFRESH,null);
+    }
+
     public void saveAccessTokenPermissions(String token,String permissions) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
         SharedPreferences.Editor editor = prefs.edit();

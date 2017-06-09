@@ -26,7 +26,6 @@ public class FeedFragmentPagerAdapter extends FragmentStatePagerAdapter{
 
     private Context mcontext;
     SharedPreferences pref;
-    SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
 
     public FeedFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
@@ -40,9 +39,7 @@ public class FeedFragmentPagerAdapter extends FragmentStatePagerAdapter{
             case 0: // Fragment # 0 - This will show FirstFragment
                 return new DiscoverFragment();
             case 1: // Fragment # 0 - This will show FirstFragment different title
-                return new MyFeedFragment();
-            case 2: // Fragment # 1 - This will show SecondFragment
-                return new FilterFragment();
+                return new MyFeedFragment().newinstance(position);
             default:
                 return null;
         }}
@@ -60,15 +57,15 @@ public class FeedFragmentPagerAdapter extends FragmentStatePagerAdapter{
         }
     }*/
 
-    /*@Override
+    @Override
     public int getItemPosition(Object object) {
         // POSITION_NONE makes it possible to reload the PagerAdapter
-        return POSITION_NONE;
-    }*/
+        return FeedFragmentPagerAdapter.POSITION_NONE;
+    }
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @Override
@@ -83,22 +80,8 @@ public class FeedFragmentPagerAdapter extends FragmentStatePagerAdapter{
     }
 
 
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        Fragment fragment = (Fragment) super.instantiateItem(container, position);
-        registeredFragments.put(position, fragment);
-        return fragment;
-    }
 
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        registeredFragments.remove(position);
-        super.destroyItem(container, position, object);
-    }
 
-    public Fragment getRegisteredFragment(int position) {
-        return registeredFragments.get(position);
     }
 
 
-}

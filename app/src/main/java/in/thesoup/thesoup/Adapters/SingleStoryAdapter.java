@@ -47,7 +47,7 @@ public class SingleStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private String storyTitle;
     private String followstatus;
     private String StoryTitle = "";
-    private int clickposition;
+    private int clickposition,fragmenttag;
     private String clickStoryId;
     //private AnalyticsApplication application;
     private Tracker mTracker;
@@ -56,12 +56,13 @@ public class SingleStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     // private List<Substories> mSubstories;
 
 
-    public SingleStoryAdapter(List<Substories> substories, String storyTitle, String followstatus, Context context, String StoryId) {
+    public SingleStoryAdapter(List<Substories> substories, String storyTitle, String followstatus, Context context, String StoryId,int fragmenttag) {
         this.substories = substories; //Check is this statement is valid
         this.mcontext = context;
         this.storyTitle = storyTitle;
         this.followstatus = followstatus;
         this.clickStoryId = StoryId;
+        this.fragmenttag = fragmenttag;
     }
 
     public void refreshData(List<Substories> Datalist, String mStoryTitle) {
@@ -162,8 +163,8 @@ public class SingleStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public HeaderViewHolder(View itemView) {
             super(itemView);
 
-            Storytitle = (TextView) itemView.findViewById(R.id.story_title_story_header);
-            followbutton = (Button) itemView.findViewById(R.id.followbutton_story_header);
+            Storytitle = (TextView) itemView.findViewById(R.id.story_title_header);
+            followbutton = (Button) itemView.findViewById(R.id.followbutton_header);
 
             followbutton.setOnClickListener(this);
 
@@ -180,6 +181,7 @@ public class SingleStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         }
     }
+
 
     public void followstory() {
 
@@ -215,7 +217,7 @@ public class SingleStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 NetworkUtilsFollowUnFollow followrequest = new NetworkUtilsFollowUnFollow(mcontext, params);
 
 
-                followrequest.followRequest(clickposition);
+                followrequest.followRequest(clickposition,fragmenttag);
 
 
             }
@@ -231,7 +233,7 @@ public class SingleStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             NetworkUtilsFollowUnFollow unFollowrequest = new NetworkUtilsFollowUnFollow(mcontext, params);
 
-            unFollowrequest.unFollowRequest(clickposition);
+            unFollowrequest.unFollowRequest(clickposition,fragmenttag);
 
 
         }

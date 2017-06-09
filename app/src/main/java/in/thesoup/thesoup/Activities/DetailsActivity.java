@@ -3,6 +3,8 @@ package in.thesoup.thesoup.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -10,8 +12,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.Button;
+import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.gms.analytics.Tracker;
 
@@ -21,14 +31,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import in.thesoup.thesoup.Adapters.ExpandableListAdapter;
 import in.thesoup.thesoup.Adapters.SingleStoryAdapter;
 //import in.thesoup.thesoup.Application.AnalyticsApplication;
 import in.thesoup.thesoup.GSONclasses.SinglestoryGSON.Substories;
+import in.thesoup.thesoup.NetworkCalls.NetworkUtilsFollowUnFollow;
 import in.thesoup.thesoup.NetworkCalls.NetworkUtilsStory;
 import in.thesoup.thesoup.R;
 import in.thesoup.thesoup.SoupContract;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 /**
  * Created by Jani on 09-04-2017.
@@ -38,21 +52,30 @@ public class DetailsActivity extends AppCompatActivity {
 
     private List<Substories> mSubstories;
     //private List<Substoryjsondata> substoryjsondataList;
-    private RecyclerView SingleStoryView;
-    private SingleStoryAdapter nSingleStoryAdapter;
-    private String StoryTitle, followStatus,StoryId;
-    private EndlessRecyclerViewScrollListener scrollListener;
+    // private RecyclerView SingleStoryView;
+    private ExpandableListView SingleStoryView;
+    //private SingleStoryAdapter nSingleStoryAdapter;
+    private ExpandableListAdapter nSingleStoryAdapter;
+    private String StoryTitle, followStatus, StoryId;
+    private EndlessScrollListener scrollListener;
     private SharedPreferences pref;
-    HashMap<String,String> params;
+    HashMap<String, String> params;
+    private int fragmenttag;
+    private TextView mheading;
+    private Button followbutton;
+    private String storyColour;
+    private int restartactivitystatus = 0;
+    private ProgressBar progress;
     //private Tracker mTracker;
-   // private AnalyticsApplication application;
-
+    // private AnalyticsApplication application;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.getstorydetails);
+        // setContentView(R.layout.getstorydetails);
+
+        setContentView(R.layout.expandabletext);
 
         //application = (AnalyticsApplication) getApplication();
         //mTracker = application.getDefaultTracker();
@@ -61,25 +84,58 @@ public class DetailsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);*/
+        progress = (ProgressBar)findViewById(R.id.progressbarstory);
+        progress.setVisibility(View.GONE);
 
         Bundle bundle = getIntent().getExtras();
         StoryId = bundle.getString("story_id");
         followStatus = bundle.getString("followstatus");
-        
+        fragmenttag = getIntent().getIntExtra("fragmenttag", 0);
+
+        mheading = (TextView) findViewById(R.id.story_title_header1);
+        followbutton = (Button) findViewById(R.id.followbutton_header1);
+
+        if (Build.VERSION.SDK_INT >= 24) {
+            StoryTitle = String.valueOf(Html.fromHtml(bundle.getString("storytitle"), Html.FROM_HTML_MODE_LEGACY));
+
+        } else {
+
+            StoryTitle = String.valueOf(Html.fromHtml(bundle.getString("storytitle")));
+        }
+
+
+        mheading.setText(StoryTitle);
+
+
+        if (bundle.getString("hex_colour") != null && !bundle.getString("hex_colour").isEmpty()) {
+
+            storyColour = bundle.getString("hex_colour");
+
+
+
+
+        }
+
+        if (storyColour != null && !storyColour.isEmpty()) {
+            followbutton.setBackgroundColor(Color.parseColor("#" + storyColour));
+        }
+
+
         pref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        Log.d("followstatus details1",followStatus);
+        Log.d("followstatus details1", followStatus);
 
-        if(TextUtils.isEmpty(followStatus)){
+        if (TextUtils.isEmpty(followStatus)) {
             followStatus = "0";
         }
 
-        Log.d("StoryId",StoryId);
-        Log.d("followstatus details2",followStatus);
+        followButtonStatus();
 
+        Log.d("StoryId", StoryId);
+        Log.d("followstatus details2", followStatus);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/OpenSans-Semibolditalic.ttf")
+                .setDefaultFontPath("fonts/proxima-nova-black.otf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
@@ -88,32 +144,35 @@ public class DetailsActivity extends AppCompatActivity {
         mSubstories = new ArrayList<>();
 
 
-        SingleStoryView = (RecyclerView) findViewById(R.id.list_story);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        SingleStoryView.setLayoutManager(layoutManager);
-        //nSingleStoryAdapter = new SingleStoryAdapter(mSubstories,StoryTitle,followStatus,DetailsActivity.this,StoryId);
-        //SingleStoryView.setAdapter(nSingleStoryAdapter);
-        SingleStoryView.setHasFixedSize(true);
+        //SingleStoryView = (RecyclerView) findViewById(R.id.list_story);
+        SingleStoryView = (ExpandableListView) findViewById(R.id.lvExp);
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        //SingleStoryView.setLayoutManager(layoutManager);
+        //******************************************************
 
-        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+        //SingleStoryView.setHasFixedSize(true);
+
+        scrollListener = new EndlessScrollListener() {
             @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
+            public void onLoadMore(int page, int totalItemsCount, AbsListView view) {
+
                 loadNextDataFromApi(page);
 
             }
         };
 
 
-        
-        SingleStoryView.addOnScrollListener(scrollListener);
+        SingleStoryView.setOnScrollListener(scrollListener);
+        //SingleStoryView.addOnScrollListener(scrollListener);
 
-         params = new HashMap<>();
+        params = new HashMap<>();
         params.put("page", "0");
         params.put("story_id", StoryId);
 
         if (TextUtils.isEmpty(pref.getString("auth_token", null))) {
+
+            progress.setVisibility(View.VISIBLE);
+            progress.setProgress(0);
 
 
             NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, params);
@@ -124,10 +183,12 @@ public class DetailsActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-        }else{
+        } else {
             params.put("auth_token", pref.getString("auth_token", null));
-            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, params);
 
+            progress.setVisibility(View.VISIBLE);
+            progress.setProgress(0);
+            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, params);
 
 
             try {
@@ -138,19 +199,36 @@ public class DetailsActivity extends AppCompatActivity {
 
         }
 
-        StoryTitle = " ";
-        //random value for function to run else throws error in stringValue htm
 
-
-        nSingleStoryAdapter = new SingleStoryAdapter(mSubstories,StoryTitle,followStatus,DetailsActivity.this,StoryId);
+        //nSingleStoryAdapter = new SingleStoryAdapter(mSubstories,StoryTitle,followStatus,DetailsActivity.this,StoryId,fragmenttag);
+        nSingleStoryAdapter = new ExpandableListAdapter(this, mSubstories, storyColour);
         SingleStoryView.setAdapter(nSingleStoryAdapter);
 
-        
+        SingleStoryView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                String ArticleURL = mSubstories.get(groupPosition).getArticles().get(childPosition).getUrl();
+
+                Intent intent = new Intent(DetailsActivity.this, ArticleWebViewActivity.class);
+                intent.putExtra("ArticleURL", ArticleURL);
+                startActivity(intent);
+
+                return true;
+            }
+        });
 
 
+    }
 
+    private void followButtonStatus() {
 
-
+        if (followStatus.equals("1")) {
+            followbutton.setText("FOLLOWING");
+        } else if (followStatus.equals("0")) {
+            followbutton.setText("FOLLOW");
+        }
     }
 
     private void loadNextDataFromApi(int offset) {
@@ -159,8 +237,10 @@ public class DetailsActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(pref.getString("auth_token", null))) {
 
-            params.put("page",page);
+            params.put("page", page);
             params.put("story_id", StoryId);
+            progress.setVisibility(View.VISIBLE);
+            progress.setProgress(0);
 
 
             NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, params);
@@ -171,11 +251,14 @@ public class DetailsActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-        }else{
+        } else {
+
+            progress.setVisibility(View.VISIBLE);
+            progress.setProgress(0);
             params.put("auth_token", pref.getString("auth_token", null));
-            params.put("page",page);
+            params.put("page", page);
             params.put("story_id", StoryId);
-            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this,params);
+            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, params);
 
 
             try {
@@ -189,10 +272,32 @@ public class DetailsActivity extends AppCompatActivity {
 
     }
 
-    public void startAdapter(List<Substories> mSubstories, String StoryTitle){
+    public void startAdapter(List<Substories> mSubstories, String StoryTitle) {
 
+        progress.setProgress(100);
+        progress.setVisibility(View.GONE);
 
-        nSingleStoryAdapter.refreshData(mSubstories,StoryTitle);
+        // nSingleStoryAdapter.refreshData(mSubstories,StoryTitle);
+
+        nSingleStoryAdapter.refreshData((mSubstories));
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+
+            if(restartactivitystatus==1){
+            // do something on back.
+            Intent intent = new Intent(DetailsActivity.this,MainActivity.class);
+            startActivity(intent);
+                return true;
+            }else{
+                return super.onKeyDown(keyCode, event);
+            }
+
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
    /* @Override
@@ -220,7 +325,7 @@ public class DetailsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 36) {
             Log.d("result in Details", "worked");
-            nSingleStoryAdapter.followstory();
+            //Todo: nSingleStoryAdapter.followstory();
 
         }
     }
@@ -230,22 +335,33 @@ public class DetailsActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    public void demo(String storyId ) {
-       //TODO:
+    public void demo(String storyId) {
+        //TODO:
         /* Intent intent = new Intent(this,LoginActivity.class);
         intent.putExtra("story_id",storyId);
         intent.putExtra("activity","1");
         startActivityForResult(intent,36);*/
     }
 
-    public void DetailsActivitydemo(String mfollowStatus){
+    public void DetailsActivitydemo(String mfollowStatus) {
+
+        if (!(followStatus.equals(mfollowStatus))) {
+            followStatus = mfollowStatus;
+            followButtonStatus();
+
+            restartactivitystatus = 1;
+
+        }
+
+
         followStatus = mfollowStatus;
-        nSingleStoryAdapter.refreshFollowStatus(followStatus);
+
+        //Todo: nSingleStoryAdapter.refreshFollowStatus(followStatus);
 
 
     }
 
-    @Override
+  /*  @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
@@ -255,5 +371,55 @@ public class DetailsActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
+    }*/
+
+    public void onClick(View v) {
+
+        int i = 0; //constant value
+
+        if (v == followbutton) {
+            if (followStatus.equals("") || followStatus.equals("0")) {
+
+
+                //NetworkUtilsFollowUnFollow follow = new NetworkUtilsFollowUnFollow(context,mString);
+
+                HashMap<String, String> params = new HashMap<>();
+
+                params.put("auth_token", pref.getString("auth_token", null));
+                params.put("story_id", StoryId);
+
+                //application.sendEventCollectionUser(mTracker, SoupContract.CLICK, SoupContract.CLICK_FOLLOW, SoupContract.COLLECTION_PAGE,storyTitle,String.valueOf(clickStoryId),pref.getString(SoupContract.FB_ID,null),pref.getString(SoupContract.FIRSTNAME,null)+pref.getString(SoupContract.LASTNAME,null));
+
+                NetworkUtilsFollowUnFollow followrequest = new NetworkUtilsFollowUnFollow(this, params);
+
+
+                followrequest.followRequest(i, fragmenttag);
+
+
+            } else if (followStatus.equals("1")) {
+
+                //application.sendEventCollectionUser(mTracker, SoupContract.CLICK, SoupContract.CLICK_UNFOLLOW, SoupContract.COLLECTION_PAGE,storyTitle,String.valueOf(clickStoryId),pref.getString(SoupContract.FB_ID,null),pref.getString(SoupContract.FIRSTNAME,null)+pref.getString(SoupContract.LASTNAME,null));
+
+
+                HashMap<String, String> params = new HashMap<>();
+
+                params.put("auth_token", pref.getString("auth_token", null));
+                params.put("story_id", StoryId);
+
+                NetworkUtilsFollowUnFollow unFollowrequest = new NetworkUtilsFollowUnFollow(this, params);
+
+                unFollowrequest.unFollowRequest(i, fragmenttag);
+
+
+            }
+        }
+
+
+    }
+
+    public void stopProgress() {
+
+        progress.setProgress(100);
+        progress.setVisibility(View.GONE);
     }
 }

@@ -19,10 +19,13 @@ import java.util.Map;
 
 
 import in.thesoup.thesoup.Activities.MainActivity;
+import in.thesoup.thesoup.Fragments.DiscoverFragment;
 import in.thesoup.thesoup.Fragments.MyFeedFragment;
 import in.thesoup.thesoup.GSONclasses.FeedGSON.StoryData;
 import in.thesoup.thesoup.SoupContract;
 import in.thesoup.thesoup.gsonConversion;
+
+import static android.os.Build.VERSION_CODES.M;
 
 /**
  * Created by Jani on 20-04-2017.
@@ -60,7 +63,7 @@ public class NetworkUtilswithToken {
 
 
 
-        public void getFeed() {
+        public void getFeed(final int fragmenttag,final String totalrefresh) {
 
             MySingleton singleton = MySingleton.getInstance(mcontext);
 
@@ -78,7 +81,7 @@ public class NetworkUtilswithToken {
 
                             gsonConversion mpopulateUI = new gsonConversion();
 
-                            mpopulateUI.fillUI(response,mcontext);
+                            mpopulateUI.fillUI(response,mcontext,fragmenttag,totalrefresh);
 
 
                         }
@@ -108,16 +111,31 @@ public class NetworkUtilswithToken {
 
                                         MainActivity activity = (MainActivity)mcontext;
 
-                                            int position = activity.getFragmentPosition();
-                                            if(position==1){
 
-                                            Fragment f = activity.getFragment(position);
+                                            if(fragmenttag==1){
+
+                                            Fragment f = activity.getFragment(fragmenttag);
 
                                             ((MyFeedFragment)f).Nofollowers();
-                                        }}
+                                        }}else {
+
+                                            MainActivity activity = (MainActivity)mcontext;
+
+
+                                            if(fragmenttag==1){
+
+                                                Fragment f = activity.getFragment(fragmenttag);
+                                                ((MyFeedFragment)f).stopProgress();
+
+
+                                        }else if(fragmenttag==0){
+                                                Fragment f = activity.getFragment(fragmenttag);
+                                                ((DiscoverFragment)f).stopProgress();
+                                            }
+
 
                                     }
-                            }
+                            }}
 
 
 

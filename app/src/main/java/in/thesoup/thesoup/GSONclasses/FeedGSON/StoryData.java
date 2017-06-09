@@ -10,6 +10,9 @@ public class StoryData {
     String story_name;
     String image_url;
     String story_modified;
+    String cat_id;
+    String hex_colour;
+    String cat_name;
     String substory_id;
     String substory_name;
     String substory_created;
@@ -55,7 +58,13 @@ public class StoryData {
         return active;
     }
 
-    public void changeFollowStatus(String status){active = status;};
+    public void changeFollowStatus(String status){active = status;}
+
+    public String getCategoryName(){return cat_name;}
+
+    public String getCategoryColour(){return hex_colour;}
+
+    public String getCategoryID(){return cat_id;}
 
 
 

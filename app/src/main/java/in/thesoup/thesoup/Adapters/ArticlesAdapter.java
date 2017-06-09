@@ -7,7 +7,6 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -29,9 +27,6 @@ import java.util.List;
 import in.thesoup.thesoup.Activities.ArticleWebViewActivity;
 import in.thesoup.thesoup.GSONclasses.SinglestoryGSON.Articles;
 import in.thesoup.thesoup.R;
-import in.thesoup.thesoup.SoupContract;
-
-import static in.thesoup.thesoup.R.id.readmore;
 
 
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHolder> {
@@ -50,7 +45,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.articles, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.articleslist, parent, false);
         return new ViewHolder(view);
     }
 

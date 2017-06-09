@@ -30,6 +30,7 @@
         android:gravity="center"/>
 
 
+
     <!--<android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -122,6 +123,14 @@
         android:dividerHeight="0dp"
         android:orientation="vertical"
         android:layout_alignParentTop="true"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:theme="@style/AppTheme.WhiteAccent"
+        android:layout_centerInParent="true"
+        />
         <!--android:layout_above="@id/toolbar"-->
 
 

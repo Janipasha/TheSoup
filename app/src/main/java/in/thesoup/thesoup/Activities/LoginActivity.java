@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -22,6 +23,17 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.People;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
+
 
 import org.json.JSONObject;
 
@@ -42,17 +54,22 @@ import static android.R.attr.data;
  * Created by Jani on 24-05-2017.
  */
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private CallbackManager callbackmanager;
     private LoginButton loginButton;
     PrefUtil prefUtil;
-    private String StoryId,activityId;
+    private String StoryId, activityId;
     private HashMap<String, String> params;
     private Intent intent1;
     private Tracker mTracker;
-   // private AnalyticsApplication application;
+    private static final int RC_SIGN_IN = 007;
+    private static final String TAG = "handle request response";
+    // private AnalyticsApplication application;
     private SharedPreferences pref;
-    private Button fb;
+    private Button fb, google;
+    private GoogleApiClient mGoogleApiClient;
+    private SignInButton signInButton;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,10 +96,24 @@ public class LoginActivity extends AppCompatActivity {
                     .build()
             );
 
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .enableAutoManage(this, this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build();
+
+            signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+            //findViewById(R.id.sign_in_button).setOnClickListener(this);
+
+
             callbackmanager = CallbackManager.Factory.create();
             prefUtil = new PrefUtil(this);
 
             fb = (Button) findViewById(R.id.facebook);
+            google = (Button) findViewById(R.id.google_button);
 
             loginButton = (LoginButton) findViewById(R.id.login_button);
 
@@ -173,13 +204,69 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                     });
-        } else{
+        } else {
 
             startActivityMD();
         }
 
 
     }
+
+    /*@Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sign_in_button:
+                signIn();
+                break;
+        }
+    }*/
+
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        callbackmanager.onActivityResult(requestCode, resultCode, data);
+        // super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+
+            //Person person = Plus.PeopleApi.
+        }
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+
+
+            if (result != null) {
+
+                GoogleSignInAccount acct = result.getSignInAccount();
+
+
+                acct.getGrantedScopes();
+
+                Log.d("result", result.getSignInAccount().getGrantedScopes().toString());
+                Log.d("email google", acct.getEmail() + "\n" + acct.getIdToken() + "\n" + acct.getDisplayName() + "\n");
+            }
+
+            //TODO login google thingi
+            //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
+            //updateUI(true);
+        } else {
+            // Signed out, show unauthenticated UI.
+            //updateUI(false);
+        }
+    }
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -188,7 +275,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void startActivityMD() {
 
-        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         finish();
         startActivity(intent);
 
@@ -252,19 +339,23 @@ public class LoginActivity extends AppCompatActivity {
         return bundle;
     }
 
-    public void onClick(View v){
-        if(v==fb){
+    public void onClickSocial(View v) {
+        if (v == fb) {
             loginButton.performClick();
+
+        } else if (v == google) {
+
+            signInButton.performClick();
+            signIn();
+
 
         }
     }
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackmanager.onActivityResult(requestCode, resultCode, data);
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
-
-
 }
 

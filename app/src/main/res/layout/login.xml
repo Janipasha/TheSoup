@@ -34,6 +34,12 @@
             android:layout_marginBottom="30dp"
             android:visibility="gone"/>
 
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
         <Button
             android:id="@+id/facebook"
             android:layout_marginTop="90dp"
@@ -47,9 +53,10 @@
             android:textSize="15sp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:onClick="onClick"/>
+            android:onClick="onClickSocial"/>
 
         <Button
+            android:id ="@+id/google_button"
             android:layout_width="268dp"
             android:layout_height="48dp"
             android:layout_marginTop="17dp"
@@ -61,7 +68,9 @@
             android:textSize="15sp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
+            android:onClick="onClickSocial"
             />
+
         <Button
             android:layout_width="268dp"
             android:layout_height="48dp"

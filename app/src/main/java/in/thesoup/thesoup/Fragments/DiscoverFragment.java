@@ -1,5 +1,6 @@
 package in.thesoup.thesoup.Fragments;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -13,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,11 +23,19 @@ import java.util.List;
 
 import in.thesoup.thesoup.Adapters.StoryFeedAdapter;
 import in.thesoup.thesoup.Activities.EndlessRecyclerViewScrollListener;
+import in.thesoup.thesoup.App.Config;
 import in.thesoup.thesoup.GSONclasses.FeedGSON.StoryData;
 import in.thesoup.thesoup.Activities.MainActivity;
 import in.thesoup.thesoup.NetworkCalls.NetworkUtilswithToken;
+import in.thesoup.thesoup.PreferencesFbAuth.PrefUtil;
+import in.thesoup.thesoup.PreferencesFbAuth.PrefUtilFilter;
 import in.thesoup.thesoup.R;
+import in.thesoup.thesoup.SoupContract;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
+import static android.R.id.progress;
+import static android.os.Build.ID;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class DiscoverFragment extends Fragment {
@@ -36,20 +47,47 @@ public class DiscoverFragment extends Fragment {
     private SharedPreferences pref;
     private Button Discover, MyFeed;
     private EndlessRecyclerViewScrollListener scrollListener;
+    private ProgressBar progress;
+    private String totalrefresh;
+    private Context context;
+    private String filter="";
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View RootView = inflater.inflate(R.layout.getstorieslist,container,false);
 
+
+
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+
+        //hardcoding of filters can change may be with SQL database
+
+        for(int i=0;i<14;i++) {
+            String Id = String.valueOf(i);
+
+            if (pref.getString(Id, null) != null && !pref.getString(Id, null).isEmpty()) {
+                if(pref.getString(Id,null).equals("1")){
+                    filter = filter+Id+",";
+                }
+            }
+        }
+
+
+        totalrefresh = pref.getString(SoupContract.TOTAL_REFRESH,null);
         params = new HashMap<>();
+
+       params.put("filters",filter);
+
+        progress = (ProgressBar) RootView.findViewById(R.id.progressBar2);
+        progress.setVisibility(View.GONE);
 
         mStoryData = new ArrayList<>();
         StoryView = (RecyclerView)RootView.findViewById(R.id.list_discover);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         StoryView.setLayoutManager(layoutManager);
-        mStoryfeedAdapter = new StoryFeedAdapter(mStoryData, getActivity());
+        mStoryfeedAdapter = new StoryFeedAdapter(mStoryData, getActivity(),0);
         StoryView.setAdapter(mStoryfeedAdapter);
         StoryView.setHasFixedSize(true);
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
@@ -66,16 +104,19 @@ public class DiscoverFragment extends Fragment {
 
         if (TextUtils.isEmpty(pref.getString("auth_token", null))) {
             params.put("page", "0");
+
             NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
-            networkutilsToken.getFeed();
+            networkutilsToken.getFeed(0,totalrefresh);
         } else {
             params.put("auth_token", pref.getString("auth_token", null));
             params.put("page", "0");
+            progress.setVisibility(View.VISIBLE);
+            progress.setProgress(0);
 
             Log.d("auth_token", pref.getString("auth_token", null));
 
             NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
-            networkutilsToken.getFeed();
+            networkutilsToken.getFeed(0,totalrefresh);
 
         }
 
@@ -87,6 +128,13 @@ public class DiscoverFragment extends Fragment {
                 .build()
         );
         return RootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        context = getActivity();
     }
 
     public void loadNextDataFromApi(int offset) {
@@ -102,7 +150,7 @@ public class DiscoverFragment extends Fragment {
             NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
 
 
-            networkutilsToken.getFeed();
+            networkutilsToken.getFeed(0,totalrefresh);
 
         } else {
 
@@ -110,11 +158,13 @@ public class DiscoverFragment extends Fragment {
             params.put("page", Page);
 
             Log.d("auth_token", pref.getString("auth_token", null));
+            progress.setVisibility(View.VISIBLE);
+            progress.setProgress(0);
 
             NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
 
 
-            networkutilsToken.getFeed();
+            networkutilsToken.getFeed(0,totalrefresh);
 
         }
 
@@ -126,12 +176,85 @@ public class DiscoverFragment extends Fragment {
         //
         //StoryView.setAdapter(mStoryfeedAdapter);
         mStoryfeedAdapter.refreshData(mStoryData);
+        progress.setProgress(100);
+        progress.setVisibility(View.GONE);
 
     }
 
+    public void startRefreshAdapter(List<StoryData> nStoryData){
+        mStoryData = nStoryData;
+        mStoryfeedAdapter.totalRefreshData(nStoryData);
+        progress.setProgress(100);
+        progress.setVisibility(View.GONE);
+
+
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+
+
+
+        if(isVisibleToUser) {
+
+
+
+            if (getActivity() == null) {
+                Log.d("context is null"," at fragment");
+            }else {
+
+                PrefUtil prefUtil = new PrefUtil(getActivity());
+
+                totalrefresh = prefUtil.getTotalRefresh();
+
+                if (totalrefresh.equals("1")) {
+
+                    mStoryData.clear();
+
+                    params.put("auth_token", pref.getString("auth_token", null));
+                    params.put("page", "0");
+                    progress.setVisibility(View.VISIBLE);
+                    progress.setProgress(0);
+
+                    Log.d("auth_token", pref.getString("auth_token", null));
+
+                    NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
+                    networkutilsToken.getFeed(0, totalrefresh);
+
+                    //prefUtil.saveTotalRefresh("0");
+
+                }
+            }
+        }
+
+
+
+
+
+    }
+
+
+
     public void demo1(int position, String followstatus) {
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putString(SoupContract.TOTAL_REFRESH,"1");
+        edit.apply();
+
+        totalrefresh = pref.getString(SoupContract.TOTAL_REFRESH,null);
+
+
+
         mStoryData.get(position).changeFollowStatus(followstatus);
         mStoryfeedAdapter.refreshfollowstatus(mStoryData);
+    }
+
+
+    public void stopProgress() {
+
+        progress.setProgress(100);
+        progress.setVisibility(View.GONE);
     }
 
 

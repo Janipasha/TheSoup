@@ -3,6 +3,7 @@ package in.thesoup.thesoup.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +36,7 @@ import in.thesoup.thesoup.NetworkCalls.NetworkUtilsFollowUnFollow;
 import in.thesoup.thesoup.R;
 
 import static in.thesoup.thesoup.R.id.month;
+import static in.thesoup.thesoup.R.id.year;
 
 /**
  * Created by Jani on 07-04-2017.
@@ -44,20 +46,27 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
 
     private List<StoryData> StoryDataList;
     private Context context;
-    private int clickposition;
+    private int clickposition,fragmenttag;
     private String clickStoryId,clickStoryName;
     //private AnalyticsApplication application;
     //private Tracker mTracker;
     private SharedPreferences pref;
 
-    public StoryFeedAdapter(List<StoryData> Datalist, Context context) {
+
+    public StoryFeedAdapter(List<StoryData> Datalist, Context context,int fragmenttag) {
         this.StoryDataList = Datalist;
         this.context = context;
+        this.fragmenttag = fragmenttag;
     }
 
     public void refreshData(List<StoryData> Datalist) {
         //this.StoryDataList = Datalist;
         StoryDataList.addAll(Datalist);
+        notifyDataSetChanged();
+    }
+
+    public void totalRefreshData(List<StoryData>Datalist){
+        this.StoryDataList = Datalist;
         notifyDataSetChanged();
     }
 
@@ -70,13 +79,16 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
 
 
     public class DataViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView storyTitle, substoryTitle, date, month, year, numberOfArticles;
+        public TextView storyTitle, substoryTitle, date,categoryname, year, numberOfArticles;
         public ImageView imageView;
         public Button mButton;
+        public View leftline, rightLine , cardline;
 
 
         public DataViewHolder(View itemView) {
             super(itemView);
+
+
 
             storyTitle = (TextView) itemView.findViewById(R.id.Story_title);
             substoryTitle = (TextView) itemView.findViewById(R.id.substory_title);
@@ -85,6 +97,10 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
             year = (TextView) itemView.findViewById(R.id.year);*/
             numberOfArticles = (TextView) itemView.findViewById(R.id.number_of_articles);
             mButton = (Button) itemView.findViewById(R.id.followbutton);
+            categoryname = (TextView)itemView.findViewById(R.id.categoryname);
+            leftline = (View)itemView.findViewById(R.id.leftline);
+            rightLine= (View)itemView.findViewById(R.id.rightline);
+            cardline = (View)itemView.findViewById(R.id.cardline);
 
             imageView = (ImageView) itemView.findViewById(R.id.main_image);
 
@@ -108,6 +124,8 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
             String Storyname = StoryDataList.get(mposition).getStoryName();
             String mfollowstatus = StoryDataList.get(mposition).getFollowStatus();
             String mString = StoryDataList.get(mposition).getStoryId();
+            String storytitle = StoryDataList.get(mposition).getStoryName();
+            String hex_colour = StoryDataList.get(mposition).getCategoryColour();
 
             //application = AnalyticsApplication.getInstance();
             //mTracker = application.getDefaultTracker();
@@ -132,11 +150,16 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
 
                 Intent intent = new Intent(context, DetailsActivity.class);
                 intent.putExtra("story_id", mString);
+                intent.putExtra("storytitle",storytitle);
                 intent.putExtra("followstatus",mfollowstatus);
+                intent.putExtra("fragmenttag",fragmenttag);
+                intent.putExtra("hex_colour",hex_colour);
 
 
 
                 context.startActivity(intent);
+
+
 
 
             } else if (view == mButton) {
@@ -176,7 +199,7 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
                 //application.sendEventCollectionUser(mTracker, SoupContract.CLICK, SoupContract.CLICK_FOLLOW, SoupContract.HOME_PAGE,clickStoryName,String.valueOf(clickStoryId),pref.getString(SoupContract.FB_ID,null), pref.getString(SoupContract.FIRSTNAME,null)+pref.getString(SoupContract.LASTNAME,null));
 
                 NetworkUtilsFollowUnFollow followrequest = new NetworkUtilsFollowUnFollow(context, params);
-                followrequest.followRequest(clickposition);
+                followrequest.followRequest(clickposition,fragmenttag);
 
                 //followrequest.followRequest(clickposition);
 
@@ -191,9 +214,11 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
             params.put("auth_token", pref.getString("auth_token", null));
             params.put("story_id", clickStoryId);
 
+            Log.d("Check mStorydata size",String.valueOf(StoryDataList.size()));
+
             NetworkUtilsFollowUnFollow unFollowrequest = new NetworkUtilsFollowUnFollow(context, params);
 
-            unFollowrequest.unFollowRequest(clickposition);
+            unFollowrequest.unFollowRequest(clickposition,fragmenttag);
 
 
 
@@ -287,6 +312,22 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
         //holder.month.setText(month);
         //holder.year.setText(year);
         holder.numberOfArticles.setText(Num_of_articles + " ARTICLES " +" EXPLORE");
+
+        if(mStoryData.getCategoryName()!=null && !mStoryData.getCategoryName().isEmpty()){
+        holder.categoryname.setText(mStoryData.getCategoryName());}
+
+
+
+        if(mStoryData.getCategoryColour()!=null&& !mStoryData.getCategoryColour().isEmpty()){
+            holder.categoryname.setBackgroundColor(Color.parseColor("#"+mStoryData.getCategoryColour()));
+            holder.leftline.setBackgroundColor(Color.parseColor("#"+mStoryData.getCategoryColour()));
+            holder.rightLine.setBackgroundColor(Color.parseColor("#"+mStoryData.getCategoryColour()));
+            holder.cardline.setBackgroundColor(Color.parseColor("#"+mStoryData.getCategoryColour()));
+            holder.mButton.setBackgroundColor(Color.parseColor("#"+mStoryData.getCategoryColour()));
+            holder.numberOfArticles.setTextColor(Color.parseColor("#"+mStoryData.getCategoryColour()));
+        }else {
+            holder.categoryname.setVisibility(View.GONE);
+        }
 
         if (followstatus.equals("1")) {
             holder.mButton.setText("Following");

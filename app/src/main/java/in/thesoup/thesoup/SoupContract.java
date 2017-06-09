@@ -12,8 +12,9 @@ public class SoupContract {
     public static final String LOGINURL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/fb_login_android";
     public static final String STORYURL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_story";
    public static final String URL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_story_feed";
-
+   public static final String FILTERURL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_categories";
     //analytics events
+    public static final String TOTAL_REFRESH = "totalrefresh";
     public static final String PAGE_VIEW = "page_view";
     public static final String HOME_PAGE = "home_page";
     public static final String DISCOVER_VIEWED = "viewed_discover";
@@ -28,6 +29,8 @@ public class SoupContract {
     public static final String COLLECTION_VIEWED = "viewed_collection";
     public static final String COLLECTION_PAGE = "collection_page";
     public static final String CLICK_SOURCES = "click_sources";
+
+   public static final String FILTERJSON = "filterobject";
 
     public static final String FB_ID = "fb_id";
     public static final String FIRSTNAME = "first_name";

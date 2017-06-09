@@ -63,7 +63,7 @@ public class ArticlesActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/OpenSans-Semibolditalic.ttf")
+                .setDefaultFontPath("fonts/proxima-nova-black.otf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );

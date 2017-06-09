@@ -1,29 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_main"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_design_support_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="in.thesoup.thesoup.Activities.MainActivity">
+    tools:context="in.thesoup.thesoup.Activities.MainActivity"
+    tools:ignore="MissingPrefix">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/sliding_tabs"
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/rootLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabMode="fixed"
-        />
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/sliding_tabs"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbarfilter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#000000"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/logo"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_launcher"
+                        android:layout_marginLeft="15dp"/>
+
+
+                    <TextView
+                        android:layout_alignBottom="@id/logo"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:text="FILTER"
+                        android:textColor="#ffffff"
+                        android:textSize="13sp"
+                        fontPath= "fonts/proxima-nova-black.otf"/>
 
 
 
+                    <ImageView
 
-</RelativeLayout>
+                        android:id="@+id/filter_img"
+                        android:layout_alignBottom="@id/logo"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_toLeftOf="@id/filter"
+                        android:src="@drawable/filter" />
+
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.Toolbar>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/sliding_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/toolbarfilter"
+                android:background="#000000"
+                app:tabIndicatorColor="#ffffff"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="#ffffff"
+                app:tabTextColor="#B3ffffff"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                style="@style/AppTabLayout"
+                />
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sliding_tabs"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</android.support.v4.widget.DrawerLayout>

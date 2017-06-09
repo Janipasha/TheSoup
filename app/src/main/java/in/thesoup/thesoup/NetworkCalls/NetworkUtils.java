@@ -33,7 +33,7 @@ public class NetworkUtils {
 
 
 
-    public void getFeed() {
+    public void getFeed(final int fragmenttag,final String totalrefresh) {
 
         MySingleton singleton = MySingleton.getInstance(mcontext);
 
@@ -51,7 +51,7 @@ public class NetworkUtils {
 
                    gsonConversion mpopulateUI = new gsonConversion();
 
-                 mpopulateUI.fillUI(response,mcontext);
+                 mpopulateUI.fillUI(response,mcontext,fragmenttag,totalrefresh);
 
 
                 }

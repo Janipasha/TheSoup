@@ -64,7 +64,7 @@ public class NetworkUtilsFollowUnFollow {
         return sbPost.toString();
     }
 
-    public void followRequest(final int position) {
+    public void followRequest(final int position, final int fragmenttag) {
 
         //application = AnalyticsApplication.getInstance();
         //mTracker = application.getDefaultTracker();
@@ -87,11 +87,11 @@ public class NetworkUtilsFollowUnFollow {
 
                             MainActivity activity = (MainActivity) mcontext;
 
-                            int mposition = activity.getFragmentPosition();
 
-                            if(mposition==0){
 
-                                Fragment f = activity.getFragment(mposition);
+                            if(fragmenttag==0){
+
+                                Fragment f = activity.getFragment(fragmenttag);
 
 
 
@@ -108,9 +108,9 @@ public class NetworkUtilsFollowUnFollow {
                                 e.printStackTrace();
                                 ((DiscoverFragment)f).demo1(position, "0");
                             }
-                            } else if(mposition==1){
+                            } else if(fragmenttag==1){
 
-                                Fragment f = activity.getFragment(mposition);
+                                Fragment f = activity.getFragment(fragmenttag);
 
 
 
@@ -208,7 +208,7 @@ public class NetworkUtilsFollowUnFollow {
     }
 
 
-    public void unFollowRequest(final int position) {
+    public void unFollowRequest(final int position, final int fragmenttag) {
 
         //application = AnalyticsApplication.getInstance();
         //mTracker = application.getDefaultTracker();
@@ -231,11 +231,11 @@ public class NetworkUtilsFollowUnFollow {
 
                             MainActivity activity = (MainActivity) mcontext;
 
-                            int mposition = activity.getFragmentPosition();
 
-                            if(mposition==0) {
 
-                                Fragment f = activity.getFragment(mposition);
+                            if(fragmenttag==0) {
+
+                                Fragment f = activity.getFragment(fragmenttag);
 
 
                                 try {
@@ -252,9 +252,9 @@ public class NetworkUtilsFollowUnFollow {
                                     ((DiscoverFragment)f).demo1(position, "1");
                                 }
 
-                            }else if(mposition==1){
+                            }else if(fragmenttag==1){
 
-                                Fragment f = activity.getFragment(mposition);
+                                Fragment f = activity.getFragment(fragmenttag);
 
 
 
@@ -265,6 +265,8 @@ public class NetworkUtilsFollowUnFollow {
                                     //analytics
 
                                     // application.sendEventCollectionUser(mTracker, SoupContract.CONVERSION, SoupContract.FOLLOW, SoupContract.HOME_PAGE_DISCOVE, Storytitle, String.valueOf(Story_id), pref.getString(SoupContract.FB_ID, null), pref.getString(SoupContract.FIRSTNAME, null) + pref.getString(SoupContract.LASTNAME, null));
+
+                                    Log.d("position",String.valueOf(position));
 
                                     ((MyFeedFragment)f).demo1(position, "0");
                                 } catch (JSONException e) {

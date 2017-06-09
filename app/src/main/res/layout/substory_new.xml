@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="6dp">
+        android:layout_marginBottom="6dp"
+        app:cardBackgroundColor="#000000">
         <!--app:cardBackgroundColor="#000000"-->
 
 
@@ -38,7 +40,7 @@
                 android:layout_gravity="center"/>
 
             <View
-                android:id="@+id/leftline"
+                android:id="@+id/leftline1"
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:background="#f49a32"
@@ -46,7 +48,7 @@
 
 
             <View
-                android:id="@+id/rightline"
+                android:id="@+id/rightline1"
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:background="#f49a32"
@@ -58,15 +60,15 @@
 
 
             <View
-                android:id="@+id/cardline"
+                android:id="@+id/cardline1"
                 android:layout_width="match_parent"
-                android:layout_height="6dp"
+                android:layout_height="4dp"
                 android:background="#f49a32" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/cardline"
+                android:layout_below="@id/cardline1"
                 android:background="@drawable/background_gradient"
                 android:orientation="vertical">
 
@@ -82,6 +84,7 @@
                     android:shadowRadius="2"
                     android:textColor="#ffffff"
                     android:textSize="10sp"
+                    fontPath= "fonts/proxima-nova-black.otf"
                     tools:text="9.30 PM, 28 APRIL 2017" />
 
 
@@ -126,6 +129,7 @@
                         android:shadowRadius="2"
                         android:textColor="#ffffff"
                         android:textSize="16sp"
+                        fontPath= "fonts/proxima-nova-bold.otf"
                         tools:text="Vijay Mallya Misled Us On Wealth, Says Supreme Court, Hauls Him For Contempt" />
 
                 </LinearLayout>
@@ -142,18 +146,19 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="6" />
+                        android:layout_weight="5" />
 
                     <TextView
                         android:id="@+id/number_of_articles_story"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"
+                        android:layout_weight="5"
                         android:gravity="end"
                         android:shadowColor="#000000"
                         android:shadowRadius="2"
                         android:textColor="#f49a32"
                         android:textSize="11sp"
+                        fontPath= "fonts/proxima-nova-black.otf"
                         tools:text="7 ARTICLES - EXPLORE" />
 
                 </LinearLayout>
