@@ -40,7 +40,7 @@
                         android:layout_marginLeft="15dp"/>
 
 
-                    <TextView
+           <!--         <TextView
                         android:layout_alignBottom="@id/logo"
                         android:layout_alignParentRight="true"
                         android:id="@+id/filter"
@@ -64,16 +64,21 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
                         android:layout_toLeftOf="@id/filter"
-                        android:src="@drawable/filter" />
+                        android:src="@drawable/filter" />-->
 
 
                 </RelativeLayout>
 
             </android.support.v7.widget.Toolbar>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
             <android.support.design.widget.TabLayout
                 android:id="@+id/sliding_tabs"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="7"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/toolbarfilter"
                 android:background="#000000"
@@ -84,6 +89,44 @@
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 style="@style/AppTabLayout"
                 />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:layout_marginTop="10dp">
+
+                    <ImageView
+
+                        android:id="@+id/filter_img"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:src="@drawable/filter" />
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:id="@+id/filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="10dp"
+                        android:text="FILTERS"
+                        android:textColor="#ffffff"
+                        android:textSize="13sp"
+                        fontPath= "fonts/proxima-nova-black.otf"/>
+
+
+
+
+
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
 
         </android.support.design.widget.AppBarLayout>
 

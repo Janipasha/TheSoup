@@ -81,7 +81,7 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
     public class DataViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView storyTitle, substoryTitle, date,categoryname, year, numberOfArticles;
         public ImageView imageView;
-        public Button mButton;
+        public TextView mButton;
         public View leftline, rightLine , cardline;
 
 
@@ -96,7 +96,7 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
             /*month = (TextView) itemView.findViewById(R.id.month);
             year = (TextView) itemView.findViewById(R.id.year);*/
             numberOfArticles = (TextView) itemView.findViewById(R.id.number_of_articles);
-            mButton = (Button) itemView.findViewById(R.id.followbutton);
+            mButton = (TextView) itemView.findViewById(R.id.followbutton);
             categoryname = (TextView)itemView.findViewById(R.id.categoryname);
             leftline = (View)itemView.findViewById(R.id.leftline);
             rightLine= (View)itemView.findViewById(R.id.rightline);
@@ -323,16 +323,16 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
             holder.leftline.setBackgroundColor(Color.parseColor("#"+mStoryData.getCategoryColour()));
             holder.rightLine.setBackgroundColor(Color.parseColor("#"+mStoryData.getCategoryColour()));
             holder.cardline.setBackgroundColor(Color.parseColor("#"+mStoryData.getCategoryColour()));
-            holder.mButton.setBackgroundColor(Color.parseColor("#"+mStoryData.getCategoryColour()));
+            holder.mButton.setTextColor(Color.parseColor("#"+mStoryData.getCategoryColour()));
             holder.numberOfArticles.setTextColor(Color.parseColor("#"+mStoryData.getCategoryColour()));
         }else {
             holder.categoryname.setVisibility(View.GONE);
         }
 
         if (followstatus.equals("1")) {
-            holder.mButton.setText("Following");
+            holder.mButton.setText("-");
         } else if (followstatus.equals("0")) {
-            holder.mButton.setText("Follow");
+            holder.mButton.setText("+");
         }
 
 

@@ -28,7 +28,7 @@
                 android:layout_height="match_parent">
 
             <ImageView
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginBottom="40dp"
                 android:id="@+id/main_image"
                 android:layout_marginRight="2dp"
@@ -101,35 +101,62 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginStart="10dp">
 
-                    <TextView
-                        android:id="@+id/Story_title"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_weight="7"
-                        android:lineSpacingExtra="-3sp"
+                        android:layout_weight="9">
+
+                    <TextView
+                        android:id="@+id/Story_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:shadowColor="#000000"
                         android:shadowRadius="2"
                         android:textColor="#ffffff"
                         android:textSize="20sp"
                         tools:text="VIJAY MALLYA LOAN DEFAULT CASE"
+                        android:lineSpacingExtra="-3sp"
                         fontPath= "fonts/proxima-nova-black.otf"
                         android:minLines="2"
                         android:textAllCaps="true"/>
 
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="36dp"
-                        android:background="@drawable/button1"
-                        android:padding="10dp"
-                        android:text="Follow"
-                        android:textColor="#ffffff"
-                        android:id="@+id/followbutton"
-                        android:onClick="onClick"
-                        android:textStyle="bold"
-                        android:textSize="10sp"
-                        fontPath= "fonts/proxima-nova-black.otf"
-                        android:layout_marginLeft="5dp"/>
+                    </LinearLayout>
+
+
+                    <TextView
+                          android:layout_width="wrap_content"
+                          android:layout_height="match_parent"
+                          android:text="+"
+                        android:minHeight="0dp"
+                        android:paddingTop="0dp"
+                        android:layout_marginTop="-15dp"
+                          android:textColor="#f49a32"
+                          android:textSize="60sp"
+                          fontPath= "fonts/proxima-nova-black.otf"
+                          android:id="@+id/followbutton"
+                          android:onClick="onClick"
+                          android:textStyle="bold"
+                          android:layout_marginLeft="10dp"
+                          />
+
+
+
+
+
+                    <!-- <Button
+                             android:layout_width="wrap_content"
+                             android:layout_height="36dp"
+                             android:background="@drawable/button1"
+                             android:padding="10dp"
+                             android:text="Follow"
+                             android:textColor="#ffffff"
+                             android:id="@+id/followbutton"
+                             android:onClick="onClick"
+                             android:textStyle="bold"
+                             android:textSize="10sp"
+                             fontPath= "fonts/proxima-nova-black.otf"
+                             android:layout_marginLeft="5dp"/>-->
+
                 </LinearLayout>
 
                 <TextView
@@ -138,7 +165,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
                     android:background="#f49a32"
                     android:gravity="center_horizontal"
                     android:maxWidth="264dp"
@@ -168,7 +195,11 @@
                     android:textColor="#ffffff"
                     android:textSize="10sp"
                     android:text="WHITE COLLAR CRIMES"
-                    android:visibility="gone"/>
+                    android:visibility="invisible"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"/>
 
 
             </LinearLayout>
