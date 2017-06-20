@@ -15,8 +15,16 @@ import android.widget.ProgressBar;
 import com.google.android.gms.analytics.Tracker;
 
 //import in.thesoup.thesoup.Application.AnalyticsApplication;
+import org.json.JSONException;
+
+import java.util.HashMap;
+
+import in.thesoup.thesoup.NetworkCalls.NetworkUtils;
+import in.thesoup.thesoup.NetworkCalls.NetworkUtilsRead;
 import in.thesoup.thesoup.R;
 import in.thesoup.thesoup.SoupContract;
+
+import static com.squareup.picasso.Picasso.LoadedFrom.NETWORK;
 
 /**
  * Created by Jani on 24-04-2017.
@@ -30,7 +38,7 @@ public class ArticleWebViewActivity extends AppCompatActivity {
     private Tracker mTracker;
    // private AnalyticsApplication application;
     private SharedPreferences pref;
-    private String StoryTitle,StoryId;
+    private String StoryTitle,SubstoryId;
 
 
     @Override
@@ -42,6 +50,27 @@ public class ArticleWebViewActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
         setContentView(R.layout.article_web_view);
 
+        Bundle extras = getIntent().getExtras();
+
+        URL = extras.getString("ArticleURL");
+        SubstoryId = extras.getString("substory_id");
+
+        pref = PreferenceManager.getDefaultSharedPreferences(ArticleWebViewActivity.this);
+        String auth_token = pref.getString(SoupContract.AUTH_TOKEN,null);
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("auth_token",auth_token);
+        params.put("type","substories");
+        params.put("id",SubstoryId);
+
+        NetworkUtilsRead readRequest = new NetworkUtilsRead(ArticleWebViewActivity.this,params);
+        try {
+            readRequest.sendReadRequest();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
 
         //application = (AnalyticsApplication) getApplication();
         //mTracker = application.getDefaultTracker();
@@ -52,12 +81,8 @@ public class ArticleWebViewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
 
 
-        Bundle extras = getIntent().getExtras();
-
-        URL = extras.getString("ArticleURL");
 
         wView = (WebView)findViewById(R.id.webview);
         //TODO: progress bar add
@@ -88,6 +113,10 @@ public class ArticleWebViewActivity extends AppCompatActivity {
             progress.setVisibility(View.GONE);
             ArticleWebViewActivity.this.progress.setProgress(100);
             super.onPageFinished(view, url);
+            //TODO: read API call
+
+
+
         }
 
         @Override

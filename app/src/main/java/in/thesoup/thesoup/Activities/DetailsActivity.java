@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,9 +18,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -62,7 +66,7 @@ public class DetailsActivity extends AppCompatActivity {
     HashMap<String, String> params;
     private int fragmenttag;
     private TextView mheading;
-    private Button followbutton;
+    private ImageView followbutton;
     private String storyColour;
     private int restartactivitystatus = 0;
     private ProgressBar progress;
@@ -98,7 +102,7 @@ public class DetailsActivity extends AppCompatActivity {
         fragmenttag = getIntent().getIntExtra("fragmenttag", 0);
 
         mheading = (TextView) findViewById(R.id.story_title_header1);
-        followbutton = (Button) findViewById(R.id.followbutton_header1);
+        followbutton = (ImageView) findViewById(R.id.follow_image_button);
 
         if (Build.VERSION.SDK_INT >= 24) {
             StoryTitle = String.valueOf(Html.fromHtml(bundle.getString("storytitle"), Html.FROM_HTML_MODE_LEGACY));
@@ -122,7 +126,7 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         if (storyColour != null && !storyColour.isEmpty()) {
-            followbutton.setBackgroundColor(Color.parseColor("#" + storyColour));
+            DrawableCompat.setTint(followbutton.getDrawable(),Color.parseColor("#" + storyColour));
         }
 
 
@@ -174,7 +178,7 @@ public class DetailsActivity extends AppCompatActivity {
         params.put("page", "0");
         params.put("story_id", StoryId);
 
-        if (TextUtils.isEmpty(pref.getString("auth_token", null))) {
+        if (TextUtils.isEmpty(pref.getString(SoupContract.AUTH_TOKEN, null))) {
 
             progress.setVisibility(View.VISIBLE);
             progress.setProgress(0);
@@ -189,7 +193,7 @@ public class DetailsActivity extends AppCompatActivity {
             }
 
         } else {
-            params.put("auth_token", pref.getString("auth_token", null));
+            params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
 
             progress.setVisibility(View.VISIBLE);
             progress.setProgress(0);
@@ -218,6 +222,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(DetailsActivity.this, ArticleWebViewActivity.class);
                 intent.putExtra("ArticleURL", ArticleURL);
+                intent.putExtra("substory_id",mSubstories.get(groupPosition).getSubstoryId());
                 startActivity(intent);
 
                 return true;
@@ -225,14 +230,27 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
 
+
+
     }
 
     private void followButtonStatus() {
 
         if (followStatus.equals("1")) {
-            followbutton.setText("FOLLOWING");
+            followbutton.setImageResource(R.drawable.minus);
+            if (storyColour != null && !storyColour.isEmpty()) {
+                DrawableCompat.setTint(followbutton.getDrawable(),Color.parseColor("#" + storyColour));
+            }
+
+            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            llp.setMargins(0, 50, 0, 0); // llp.setMargins(left, top, right, bottom);
+            followbutton.setLayoutParams(llp);
+
         } else if (followStatus.equals("0")) {
-            followbutton.setText("FOLLOW");
+            followbutton.setImageResource(R.drawable.plus);
+            if (storyColour != null && !storyColour.isEmpty()) {
+                DrawableCompat.setTint(followbutton.getDrawable(),Color.parseColor("#" + storyColour));
+            }
         }
     }
 
@@ -240,7 +258,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         String page = String.valueOf(offset);
 
-        if (TextUtils.isEmpty(pref.getString("auth_token", null))) {
+        if (TextUtils.isEmpty(pref.getString(SoupContract.AUTH_TOKEN, null))) {
 
             params.put("page", page);
             params.put("story_id", StoryId);
@@ -260,7 +278,7 @@ public class DetailsActivity extends AppCompatActivity {
 
             progress.setVisibility(View.VISIBLE);
             progress.setProgress(0);
-            params.put("auth_token", pref.getString("auth_token", null));
+            params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
             params.put("page", page);
             params.put("story_id", StoryId);
             NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, params);
@@ -281,10 +299,10 @@ public class DetailsActivity extends AppCompatActivity {
 
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
-
         // nSingleStoryAdapter.refreshData(mSubstories,StoryTitle);
 
         nSingleStoryAdapter.refreshData((mSubstories));
+        SingleStoryView.expandGroup(0);
     }
 
     @Override
@@ -301,7 +319,6 @@ public class DetailsActivity extends AppCompatActivity {
             }
 
         }
-
         return super.onKeyDown(keyCode, event);
     }
 
@@ -331,21 +348,12 @@ public class DetailsActivity extends AppCompatActivity {
         if (requestCode == 36) {
             Log.d("result in Details", "worked");
             //Todo: nSingleStoryAdapter.followstory();
-
         }
     }
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-    public void demo(String storyId) {
-        //TODO:
-        /* Intent intent = new Intent(this,LoginActivity.class);
-        intent.putExtra("story_id",storyId);
-        intent.putExtra("activity","1");
-        startActivityForResult(intent,36);*/
     }
 
     public void DetailsActivitydemo(String mfollowStatus) {
@@ -366,18 +374,6 @@ public class DetailsActivity extends AppCompatActivity {
 
     }
 
-  /*  @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-    }*/
-
     public void onClick(View v) {
 
         int i = 0; //constant value
@@ -387,35 +383,20 @@ public class DetailsActivity extends AppCompatActivity {
 
 
                 //NetworkUtilsFollowUnFollow follow = new NetworkUtilsFollowUnFollow(context,mString);
-
                 HashMap<String, String> params = new HashMap<>();
-
-                params.put("auth_token", pref.getString("auth_token", null));
+                params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
                 params.put("story_id", StoryId);
-
                 //application.sendEventCollectionUser(mTracker, SoupContract.CLICK, SoupContract.CLICK_FOLLOW, SoupContract.COLLECTION_PAGE,storyTitle,String.valueOf(clickStoryId),pref.getString(SoupContract.FB_ID,null),pref.getString(SoupContract.FIRSTNAME,null)+pref.getString(SoupContract.LASTNAME,null));
 
                 NetworkUtilsFollowUnFollow followrequest = new NetworkUtilsFollowUnFollow(this, params);
-
-
                 followrequest.followRequest(i, fragmenttag);
-
-
             } else if (followStatus.equals("1")) {
-
                 //application.sendEventCollectionUser(mTracker, SoupContract.CLICK, SoupContract.CLICK_UNFOLLOW, SoupContract.COLLECTION_PAGE,storyTitle,String.valueOf(clickStoryId),pref.getString(SoupContract.FB_ID,null),pref.getString(SoupContract.FIRSTNAME,null)+pref.getString(SoupContract.LASTNAME,null));
-
-
                 HashMap<String, String> params = new HashMap<>();
-
-                params.put("auth_token", pref.getString("auth_token", null));
+                params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
                 params.put("story_id", StoryId);
-
                 NetworkUtilsFollowUnFollow unFollowrequest = new NetworkUtilsFollowUnFollow(this, params);
-
                 unFollowrequest.unFollowRequest(i, fragmenttag);
-
-
             }
         }
 
@@ -423,7 +404,6 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void stopProgress() {
-
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
     }

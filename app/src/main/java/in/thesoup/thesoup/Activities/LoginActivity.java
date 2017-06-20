@@ -1,5 +1,6 @@
 package in.thesoup.thesoup.Activities;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -28,23 +31,40 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
+import com.google.api.client.googleapis.auth.oauth2.GoogleBrowserClientRequestUrl;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+
 
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import in.thesoup.thesoup.NetworkCalls.NetworkUtilsLogin;
 import in.thesoup.thesoup.PreferencesFbAuth.PrefUtil;
 import in.thesoup.thesoup.R;
+import in.thesoup.thesoup.SoupContract;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -63,12 +83,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private Intent intent1;
     private Tracker mTracker;
     private static final int RC_SIGN_IN = 007;
-    private static final String TAG = "handle request response";
+    private static final String TAGI = "handle request response";
     // private AnalyticsApplication application;
     private SharedPreferences pref;
     private Button fb, google;
-    private GoogleApiClient mGoogleApiClient;
     private SignInButton signInButton;
+    public static final String TAG = "ServerAuthCodeActivity";
+    private static final int RC_GET_AUTH_CODE = 9003;
+
+    private GoogleApiClient mGoogleApiClient;
+    private TextView mAuthCodeTextView;
 
 
     @Override
@@ -95,10 +119,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     .setFontAttrId(R.attr.fontPath)
                     .build()
             );
+            validateServerClientID();
+
+            String serverClientId = getString(R.string.server_client_id);
 
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestScopes(new Scope(Scopes.PROFILE))
                     .requestEmail()
+                    .requestIdToken(getString(R.string.server_client_id))
                     .build();
+
 
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .enableAutoManage(this, this)
@@ -134,7 +164,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
 
                             String accessToken = loginResult.getAccessToken().getToken();
-                            prefUtil.saveAccessTokenPermissions(accessToken, getScopes);
+                            prefUtil.saveAccessToken(accessToken);
 
                             GraphRequest request = GraphRequest.newMeRequest(
                                     loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
@@ -145,17 +175,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
 
                                             params = new HashMap<>();
-                                            params.put("fb_token", prefUtil.getToken());
-                                            params.put("fb_id", prefUtil.getId());
+                                            params.put(SoupContract.SOCIAL_NAME, "fb");
+                                            params.put(SoupContract.SOCIAL_TOKEN, prefUtil.getToken());
+                                            params.put(SoupContract.SOCIAL_ID, prefUtil.getId());
                                             params.put("grantedScopes", prefUtil.getPermissions());
-                                            params.put("first_name", prefUtil.getFirstname());
-                                            params.put("last_name", prefUtil.getLastname());
-                                            params.put("email_id", prefUtil.getEmail());
-                                            params.put("age_min", prefUtil.getAgeMin());
-                                            params.put("gender", prefUtil.getGender());
-                                            params.put("age_max", prefUtil.getAgeMax());
+                                            params.put(SoupContract.FIREBASEID,prefUtil.getFirebaseID());
+                                            params.put(SoupContract.FIRST_NAME, prefUtil.getFirstname());
+                                            params.put(SoupContract.LAST_NAME, prefUtil.getLastname());
+                                            params.put(SoupContract.EMAIL_ID, prefUtil.getEmail());
+                                            params.put(SoupContract.AGE_MIN, prefUtil.getAgeMin());
+                                            params.put(SoupContract.GENDER, prefUtil.getGender());
+                                            params.put(SoupContract.AGE_MAX, prefUtil.getAgeMax());
                                             //params.put("dob",);//send dob as null for future
-                                            params.put("image_url", prefUtil.getPictureUrl());
+                                            params.put(SoupContract.IMAGE_URL, prefUtil.getPictureUrl());
 
 
                                             // Log.d("prefUtilemail",prefUtil.getEmail());
@@ -200,6 +232,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                         @Override
                         public void onError(FacebookException error) {
+                            Log.d("fbloginerror",": "+error.toString());
 
                         }
 
@@ -235,6 +268,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            int statuscode = result.getStatus().getStatusCode();
+            Log.d("statuscode", String.valueOf(statuscode));
             handleSignInResult(result);
 
             //Person person = Plus.PeopleApi.
@@ -242,8 +277,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        Log.d(TAGI, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
+
             // Signed in successfully, show authenticated UI.
 
 
@@ -252,13 +288,50 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 GoogleSignInAccount acct = result.getSignInAccount();
 
 
+                String authCode = acct.getServerAuthCode();
+
+
                 acct.getGrantedScopes();
+
+                prefUtil.saveUserInfo(acct.getGivenName(), acct.getFamilyName(), acct.getEmail(), "", acct.getPhotoUrl().toString(), acct.getId(), "", "");
+                prefUtil.saveAccessToken(acct.getIdToken());
+
+                Log.d("acesstoken",": "+acct.getIdToken());
+
+                params = new HashMap<>();
+                params.put(SoupContract.SOCIAL_NAME, "gplus");
+                params.put(SoupContract.SOCIAL_TOKEN, prefUtil.getToken());
+                params.put(SoupContract.SOCIAL_ID, prefUtil.getId());
+                params.put(SoupContract.FIRST_NAME, prefUtil.getFirstname());
+                params.put(SoupContract.FIREBASEID,prefUtil.getFirebaseID());
+                params.put(SoupContract.LAST_NAME, prefUtil.getLastname());
+                params.put(SoupContract.EMAIL_ID, prefUtil.getEmail());
+                params.put(SoupContract.AGE_MIN, prefUtil.getAgeMin());
+                params.put(SoupContract.GENDER, prefUtil.getGender());
+                params.put(SoupContract.AGE_MAX, prefUtil.getAgeMax());
+                //params.put("dob",);//send dob as null for future
+                params.put(SoupContract.IMAGE_URL, prefUtil.getPictureUrl());
+
+                for (String name : params.keySet()) {
+
+                    String key = name;
+
+
+                    String value = params.get(key);
+                    Log.d("param values", key + " " + value);
+
+
+                }
+
+                NetworkUtilsLogin loginRequest = new NetworkUtilsLogin(LoginActivity.this, params);
+                loginRequest.loginvolleyRequestfromMain();
+
 
                 Log.d("result", result.getSignInAccount().getGrantedScopes().toString());
                 Log.d("email google", acct.getEmail() + "\n" + acct.getIdToken() + "\n" + acct.getDisplayName() + "\n");
             }
 
-            //TODO login google thingi
+            //TODO login google thing
             //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             //updateUI(true);
         } else {
@@ -290,21 +363,21 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             try {
                 profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?type=large");
                 Log.i("profile_pic", profile_pic + "");
-                bundle.putString("profile_pic", profile_pic.toString());
+                bundle.putString(SoupContract.IMAGE_URL, profile_pic.toString());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return null;
             }
 
-            bundle.putString("idFacebook", id);
-            if (object.has("first_name"))
-                bundle.putString("first_name", object.getString("first_name"));
-            if (object.has("last_name"))
-                bundle.putString("last_name", object.getString("last_name"));
-            if (object.has("email"))
-                bundle.putString("email", object.getString("email"));
-            if (object.has("gender"))
-                bundle.putString("gender", object.getString("gender"));
+            bundle.putString(SoupContract.SOCIAL_ID, id);
+            if (object.has(SoupContract.FIRST_NAME))
+                bundle.putString(SoupContract.FIRST_NAME, object.getString("first_name"));
+            if (object.has(SoupContract.LAST_NAME))
+                bundle.putString(SoupContract.LAST_NAME, object.getString("last_name"));
+            if (object.has(SoupContract.EMAIL_ID))
+                bundle.putString(SoupContract.EMAIL_ID, object.getString("email"));
+            if (object.has(SoupContract.GENDER))
+                bundle.putString(SoupContract.GENDER, object.getString("gender"));
 
             Log.d("Bundle", bundle.toString());
 
@@ -320,10 +393,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             //Log.d("age max",age_max);
 
 
-            prefUtil.saveFacebookUserInfo(object.getString("first_name"),
-                    object.getString("last_name"),
+            prefUtil.saveUserInfo(object.getString(SoupContract.FIRST_NAME),
+                    object.getString(SoupContract.LAST_NAME),
                     object.getString("email"),
-                    object.getString("gender"),
+                    object.getString(SoupContract.GENDER),
                     profile_pic.toString(),
                     object.getString("id"),
                     age_min, age_max);
@@ -350,6 +423,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
 
         }
+    }
+
+    private void validateServerClientID() {
+        String serverClientId = getString(R.string.server_client_id);
+        String suffix = ".apps.googleusercontent.com";
+        if (!serverClientId.trim().endsWith(suffix)) {
+            String message = "Invalid server client ID in strings.xml, must end with " + suffix;
+
+            Log.w(TAG, message);
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void setup() {
+
+
     }
 
 

@@ -36,6 +36,7 @@ import in.thesoup.thesoup.GSONclasses.SinglestoryGSON.Substories;
 //import in.thesoup.thesoup.NetworkCalls.NetworkUtilsFollowUnFollow;
 import in.thesoup.thesoup.NetworkCalls.NetworkUtilsFollowUnFollow;
 import in.thesoup.thesoup.R;
+import in.thesoup.thesoup.SoupContract;
 
 
 public class SingleStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -194,14 +195,14 @@ public class SingleStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (mfollowstatus.equals("") || mfollowstatus.equals("0")) {
 
 
-            if (TextUtils.isEmpty(pref.getString("auth_token", null))) {
+            if (TextUtils.isEmpty(pref.getString(SoupContract.SOCIAL_TOKEN, null))) {
 
                 // application.sendEventCollection(mTracker, SoupContract.CLICK, SoupContract.CLICK_FOLLOW, SoupContract.COLLECTION_PAGE,storyTitle,String.valueOf(clickStoryId));
 
 
                 DetailsActivity activity = (DetailsActivity) mcontext;
 
-                activity.demo(clickStoryId);
+                //activity.demo(clickStoryId);
 
             } else {
 
@@ -209,7 +210,7 @@ public class SingleStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                 HashMap<String, String> params = new HashMap<>();
 
-                params.put("auth_token", pref.getString("auth_token", null));
+                params.put(SoupContract.SOCIAL_TOKEN, pref.getString(SoupContract.SOCIAL_TOKEN, null));
                 params.put("story_id", clickStoryId);
 
                 //application.sendEventCollectionUser(mTracker, SoupContract.CLICK, SoupContract.CLICK_FOLLOW, SoupContract.COLLECTION_PAGE,storyTitle,String.valueOf(clickStoryId),pref.getString(SoupContract.FB_ID,null),pref.getString(SoupContract.FIRSTNAME,null)+pref.getString(SoupContract.LASTNAME,null));
@@ -228,7 +229,7 @@ public class SingleStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             HashMap<String, String> params = new HashMap<>();
 
-            params.put("auth_token", pref.getString("auth_token", null));
+            params.put(SoupContract.SOCIAL_TOKEN, pref.getString(SoupContract.SOCIAL_TOKEN, null));
             params.put("story_id", clickStoryId);
 
             NetworkUtilsFollowUnFollow unFollowrequest = new NetworkUtilsFollowUnFollow(mcontext, params);
@@ -358,15 +359,7 @@ public class SingleStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public String timeFormat(String string) throws ParseException {
         SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date date = timeFormat.parse(string);
-       /* try {
-            date = dateformat.parse(string);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Log.d("Time sent is not valid",string);
-        }*/
-
-        SimpleDateFormat monthFormat2 = new SimpleDateFormat("hh:mm");
-
+        SimpleDateFormat monthFormat2 = new SimpleDateFormat("hh:mm a");
         return monthFormat2.format(date);
 
 

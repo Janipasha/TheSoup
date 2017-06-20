@@ -79,11 +79,11 @@ public class NetworkUtilsLogin {
 
                       SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mcontext);
                         SharedPreferences.Editor editor = pref.edit();
-                        editor.putString("auth_token",outh_token);
+                        editor.putString(SoupContract.AUTH_TOKEN,outh_token);
                         editor.apply();
 
 
-                        Log.d("prefvalue 1", pref.getString("auth_token",null)+"-----");
+                        Log.d("prefvalue 1",pref.getString("auth_token",null)+"-----");
 
                        // Object.Followpasson();
 
@@ -159,7 +159,7 @@ public class NetworkUtilsLogin {
 
                         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mcontext);
                         SharedPreferences.Editor editor = pref.edit();
-                        editor.putString("auth_token",outh_token);
+                        editor.putString(SoupContract.AUTH_TOKEN,outh_token);
                         editor.apply();
 
 

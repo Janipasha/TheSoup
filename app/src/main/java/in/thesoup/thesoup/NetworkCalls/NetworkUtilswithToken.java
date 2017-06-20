@@ -76,58 +76,32 @@ public class NetworkUtilswithToken {
                         @Override
                         public void onResponse(JSONObject response) {
                             Log.i("akunamatata", response.toString());
-
-
-
                             gsonConversion mpopulateUI = new gsonConversion();
-
                             mpopulateUI.fillUI(response,mcontext,fragmenttag,totalrefresh);
-
-
                         }
-
-
                         //mEarthquakedatajsonclass = red;
-
                     }, new Response.ErrorListener() {
 
                         @Override
                         public void onErrorResponse(VolleyError error) {
-
-
                            NetworkResponse response = error.networkResponse;
-
-
                             if (response != null && response.data != null) {
-
                             NetworkResponse networkResponse = error.networkResponse;
-
                             //TODO: error response write for fragment
 
                           if(networkResponse!=null){
                                 if(networkResponse.statusCode ==404){
                                     if (mcontext instanceof MainActivity) {
                                         if (params.get("page").equals("0")) {
-
                                         MainActivity activity = (MainActivity)mcontext;
-
-
                                             if(fragmenttag==1){
-
                                             Fragment f = activity.getFragment(fragmenttag);
-
                                             ((MyFeedFragment)f).Nofollowers();
                                         }}else {
-
                                             MainActivity activity = (MainActivity)mcontext;
-
-
                                             if(fragmenttag==1){
-
                                                 Fragment f = activity.getFragment(fragmenttag);
                                                 ((MyFeedFragment)f).stopProgress();
-
-
                                         }else if(fragmenttag==0){
                                                 Fragment f = activity.getFragment(fragmenttag);
                                                 ((DiscoverFragment)f).stopProgress();
@@ -137,15 +111,7 @@ public class NetworkUtilswithToken {
                                     }
                             }}
 
-
-
-
-
                             Log.d("asdfghj",error.toString());
-
-
-
-
                                 }
                             }
                         }
@@ -176,7 +142,6 @@ public class NetworkUtilswithToken {
                     return super.parseNetworkResponse(response);
                 }
             };
-
             singleton.addToRequestQueue(jsObjRequest); //
 
 

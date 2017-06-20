@@ -39,6 +39,17 @@
                 android:adjustViewBounds="true"
                 android:layout_gravity="center"/>
 
+    <ImageView
+        android:layout_marginBottom="40dp"
+        android:id="@+id/main_image_story_blur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:layout_gravity="center"
+        android:background="@drawable/readblur"
+        android:visibility="gone"/>
+
             <View
                 android:id="@+id/leftline1"
                 android:layout_width="2dp"

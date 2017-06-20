@@ -34,7 +34,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
     public void ToMainActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, PagerActivity.class);
         startActivity(intent);
         finish();
     }

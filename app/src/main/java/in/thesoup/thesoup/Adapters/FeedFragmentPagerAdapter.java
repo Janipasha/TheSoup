@@ -3,6 +3,7 @@ package in.thesoup.thesoup.Adapters;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -72,6 +73,7 @@ public class FeedFragmentPagerAdapter extends FragmentStatePagerAdapter{
     public CharSequence getPageTitle(int position) {
         if (position == 0) {
             return "Discover";
+
         } else if (position == 1){
             return "Myfeed";
         } else {

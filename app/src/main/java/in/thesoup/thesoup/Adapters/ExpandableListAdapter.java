@@ -73,6 +73,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
          WebView wView;
 
 
+
+
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.mcontext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -170,9 +172,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-         ImageView mImageView;
+         ImageView mImageView,ReadImageblur;
         TextView mSubstory, mNumber_of_articles, mviewMore, mDate, mMonth, mYear;
         View leftline,rightline,topline;
+
+
 
 
         if (convertView == null) {
@@ -188,6 +192,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         leftline=(View)convertView.findViewById(R.id.leftline1);
         rightline= (View)convertView.findViewById(R.id.rightline1);
         topline =(View)convertView.findViewById(R.id.cardline1);
+        ReadImageblur = (ImageView)convertView.findViewById(R.id.main_image_story_blur);
 
         if(storyColour!=null&&!storyColour.isEmpty()){
 
@@ -198,9 +203,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         }
 
+        ReadImageblur.setVisibility(View.GONE);
 
 
         final Substories mSubstories = _listDataHeader.get(groupPosition);
+
+        if(mSubstories.getReadStatus().equals("1")){
+            ReadImageblur.setVisibility(View.VISIBLE);
+        }
 
         String Time = mSubstories.getTime();
         String substoryTitle = mSubstories.getSubstoryName();
@@ -252,7 +262,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        mNumber_of_articles.setText(String.valueOf(NumberofArticles) + " ARTICLES"+" EXPLORE");
+
+        if(isExpanded){
+            mNumber_of_articles.setText(String.valueOf(NumberofArticles) + " ARTICLES"+" COLLAPSE");
+        }else {
+            mNumber_of_articles.setText(String.valueOf(NumberofArticles) + " ARTICLES"+" EXPAND");
+        }
+
+
         mDate.setText(time+", "+Date+" "+month+" "+year);
         //((StoryViewHolder) holder).mMonth.setText(month);
         //((StoryViewHolder) holder).mYear.setText(year);
@@ -262,6 +279,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         return convertView;
     }
+
 
     @Override
     public boolean hasStableIds() {
@@ -283,7 +301,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             Log.d("Time sent is not valid",string);
         }*/
 
-        SimpleDateFormat monthFormat2 = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat monthFormat2 = new SimpleDateFormat("hh:mm a");
 
         return monthFormat2.format(date);
 

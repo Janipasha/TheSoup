@@ -21,6 +21,7 @@ public class StoryData {
     String num_articles;
     String latest_substory;
     String active;
+    String read;
 
 
 
@@ -65,6 +66,10 @@ public class StoryData {
     public String getCategoryColour(){return hex_colour;}
 
     public String getCategoryID(){return cat_id;}
+
+    public String getReadStatus(){
+        return read;
+    }
 
 
 

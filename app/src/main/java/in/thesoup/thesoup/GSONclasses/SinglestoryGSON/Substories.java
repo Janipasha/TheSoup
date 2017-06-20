@@ -14,6 +14,7 @@ public class Substories {
     String top_article_image;
     String top_article_title;
     List<Articles> articles;
+    String substory_read;
     String top_article_date;
 
     public String getSubstoryId(){
@@ -39,5 +40,9 @@ public class Substories {
 
     public String getSubstoryImageURL(){
         return top_article_image;
+    }
+
+    public String getReadStatus(){
+        return substory_read;
     }
 }

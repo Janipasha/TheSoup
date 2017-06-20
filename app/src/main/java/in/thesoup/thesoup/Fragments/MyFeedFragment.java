@@ -25,6 +25,7 @@ import in.thesoup.thesoup.Adapters.StoryFeedAdapter;
 import in.thesoup.thesoup.App.Config;
 import in.thesoup.thesoup.GSONclasses.FeedGSON.StoryData;
 import in.thesoup.thesoup.NetworkCalls.NetworkUtilswithToken;
+import in.thesoup.thesoup.PreferencesFbAuth.PrefUtil;
 import in.thesoup.thesoup.R;
 import in.thesoup.thesoup.SoupContract;
 
@@ -45,7 +46,7 @@ public class MyFeedFragment extends Fragment {
     private SharedPreferences pref;
     private TextView mTextView;
     private ProgressBar progress;
-    private String totalrefresh;
+    private String totalrefresh="1";
     private String filter = "";
     private EndlessRecyclerViewScrollListener scrollListener;
 
@@ -67,40 +68,40 @@ public class MyFeedFragment extends Fragment {
 
         StoryView = (RecyclerView) RootView.findViewById(R.id.list_discover);
         mTextView = (TextView) RootView.findViewById(R.id.empty_view);
-
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
         //Todo:hardcode remove
 
-        for (int i = 0; i < 14; i++) {
+        for (int i = 0; i <=14; i++) {
             String Id = String.valueOf(i);
-
             if (pref.getString(Id, null) != null && !pref.getString(Id, null).isEmpty()) {
-
                 if (pref.getString(Id, null).equals("1")) {
                     filter = filter + Id + ",";
                 }
-
             }
         }
 
-        totalrefresh = pref.getString(SoupContract.TOTAL_REFRESH, null);
+        if(filter!=null&&!filter.isEmpty()){
+           filter = filter.substring(0,filter.length()-1);
+        }
+
+
+        if(pref.getString(SoupContract.TOTAL_REFRESH,null)!=null&&!pref.getString(SoupContract.TOTAL_REFRESH,null).isEmpty()){
+            totalrefresh = pref.getString(SoupContract.TOTAL_REFRESH,null);
+
+        }
 
 
         params = new HashMap<>();
-
         params.put("filters", filter);
 
         progress = (ProgressBar) RootView.findViewById(R.id.progressBar2);
         progress.setVisibility(View.GONE);
-
 
         mStoryData = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         StoryView.setLayoutManager(layoutManager);
         mStoryfeedAdapter = new StoryFeedAdapter(mStoryData, getActivity(), 1);
         StoryView.setAdapter(mStoryfeedAdapter);
-
         StoryView.setHasFixedSize(true);
 
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
@@ -111,36 +112,26 @@ public class MyFeedFragment extends Fragment {
                 loadNextDataFromApi(page);
             }
         };
-
         StoryView.addOnScrollListener(scrollListener);
 
-
-        params.put("auth_token", pref.getString("auth_token", null));
+        params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
         params.put("myfeed", "1"); // 1 is the value required for getting myfeed
         params.put("page", "0");
-
-        Log.d("auth_token1", pref.getString("auth_token", null));
+        Log.d("auth_token1", pref.getString(SoupContract.AUTH_TOKEN, null));
 
         progress.setProgress(0);
-
         NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
-
-
         networkutilsToken.getFeed(1, totalrefresh);
-
-
         return RootView;
     }
 
-    private void loadNextDataFromApi(int page) {
+    private void loadNextDataFromApi(int offset) {
         String Page = String.valueOf(offset);
-
-
         params.put("myfeed", "1");
-        params.put("auth_token", pref.getString("auth_token", null));
+        params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
         params.put("page", Page);
 
-        Log.d("auth_token", pref.getString("auth_token", null));
+        Log.d(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
         progress.setVisibility(View.VISIBLE);
         progress.setProgress(0);
 
@@ -167,62 +158,46 @@ public class MyFeedFragment extends Fragment {
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
         Log.d("mStoryData startAdapter", String.valueOf(mStoryData.size()));
-
-
     }
 
     public void startRefreshAdapter(List<StoryData> nStoryData) {
         mStoryData = nStoryData;
         mStoryfeedAdapter.totalRefreshData(nStoryData);
         Log.d("mStoryData refresh", String.valueOf(nStoryData.size()));
-
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-
         if (isVisibleToUser) {
-
             if (getActivity() == null) {
                 Log.d("context is null", " at fragment");
             } else {
-                totalrefresh = pref.getString(SoupContract.TOTAL_REFRESH, null);
-
+                PrefUtil prefUtil = new PrefUtil(getActivity());
+                totalrefresh = prefUtil.getTotalRefresh();
+                Log.d("totalRefresh filter",totalrefresh);
 
                 if (totalrefresh.equals("1")) {
-
                     StoryView.setVisibility(View.VISIBLE);
                     mTextView.setVisibility(View.GONE);
-
-
-                    //mStoryData = new ArrayList<>();
+                    params.put("page", "0");
+                    for (String name : params.keySet()) {
+                        String key = name;
+                        String value = params.get(key);
+                        Log.d("param values", key + " " + value);
+                    }
 
                     NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
-
-
                     networkutilsToken.getFeed(1, totalrefresh);
-
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString(SoupContract.TOTAL_REFRESH, "0");
                     editor.apply();
-
-
                 }
             }
         }
 
-        Log.d("Resume test", "Isvisible " + isVisibleToUser);
-
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-
+        Log.d("Resume test filter", "Isvisible " + isVisibleToUser);
     }
 
     public void demo1(int position, String followstatus) {
@@ -233,12 +208,12 @@ public class MyFeedFragment extends Fragment {
         Log.d("mStoryData demo", String.valueOf(mStoryData.size()));
 
         mStoryData.get(position).changeFollowStatus(followstatus);
+        mStoryData.remove(position);
         mStoryfeedAdapter.refreshfollowstatus(mStoryData);
     }
 
 
     public void stopProgress() {
-
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
     }

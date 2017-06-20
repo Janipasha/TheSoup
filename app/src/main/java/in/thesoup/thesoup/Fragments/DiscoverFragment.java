@@ -2,9 +2,11 @@ package in.thesoup.thesoup.Fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,7 +50,7 @@ public class DiscoverFragment extends Fragment {
     private Button Discover, MyFeed;
     private EndlessRecyclerViewScrollListener scrollListener;
     private ProgressBar progress;
-    private String totalrefresh;
+    private String totalrefresh="0";
     private Context context;
     private String filter="";
 
@@ -64,18 +66,35 @@ public class DiscoverFragment extends Fragment {
 
         //hardcoding of filters can change may be with SQL database
 
-        for(int i=0;i<14;i++) {
+        for (int i = 1; i <= 14; i++) {
+            if (pref.getString(String.valueOf(i), null) != null && !pref.getString(String.valueOf(i), null).isEmpty()) {
+                Log.d(String.valueOf(i), ": " + pref.getString(String.valueOf(i), null));
+            }
+        }
+
+
+        for(int i=0;i<=14;i++) {
             String Id = String.valueOf(i);
 
-            if (pref.getString(Id, null) != null && !pref.getString(Id, null).isEmpty()) {
+            if (pref.getString(Id, null)!= null && !pref.getString(Id, null).isEmpty()) {
                 if(pref.getString(Id,null).equals("1")){
                     filter = filter+Id+",";
                 }
             }
         }
 
+        //removing coma at the end
 
-        totalrefresh = pref.getString(SoupContract.TOTAL_REFRESH,null);
+       if(filter!=null&&!filter.isEmpty()){
+          filter = filter.substring(0,filter.length()-1);
+        }
+
+
+
+       if(pref.getString(SoupContract.TOTAL_REFRESH,null)!=null&&!pref.getString(SoupContract.TOTAL_REFRESH,null).isEmpty()){
+        totalrefresh = pref.getString(SoupContract.TOTAL_REFRESH,null);}
+
+        Log.d("totalRefresh Discover",totalrefresh);
         params = new HashMap<>();
 
        params.put("filters",filter);
@@ -102,18 +121,24 @@ public class DiscoverFragment extends Fragment {
         StoryView.addOnScrollListener(scrollListener);
 
 
-        if (TextUtils.isEmpty(pref.getString("auth_token", null))) {
+        if (TextUtils.isEmpty(pref.getString(SoupContract.AUTH_TOKEN, null))) {
             params.put("page", "0");
 
             NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
             networkutilsToken.getFeed(0,totalrefresh);
         } else {
-            params.put("auth_token", pref.getString("auth_token", null));
+            params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
             params.put("page", "0");
             progress.setVisibility(View.VISIBLE);
             progress.setProgress(0);
 
-            Log.d("auth_token", pref.getString("auth_token", null));
+            for (String name : params.keySet()) {
+                String key = name;
+                String value = params.get(key);
+                Log.d("param values", key + " " + value);
+            }
+
+            Log.d("auth_token", pref.getString(SoupContract.AUTH_TOKEN, null));
 
             NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
             networkutilsToken.getFeed(0,totalrefresh);
@@ -141,7 +166,7 @@ public class DiscoverFragment extends Fragment {
 
         String Page = String.valueOf(offset);
 
-        if (TextUtils.isEmpty(pref.getString("auth_token", null))) {
+        if (TextUtils.isEmpty(pref.getString(SoupContract.AUTH_TOKEN, null))) {
 
 
             params.put("page", Page);
@@ -154,10 +179,10 @@ public class DiscoverFragment extends Fragment {
 
         } else {
 
-            params.put("auth_token", pref.getString("auth_token", null));
+            params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
             params.put("page", Page);
 
-            Log.d("auth_token", pref.getString("auth_token", null));
+            Log.d(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
             progress.setVisibility(View.VISIBLE);
             progress.setProgress(0);
 
@@ -208,20 +233,34 @@ public class DiscoverFragment extends Fragment {
                 PrefUtil prefUtil = new PrefUtil(getActivity());
 
                 totalrefresh = prefUtil.getTotalRefresh();
+                Log.d("totalRefresh Discover",totalrefresh);
 
                 if (totalrefresh.equals("1")) {
 
-                    mStoryData.clear();
 
-                    params.put("auth_token", pref.getString("auth_token", null));
+
+                    params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
                     params.put("page", "0");
                     progress.setVisibility(View.VISIBLE);
                     progress.setProgress(0);
 
-                    Log.d("auth_token", pref.getString("auth_token", null));
+                    for (String name : params.keySet()) {
+                        String key = name;
+                        String value = params.get(key);
+                        Log.d("param values", key + " " + value);
+                    }
+
+
+                    Log.d("filter",filter);
+
+                    Log.d(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
 
                     NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
                     networkutilsToken.getFeed(0, totalrefresh);
+
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString(SoupContract.TOTAL_REFRESH, "0");
+                    editor.apply();
 
                     //prefUtil.saveTotalRefresh("0");
 

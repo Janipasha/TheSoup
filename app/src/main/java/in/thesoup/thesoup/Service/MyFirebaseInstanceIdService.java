@@ -9,6 +9,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import in.thesoup.thesoup.App.Config;
+import in.thesoup.thesoup.SoupContract;
 
 /**
  * Created by Jani on 25-05-2017.
@@ -21,6 +22,8 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
     public void onTokenRefresh() {
         super.onTokenRefresh();
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+
+        Log.d("firebasetoken",refreshedToken);
 
 
 
@@ -44,7 +47,7 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
     private void storeRegIdInPref(String token) {
         SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putString("regId", token);
+        editor.putString(SoupContract.FIREBASEID, token);
         editor.apply();
     }
 }
