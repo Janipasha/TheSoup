@@ -46,9 +46,23 @@ public class gsonConversion {
         Gson gson = new Gson();
         GetStoryFeed red = gson.fromJson(jsonObject.toString(), GetStoryFeed.class);
 
-        for (int i = 0; i < red.getStoryDataList().size(); i++) {
+        Log.d("readvalue",red.getDataStories().getUnRead().toString());
 
-            mListFromJson.add(red.getStoryDataList().get(i));
+         String num_read= "";
+
+        if(red.getDataStories().getUnRead().getUnReadValue()!=null&&!red.getDataStories().getUnRead().getUnReadValue().isEmpty()){
+
+            num_read = red.getDataStories().getUnRead().getUnReadValue();
+        }
+
+        Log.d("Num_read",num_read);
+
+
+
+
+        for (int i = 0; i < red.getDataStories().getStoryDataList().size(); i++) {
+
+            mListFromJson.add(red.getDataStories().getStoryDataList().get(i));
         }
 
 
@@ -69,10 +83,10 @@ public class gsonConversion {
 
         if(fragmenttag==1&&totalrefresh.equals("0")){
             Fragment f = activity.getFragment(fragmenttag);
-            ((MyFeedFragment)f).startAdapter(mListFromJson);
+            ((MyFeedFragment)f).startAdapter(mListFromJson,num_read);
         }else if(fragmenttag==1&&totalrefresh.equals("1")){
             Fragment f = activity.getFragment(fragmenttag);
-            ((MyFeedFragment)f).startRefreshAdapter(mListFromJson);
+            ((MyFeedFragment)f).startRefreshAdapter(mListFromJson,num_read);
         }
 
 

@@ -34,6 +34,8 @@ public class SoupContract {
 
    public static final String FILTERJSON = "filterobject";
 
+   public static final String FILTERPREF = "filterpref";
+
 
     //User info
 

@@ -5,7 +5,10 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import in.thesoup.thesoup.App.Config;
 import in.thesoup.thesoup.SoupContract;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class PrefUtil {
@@ -19,7 +22,7 @@ public class PrefUtil {
 
 
     public String getFirebaseID(){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
         return  prefs.getString(SoupContract.FIREBASEID,null);
     }
 

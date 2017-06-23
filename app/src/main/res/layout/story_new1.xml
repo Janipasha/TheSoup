@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix"
+    android:background="#222222">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="6dp"
+        app:cardBackgroundColor="#000000">
+        <!--app:cardBackgroundColor="#000000"-->
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+
+                <ImageView
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="40dp"
+                    android:id="@+id/main_image"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/contentdescimage"
+                    android:src="@drawable/vijaymallya"
+                    android:scaleType="fitXY"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center"/>
+
+                <ImageView
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="40dp"
+                    android:id="@+id/main_image_blur"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center"
+                    android:background= "@drawable/readblur"
+                    android:visibility="gone"
+                    />
+
+
+
+
+
+
+
+                <View
+                    android:id="@+id/leftline"
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="#f49a32"
+                    android:layout_gravity="start"/>
+
+
+                <View
+                    android:id="@+id/rightline"
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="#f49a32"
+                    android:layout_gravity="end"/>
+
+            </FrameLayout>
+
+
+
+
+            <View
+                android:id="@+id/cardline"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:background="#f49a32" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cardline"
+                android:background="@drawable/background_gradient"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:shadowColor="#000000"
+                    android:shadowRadius="2"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp"
+                    fontPath= "fonts/proxima-nova-black.otf"
+                    tools:text="9.30 PM, 28 APRIL 2017" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginStart="10dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="9">
+
+                        <TextView
+                            android:id="@+id/Story_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:shadowColor="#000000"
+                            android:shadowRadius="2"
+                            android:textColor="#ffffff"
+                            android:textSize="20sp"
+                            tools:text="VIJAY MALLYA LOAN DEFAULT CASE"
+                            android:lineSpacingExtra="-3sp"
+                            fontPath= "fonts/proxima-nova-black.otf"
+                            android:minLines="2"
+                            android:textAllCaps="true"/>
+
+                    </LinearLayout>
+
+
+                    <!-- <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="match_parent"
+                           android:text="+"
+                         android:minHeight="0dp"
+                         android:paddingTop="0dp"
+                         android:layout_marginTop="-15dp"
+                           android:textColor="#f49a32"
+                           android:textSize="60sp"
+                           fontPath= "fonts/proxima-nova-black.otf"
+                           android:id="@+id/followbutton"
+                           android:onClick="onClick"
+                           android:textStyle="bold"
+                           android:layout_marginLeft="10dp"
+                           />-->
+
+                    <ImageView
+                        android:id="@+id/follow_button_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/plus"/>
+
+
+
+
+
+                    <!-- <Button
+                             android:layout_width="wrap_content"
+                             android:layout_height="36dp"
+                             android:background="@drawable/button1"
+                             android:padding="10dp"
+                             android:text="Follow"
+                             android:textColor="#ffffff"
+                             android:id="@+id/followbutton"
+                             android:onClick="onClick"
+                             android:textStyle="bold"
+                             android:textSize="10sp"
+                             fontPath= "fonts/proxima-nova-black.otf"
+                             android:layout_marginLeft="5dp"/>-->
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/categoryname"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#f49a32"
+                    android:gravity="center_horizontal"
+                    android:maxWidth="264dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:shadowColor="#000000"
+                    android:shadowRadius="1"
+                    android:textColor="#ffffff"
+                    android:textAllCaps="true"
+                    fontPath= "fonts/proxima-nova-black.otf"
+                    android:textSize="10sp"
+                    android:text="LAW ENFORCEMENT, CRIME &amp; ACCIDENTS" />
+
+                <TextView
+                    android:id="@+id/subcategory"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#f49a32"
+                    android:gravity="center_horizontal"
+                    android:maxWidth="264dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:shadowColor="#000000"
+                    android:shadowRadius="1"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp"
+                    android:text="WHITE COLLAR CRIMES"
+                    android:visibility="invisible"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/background_gradient2"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginStart="10dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="11dp"
+                            android:layout_marginRight="11dp"
+                            android:background="#ffffff"/>
+
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/substory_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="0sp"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="2"
+                        android:textColor="#ffffff"
+                        android:textSize="16sp"
+                        fontPath= "fonts/proxima-nova-bold.otf"
+                        tools:text="Vijay Mallya Misled Us On Wealth, Says Supreme Court, Hauls Him For Contempt" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginRight="9dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5" />
+
+                    <TextView
+                        android:id="@+id/number_of_articles"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:gravity="end"
+                        android:shadowColor="#000000"
+                        android:shadowRadius="2"
+                        android:textColor="#f49a32"
+                        android:textSize="11sp"
+                        fontPath= "fonts/proxima-nova-black.otf"
+                        tools:text="7 ARTICLES - EXPLORE" />
+
+                </LinearLayout>
+
+                <View
+                    android:id= "@+id/bottomline"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

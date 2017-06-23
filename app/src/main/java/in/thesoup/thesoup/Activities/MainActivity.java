@@ -36,8 +36,11 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+import static com.android.volley.VolleyLog.d;
+import static in.thesoup.thesoup.R.id.view;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,MyFeedFragment.Badgeonfilter {
 
     private ViewPager viewPager;
     private FeedFragmentPagerAdapter adapter;
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mTextView;
     private RelativeLayout mlinearlayout;
     private SharedPreferences pref;
+    private TabLayout tabLayout;
 
 
     @Override
@@ -56,6 +60,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         decorView.setSystemUiVisibility(uiOptions);
 
         setContentView(R.layout.activity_main);
+
+        String fragmentPosition= "";
+
+        Intent startingIntent = getIntent();
+
+        if(startingIntent!=null){
+            fragmentPosition = startingIntent.getStringExtra("fragmentPosition");
+        }
 
 
 
@@ -80,17 +92,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int filter_count = 0;
 
 
-        for(int i=0;i<=14;i++) {
+        for(int i=1;i<=14;i++) {
             String Id = String.valueOf(i);
 
             if (pref.getString(Id, null) != null && !pref.getString(Id, null).isEmpty()) {
                 if(pref.getString(Id,null).equals("1")){
                     filter_count = filter_count + 1;
                 }
+            }else{
+                filter_count=filter_count+1;
             }
         }
 
+        Log.d("filter_count",':'+String.valueOf(filter_count));
+
         if(filter_count>0&&filter_count<14){
+
             tickImage.setVisibility(View.VISIBLE);
         }
 
@@ -113,31 +130,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);
 
-
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-
 
         for (int i = 0; i < adapter.getCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             if (tab != null) {
-
                 tab.setCustomView(R.layout.tab_text);
                 tab.setText(adapter.getPageTitle(i));
-
             }
+        }
 
+        if(fragmentPosition!=null&&!fragmentPosition.isEmpty()){
+            viewPager.setCurrentItem(Integer.valueOf(fragmentPosition));
+        }
 
-           // tabLayout.setTabTextColors(Color.parseColor("#B3ffffff"), Color.parseColor("#00ffffff"));
-
-
-
-
-
-    }
-    }
+        }
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -183,4 +191,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    @Override
+    public void NumberofUnread(String num_unread) {
+
+        if(num_unread!=null||!num_unread.isEmpty()){
+
+       View view = tabLayout.getTabAt(1).getCustomView();
+        TextView textview = (TextView) view.findViewById(R.id.badge);
+        textview.setText(num_unread);
+        textview.setVisibility(View.VISIBLE);
+        }
+
+
+       /* tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
+        TabLayout.Tab tab = tabLayout.getTabAt(0);
+        View view = LayoutInflater.from(this).inflate(R.layout.tab_text,null);
+       // TextView tabtext = (TextView)view.findViewById(R.id.tabtext);
+        //tabtext.setText(adapter.getPageTitle(0).toString());
+        tab.setCustomView(R.layout.tab_text);
+
+        TabLayout.Tab tab1 = tabLayout.getTabAt(1);
+        View view1 = LayoutInflater.from(this).inflate(R.layout.tab_text,null);
+        //TextView tabtext1 = (TextView)view1.findViewById(R.id.tabtext);
+        //tabtext1.setText(adapter.getPageTitle(1).toString());
+        tab1.setCustomView(R.layout.tab_text);
+
+        Log.d("tab2",adapter.getPageTitle(0).toString());
+
+
+
+        /*for (int i = 0; i < adapter.getCount(); i++) {
+
+
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            if (i==0) {
+
+
+
+            } else if(i==1){
+
+                View view = LayoutInflater.from(this).inflate(R.layout.tab_text,null);
+                TextView badge = (TextView)view.findViewById(R.id.badge);
+                badge.setText(num_unread);
+                badge.setVisibility(View.VISIBLE);
+                TextView tabtext = (TextView)view.findViewById(R.id.tabtext);
+                tabtext.setText(adapter.getPageTitle(i).toString());
+                tab.setCustomView(R.layout.tab_text);
+
+
+            }
+
+
+        }*/
+
+
+    }
 }

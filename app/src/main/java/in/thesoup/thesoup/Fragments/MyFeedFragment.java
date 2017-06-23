@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import in.thesoup.thesoup.Activities.EndlessRecyclerViewScrollListener;
+import in.thesoup.thesoup.Activities.MainActivity;
 import in.thesoup.thesoup.Adapters.StoryFeedAdapter;
 import in.thesoup.thesoup.App.Config;
 import in.thesoup.thesoup.GSONclasses.FeedGSON.StoryData;
@@ -122,6 +123,7 @@ public class MyFeedFragment extends Fragment {
         progress.setProgress(0);
         NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
         networkutilsToken.getFeed(1, totalrefresh);
+
         return RootView;
     }
 
@@ -153,16 +155,21 @@ public class MyFeedFragment extends Fragment {
 
     }
 
-    public void startAdapter(List<StoryData> mStoryData) {
+    public void startAdapter(List<StoryData> mStoryData,String num_unread) {
         mStoryfeedAdapter.refreshData(mStoryData);
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
+
+        ((MainActivity)getActivity()).NumberofUnread(num_unread);
         Log.d("mStoryData startAdapter", String.valueOf(mStoryData.size()));
     }
 
-    public void startRefreshAdapter(List<StoryData> nStoryData) {
+    public void startRefreshAdapter(List<StoryData> nStoryData, String num_unread) {
         mStoryData = nStoryData;
         mStoryfeedAdapter.totalRefreshData(nStoryData);
+
+        ((MainActivity)getActivity()).NumberofUnread(num_unread);
+
         Log.d("mStoryData refresh", String.valueOf(nStoryData.size()));
     }
 
@@ -216,5 +223,9 @@ public class MyFeedFragment extends Fragment {
     public void stopProgress() {
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
+    }
+
+    public interface Badgeonfilter{
+        void NumberofUnread(String num_unread);
     }
 }

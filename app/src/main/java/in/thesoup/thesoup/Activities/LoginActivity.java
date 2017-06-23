@@ -121,7 +121,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             );
             validateServerClientID();
 
-            String serverClientId = getString(R.string.server_client_id);
 
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestScopes(new Scope(Scopes.PROFILE))

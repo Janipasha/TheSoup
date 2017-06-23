@@ -233,6 +233,7 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
         String followstatus = mStoryData.getFollowStatus();
 
 
+
             String storytitle = mStoryData.getStoryName();
 
         String Readstatus = mStoryData.getReadStatus();

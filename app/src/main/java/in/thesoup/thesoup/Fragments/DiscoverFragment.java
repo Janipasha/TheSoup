@@ -152,6 +152,7 @@ public class DiscoverFragment extends Fragment {
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
+
         return RootView;
     }
 

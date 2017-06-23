@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -74,6 +75,8 @@ public class PagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
 
       if(pref.getString(SoupContract.AUTH_TOKEN,null)!=null&&!pref.getString(SoupContract.AUTH_TOKEN,null).isEmpty()){
           Intent intent = new Intent(PagerActivity.this,LoginActivity.class);
