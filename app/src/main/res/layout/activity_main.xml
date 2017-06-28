@@ -12,87 +12,88 @@
     android:background="#222222">
 
 
-            <LinearLayout
-                android:id="@+id/topnavbar"
-                android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/topnavbar"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000000">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/sliding_tabs"
+            android:layout_width="0dp"
+            android:layout_weight="7"
+            android:layout_height="wrap_content"
+            android:background="#000000"
+            app:tabIndicatorColor="#ffffff"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="#ffffff"
+            app:tabTextColor="#B3ffffff"
+
+            />
+
+        <LinearLayout
+            android:id="@+id/filtertab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
+
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/filter"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#000000">
+                android:text="FILTERS"
+                android:textColor="#B3ffffff"
+                android:textSize="13sp"
+                android:layout_marginRight="2dp"
+                fontPath= "fonts/proxima-nova-black.otf"
+                android:layout_centerInParent="true"/>
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/sliding_tabs"
-                android:layout_width="0dp"
-                android:layout_weight="7"
-                android:layout_height="wrap_content"
-                android:background="#000000"
-                app:tabIndicatorColor="#ffffff"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="#ffffff"
-                app:tabTextColor="#B3ffffff"
+           <!-- <ImageView
 
-                />
+                android:id="@+id/filter_img"
+                android:layout_width="15dp"
+                android:layout_height="14dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginBottom="2dp"
+                app:srcCompat ="@drawable/filter"
+                android:layout_toLeftOf="@id/filter"
+                android:layout_alignBottom="@id/filter"/>-->
 
-                <RelativeLayout
-                    android:id="@+id/filtertab"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3">
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:id="@+id/filter_tick"
+                android:layout_width="20dp"
+                android:layout_height="18dp"
+                android:textColor="#B3ffffff"
+                android:layout_toRightOf="@id/filter"
+                android:textStyle="bold"
+                app:srcCompat= "@drawable/ic_check_black_24dp"
 
-
-                    <TextView
-                        android:layout_gravity="center"
-                        android:id="@+id/filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="FILTER"
-                        android:textColor="#B3ffffff"
-                        android:textSize="13sp"
-                        fontPath= "fonts/proxima-nova-black.otf"
-                        android:layout_centerInParent="true"/>
-
-                    <ImageView
-
-                        android:id="@+id/filter_img"
-                        android:layout_width="15dp"
-                        android:layout_height="14dp"
-                        android:layout_marginRight="3dp"
-                        android:layout_marginBottom="2dp"
-                        app:srcCompat ="@drawable/filter"
-                        android:layout_toLeftOf="@id/filter"
-                        android:layout_alignBottom="@id/filter"/>
-
-                   <ImageView
-                       android:id="@+id/filter_tick"
-                        android:layout_width="wrap_content"
-                        android:layout_height="24dp"
-                        android:textColor="#B3ffffff"
-                        android:layout_toRightOf="@id/filter"
-                        android:textStyle="bold"
-                        app:srcCompat= "@drawable/ic_check_black_24dp"
-                        android:layout_marginLeft="-10dp"
-                        android:layout_marginTop="3dp"
-                       android:visibility="gone"/>
+               />
 
 
 
 
-                </RelativeLayout>
+        </LinearLayout>
 
 
 
-
-            </LinearLayout>
-
+    </LinearLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
+        android:layout_below="@id/topnavbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/topnavbar"/>
+        />
 
 
 </RelativeLayout>

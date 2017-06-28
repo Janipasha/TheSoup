@@ -16,5 +16,15 @@
     <string name="title_activity_on_boarding">PagerActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
+    <string name="onboarding_heading1">DISCOVER</string>
+    <string name="onboarding_heading11">COLLECTIONS</string>
+    <string name="onboarding_content1">Every Collection Comprises Of\nMultiple Issues \nArranged By Date</string>
+    <string name="onboarding_heading2">FOLLOW</string>
+    <string name="onboarding_heading22">COLLECTIONS</string>
+    <string name="onboarding_content2">Following Collections Adds Them To \nMY FEED \nNever Miss An Issue Again</string>
+    <string name="onboarding_heading3">VIEW</string>
+    <string name="onboarding_heading33">ISSUES</string>
+    <string name="onboarding_content3">Our Richly Curated Issues Links You To \n Multiple Sources \n \n Know Different Views &amp; \r\n Burst Your Ignorance Bubble</string>
+
 
 </resources>

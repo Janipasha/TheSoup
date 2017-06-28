@@ -23,6 +23,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.analytics.Tracker;
@@ -99,13 +100,27 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+
+
         pref = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (TextUtils.isEmpty(pref.getString("auth_token", null))) {
 
+            if(getIntent().getStringExtra("toast")!=null&&!getIntent().getStringExtra("toast").isEmpty()){
 
-            FacebookSdk.sdkInitialize(getApplicationContext());
-            AppEventsLogger.activateApp(this);
+                if(getIntent().getStringExtra("toast").equals("showtoast")){
+
+
+                    LoginManager.getInstance().logOut();
+                    Toast.makeText(this,"Your login expired,please login again",Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+
+
 
             View decorView = getWindow().getDecorView();
 // Hide the status bar.
@@ -178,7 +193,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                             params.put(SoupContract.SOCIAL_TOKEN, prefUtil.getToken());
                                             params.put(SoupContract.SOCIAL_ID, prefUtil.getId());
                                             params.put("grantedScopes", prefUtil.getPermissions());
-                                            params.put(SoupContract.FIREBASEID,prefUtil.getFirebaseID());
+                                            params.put(SoupContract.FIREBASEID, prefUtil.getFirebaseID());
                                             params.put(SoupContract.FIRST_NAME, prefUtil.getFirstname());
                                             params.put(SoupContract.LAST_NAME, prefUtil.getLastname());
                                             params.put(SoupContract.EMAIL_ID, prefUtil.getEmail());
@@ -231,7 +246,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                         @Override
                         public void onError(FacebookException error) {
-                            Log.d("fbloginerror",": "+error.toString());
+                            Log.d("fbloginerror", ": " + error.toString());
 
                         }
 
@@ -244,14 +259,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-    /*@Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.sign_in_button:
-                signIn();
-                break;
-        }
-    }*/
+
 
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -271,15 +279,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             Log.d("statuscode", String.valueOf(statuscode));
             handleSignInResult(result);
 
-            //Person person = Plus.PeopleApi.
         }
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAGI, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-
-            // Signed in successfully, show authenticated UI.
 
 
             if (result != null) {
@@ -295,14 +300,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 prefUtil.saveUserInfo(acct.getGivenName(), acct.getFamilyName(), acct.getEmail(), "", acct.getPhotoUrl().toString(), acct.getId(), "", "");
                 prefUtil.saveAccessToken(acct.getIdToken());
 
-                Log.d("acesstoken",": "+acct.getIdToken());
+                Log.d("acesstoken", ": " + acct.getIdToken());
 
                 params = new HashMap<>();
                 params.put(SoupContract.SOCIAL_NAME, "gplus");
                 params.put(SoupContract.SOCIAL_TOKEN, prefUtil.getToken());
                 params.put(SoupContract.SOCIAL_ID, prefUtil.getId());
                 params.put(SoupContract.FIRST_NAME, prefUtil.getFirstname());
-                params.put(SoupContract.FIREBASEID,prefUtil.getFirebaseID());
+                params.put(SoupContract.FIREBASEID, prefUtil.getFirebaseID());
                 params.put(SoupContract.LAST_NAME, prefUtil.getLastname());
                 params.put(SoupContract.EMAIL_ID, prefUtil.getEmail());
                 params.put(SoupContract.AGE_MIN, prefUtil.getAgeMin());
@@ -389,7 +394,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 age_max = object.getJSONObject("age_range").getString("max");
             }
 
-            //Log.d("age max",age_max);
 
 
             prefUtil.saveUserInfo(object.getString(SoupContract.FIRST_NAME),

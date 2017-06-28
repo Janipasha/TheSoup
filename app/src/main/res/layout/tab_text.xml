@@ -30,12 +30,14 @@
     <TextView
         android:id="@+id/badge"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
+        android:padding="2dp"
         android:text="1"
-        android:gravity="center"
-        android:textColor="@drawable/tab_text_color"
+        android:textSize="13sp"
+
+        android:textColor="#000000"
         android:visibility="gone"
-        android:background="@drawable/ic_brightness_1_black_24dp"/>
+        android:background="@drawable/myfeedbadge"/>
     </LinearLayout>
 
 </FrameLayout>

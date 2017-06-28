@@ -15,13 +15,18 @@ import in.thesoup.thesoup.Activities.DetailsActivity;
 import in.thesoup.thesoup.Activities.MainActivity;
 import in.thesoup.thesoup.Fragments.DiscoverFragment;
 import in.thesoup.thesoup.Fragments.MyFeedFragment;
+import in.thesoup.thesoup.GSONclasses.AuthVerify.AuthData;
+import in.thesoup.thesoup.GSONclasses.AuthVerify.Authverify;
 import in.thesoup.thesoup.GSONclasses.FeedGSON.GetStoryFeed;
 import in.thesoup.thesoup.GSONclasses.FeedGSON.StoryData;
 import in.thesoup.thesoup.GSONclasses.SinglestoryGSON.GetSingleStory;
 import in.thesoup.thesoup.GSONclasses.SinglestoryGSON.Substories;
 import in.thesoup.thesoup.GSONclasses.SinglestoryGSON.Substoryjsondata;
+import in.thesoup.thesoup.GSONclasses.filters.FilterJson;
 import in.thesoup.thesoup.GSONclasses.filters.Filterdata;
 import in.thesoup.thesoup.GSONclasses.filters.GetFilters;
+import in.thesoup.thesoup.GSONclasses.filters1.FilterAPIJson;
+import in.thesoup.thesoup.GSONclasses.filters1.Filters;
 
 /**
  * Created by Jani on 07-04-2017.
@@ -91,19 +96,7 @@ public class gsonConversion {
 
 
     }
-          // if(f instanceof DiscoverFragment){
 
-
-
-           //}
-
-
-
-        /*if(context instanceof feedActivity){
-            feedActivity activity = (feedActivity)context;
-            activity.startAdapter(mListFromJson);
-        }
-    }*/
 
     public void fillStoryUI(JSONObject jsonObject, Context context){
 
@@ -146,6 +139,29 @@ public class gsonConversion {
         Log.d("datafromgson",datafromgson.getdata().getGovernance().get(0).getName());
 
         return datafromgson;
+    }
+
+
+    public List<Filters> getFilters(String jsonString){
+       mJsonString =  jsonString;
+        Gson gson = new Gson();
+
+        FilterAPIJson datafromgson = gson.fromJson(mJsonString, FilterAPIJson.class);
+
+        Log.d("filtername_example",datafromgson.getDataList().get(0).getName());
+
+        return datafromgson.getDataList();
+    }
+
+    public String getAuthtoken(String jsonString){
+        mJsonString = jsonString;
+
+        Gson gson = new Gson();
+
+        Authverify datafromgson = gson.fromJson(mJsonString,Authverify.class);
+
+        return datafromgson.getAuthData().getAuthtoke();
+
     }
 
 

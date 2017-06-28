@@ -5,26 +5,26 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="#000000"
+    android:background="#f5f5f5"
     tools:ignore="MissingPrefix">
 
 
     <LinearLayout
         android:id="@+id/head"
+        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:background="#ffffff">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="7">
 
             <TextView
                 android:id="@+id/story_title_header1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="right"
                 android:textSize="20sp"
-                android:textColor="#ffffff"
+                android:textColor="#000000"
                 android:lineSpacingExtra="-3sp"
                 tools:text="STARTUPS &amp; TECHNOLOGY COMPANIES SOUP"
                 fontPath= "fonts/proxima-nova-black.otf"
@@ -32,41 +32,49 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="13dp"
                 android:textAllCaps="true"
-
+                android:layout_alignParentRight="true"
                 />
-        </LinearLayout>
 
 
-            <!--<Button
-                android:id="@+id/followbutton_header1"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:background="@drawable/button1"
-                android:padding="10dp"
-                android:text="Follow"
-                android:textColor="#ffffff"
-                android:onClick="onClick"
-                android:textStyle="bold"
-                android:textSize="10sp"
-                android:layout_marginLeft="5dp"
-                fontPath= "fonts/proxima-nova-black.otf"/>-->
-
-            <ImageView
-                android:onClick="onClick"
-                android:id="@+id/follow_image_button"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/category"
+                fontPath= "fonts/proxima-nova-black.otf"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight= "2"
-                android:layout_marginTop="15dp"
-                app:srcCompat="@drawable/plus"/>
+                android:textSize="11sp"
+                android:gravity="right"
+                android:textColor="#000000"
+                android:letterSpacing="-0.02"
+                tools:text="POLITICS &amp; GOVERNMENTS"
+                android:textAllCaps="true"
+                />
+
+
+
+
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/followbutton_header1"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="@drawable/button1"
+        android:padding="10dp"
+        android:layout_alignParentBottom="true"
+        android:text="Follow"
+        android:textColor="#ffffff"
+        android:onClick="onClick"
+        android:textStyle="bold"
+        android:textSize="10sp"
+        fontPath= "fonts/proxima-nova-black.otf"/>
 
     <ExpandableListView
         android:layout_below="@id/head"
         android:id="@+id/lvExp"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+        android:layout_width="match_parent"
+        android:layout_above="@id/followbutton_header1"/>
 
     <ProgressBar
         android:id="@+id/progressbarstory"
@@ -74,5 +82,8 @@
         android:layout_height="20dp"
         android:theme="@style/AppTheme.WhiteAccent"
         android:layout_centerInParent="true" />
+
+
+
 
 </RelativeLayout>

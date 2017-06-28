@@ -31,6 +31,8 @@ import in.thesoup.thesoup.GSONclasses.SinglestoryGSON.Substories;
 import in.thesoup.thesoup.R;
 
 import static android.media.CamcorderProfile.get;
+import static in.thesoup.thesoup.R.id.leftline;
+import static in.thesoup.thesoup.R.id.rightline;
 import static in.thesoup.thesoup.R.layout.articleslist;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
@@ -69,7 +71,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
          ImageView imageView;
-         TextView articleTitle, date, newsource;
+         TextView articleTitle, date, newsource,read;
          WebView wView;
 
 
@@ -78,13 +80,16 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.mcontext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(articleslist, null);
+            convertView = infalInflater.inflate(R.layout.articleslist1, null);
         }
 
         imageView = (ImageView) convertView.findViewById(R.id.article_image);
         articleTitle = (TextView) convertView.findViewById(R.id.article_title);
         date = (TextView) convertView.findViewById(R.id.Date);
         newsource = (TextView) convertView.findViewById(R.id.source_name);
+        read = (TextView)convertView.findViewById(R.id.read);
+
+        read.setTextColor(Color.parseColor("#"+storyColour));
 
         _listDataChild= _listDataHeader.get(groupPosition).getArticles();
 
@@ -173,8 +178,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
          ImageView mImageView,ReadImageblur;
-        TextView mSubstory, mNumber_of_articles, mviewMore, mDate, mMonth, mYear;
-        View leftline,rightline,topline;
+        TextView mSubstory, mNumber_of_articles, Readstatustext, mDate, mMonth, mYear;
+       // View leftline,rightline,topline;
 
 
 
@@ -182,34 +187,43 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.mcontext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.substory_new, null);
+            convertView = infalInflater.inflate(R.layout.substory_new1, null);
         }
 
         mImageView = (ImageView) convertView.findViewById(R.id.main_image_story);
         mSubstory = (TextView) convertView.findViewById(R.id.substory_title_story);
         mNumber_of_articles = (TextView) convertView.findViewById(R.id.number_of_articles_story);
         mDate = (TextView) convertView.findViewById(R.id.date_story);
-        leftline=(View)convertView.findViewById(R.id.leftline1);
-        rightline= (View)convertView.findViewById(R.id.rightline1);
-        topline =(View)convertView.findViewById(R.id.cardline1);
-        ReadImageblur = (ImageView)convertView.findViewById(R.id.main_image_story_blur);
+       // leftline=(View)convertView.findViewById(R.id.leftline1);
+        //rightline= (View)convertView.findViewById(R.id.rightline1);
+        //topline =(View)convertView.findViewById(R.id.cardline1);
+        ReadImageblur = (ImageView)convertView.findViewById(R.id.readstatus);
+        Readstatustext = (TextView)convertView.findViewById(R.id.readstatus_text);
+
+        ReadImageblur.setVisibility(View.GONE);
+        Readstatustext.setVisibility(View.GONE);
+
 
         if(storyColour!=null&&!storyColour.isEmpty()){
 
-            leftline.setBackgroundColor(Color.parseColor("#"+storyColour));
-            rightline.setBackgroundColor(Color.parseColor("#"+storyColour));
-            topline.setBackgroundColor(Color.parseColor("#"+storyColour));
+          //  leftline.setBackgroundColor(Color.parseColor("#"+storyColour));
+           // rightline.setBackgroundColor(Color.parseColor("#"+storyColour));
+            //topline.setBackgroundColor(Color.parseColor("#"+storyColour));
             mNumber_of_articles.setTextColor(Color.parseColor("#"+storyColour));
 
         }
 
-        ReadImageblur.setVisibility(View.GONE);
 
 
         final Substories mSubstories = _listDataHeader.get(groupPosition);
 
-        if(mSubstories.getReadStatus().equals("1")){
+
+        if(mSubstories.getReadStatus()!=null&&!mSubstories.getReadStatus().isEmpty()){
+
+       if(mSubstories.getReadStatus().equals("1")){
             ReadImageblur.setVisibility(View.VISIBLE);
+           Readstatustext.setVisibility(View.VISIBLE);
+        }
         }
 
         String Time = mSubstories.getTime();
@@ -264,9 +278,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         if(isExpanded){
-            mNumber_of_articles.setText(String.valueOf(NumberofArticles) + " ARTICLES"+" COLLAPSE");
+            mNumber_of_articles.setText("HIDE ALL");
         }else {
-            mNumber_of_articles.setText(String.valueOf(NumberofArticles) + " ARTICLES"+" EXPAND");
+            mNumber_of_articles.setText(String.valueOf(NumberofArticles) + " SOURCES IN THIS ISSUE - VIEW ALL");
         }
 
 
@@ -274,7 +288,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         //((StoryViewHolder) holder).mMonth.setText(month);
         //((StoryViewHolder) holder).mYear.setText(year);
         mSubstory.setText(substoryTitlehtml);
-        Picasso.with(mcontext).load(SubstoryImage).centerCrop().placeholder(R.drawable.placeholder).resize(400, 400).into(mImageView);
+        Picasso.with(mcontext).load(SubstoryImage).centerCrop().placeholder(R.drawable.placeholder).resize(360, 200).into(mImageView);
 
 
         return convertView;

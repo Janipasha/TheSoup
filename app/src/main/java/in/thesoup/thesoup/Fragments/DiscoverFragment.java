@@ -66,14 +66,19 @@ public class DiscoverFragment extends Fragment {
 
         //hardcoding of filters can change may be with SQL database
 
-        for (int i = 1; i <= 14; i++) {
-            if (pref.getString(String.valueOf(i), null) != null && !pref.getString(String.valueOf(i), null).isEmpty()) {
-                Log.d(String.valueOf(i), ": " + pref.getString(String.valueOf(i), null));
-            }
-        }
 
 
-        for(int i=0;i<=14;i++) {
+       if(pref.getString("filters",null)!=null&&!pref.getString("filters",null).isEmpty()) {
+           filter = pref.getString("filters", null);
+
+           Log.d("filters"," :"+filter);
+       }
+
+
+
+
+
+       /* for(int i=0;i<=14;i++) {
             String Id = String.valueOf(i);
 
             if (pref.getString(Id, null)!= null && !pref.getString(Id, null).isEmpty()) {
@@ -81,7 +86,7 @@ public class DiscoverFragment extends Fragment {
                     filter = filter+Id+",";
                 }
             }
-        }
+        }*/
 
         //removing coma at the end
 

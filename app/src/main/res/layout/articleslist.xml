@@ -13,10 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="2dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        card_view:cardCornerRadius="2dp">
+        card_view:cardCornerRadius="2dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,11 +77,11 @@
 
     </android.support.v7.widget.CardView>
 
-   <!-- <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="#f44336"
-        android:layout_alignParentBottom="true"/>-->
+    <!-- <View
+         android:layout_width="match_parent"
+         android:layout_height="3dp"
+         android:background="#f44336"
+         android:layout_alignParentBottom="true"/>-->
 
 
 </RelativeLayout>

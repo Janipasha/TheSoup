@@ -160,15 +160,23 @@ public class MyFeedFragment extends Fragment {
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
 
-        ((MainActivity)getActivity()).NumberofUnread(num_unread);
-        Log.d("mStoryData startAdapter", String.valueOf(mStoryData.size()));
+        if(num_unread!=null&&!num_unread.isEmpty()){
+            ((MainActivity)getActivity()).NumberofUnread(num_unread);
+
+        }
+
+                Log.d("mStoryData startAdapter", String.valueOf(mStoryData.size()));
     }
 
     public void startRefreshAdapter(List<StoryData> nStoryData, String num_unread) {
         mStoryData = nStoryData;
         mStoryfeedAdapter.totalRefreshData(nStoryData);
 
-        ((MainActivity)getActivity()).NumberofUnread(num_unread);
+
+        if(num_unread!=null&&!num_unread.isEmpty()){
+            ((MainActivity)getActivity()).NumberofUnread(num_unread);
+
+        }
 
         Log.d("mStoryData refresh", String.valueOf(nStoryData.size()));
     }

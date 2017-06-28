@@ -1,5 +1,6 @@
 package in.thesoup.thesoup.Activities;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import in.thesoup.thesoup.NetworkCalls.NetworkUtils;
 import in.thesoup.thesoup.NetworkCalls.NetworkUtilsRead;
 import in.thesoup.thesoup.R;
 import in.thesoup.thesoup.SoupContract;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static com.squareup.picasso.Picasso.LoadedFrom.NETWORK;
 
@@ -47,6 +50,13 @@ public class ArticleWebViewActivity extends AppCompatActivity {
         View decorView = getWindow().getDecorView();
 // Hide the status bar.
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/proxima-nova-black.otf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
+
         decorView.setSystemUiVisibility(uiOptions);
         setContentView(R.layout.article_web_view);
 
@@ -145,6 +155,12 @@ public class ArticleWebViewActivity extends AppCompatActivity {
         }
 
     }*/
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {

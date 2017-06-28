@@ -14,7 +14,8 @@ public class SoupContract {
    public static final String URL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_story_feed";
    public static final String FILTERURL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_categories";
    public static final String READURL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/mark_as_read";
-
+   public static final String FILTERURL2 = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_categories_android";
+    public static final String AUTHVERIFY = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/auth";
     //analytics events
     public static final String TOTAL_REFRESH = "totalrefresh";
     public static final String PAGE_VIEW = "page_view";

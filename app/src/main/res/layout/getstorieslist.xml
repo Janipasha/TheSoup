@@ -14,7 +14,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:ignore="MissingPrefix"
-    android:background="#000000">
+    android:background="#f5f5f5">
 
 
 

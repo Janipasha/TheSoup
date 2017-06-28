@@ -1,11 +1,13 @@
 package in.thesoup.thesoup.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import in.thesoup.thesoup.NetworkCalls.NetworkUtilsFilters;
+import in.thesoup.thesoup.NetworkCalls.NetworkUtilsSplash;
 
 /**
  * Created by Jani on 28-04-2017.
@@ -21,7 +23,7 @@ public class SplashActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
 
 
-        NetworkUtilsFilters fetchfilterdata = new NetworkUtilsFilters(this);
+        NetworkUtilsSplash fetchfilterdata = new NetworkUtilsSplash(this);
 
         fetchfilterdata.getFilters();
 

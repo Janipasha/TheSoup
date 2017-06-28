@@ -45,11 +45,7 @@ import in.thesoup.thesoup.NetworkCalls.NetworkUtilsFollowUnFollow;
 import in.thesoup.thesoup.R;
 import in.thesoup.thesoup.SoupContract;
 
-import static in.thesoup.thesoup.R.id.bottom;
-import static in.thesoup.thesoup.R.id.bottomline;
-import static in.thesoup.thesoup.R.id.month;
-import static in.thesoup.thesoup.R.id.visible;
-import static in.thesoup.thesoup.R.id.year;
+
 
 /**
  * Created by Jani on 07-04-2017.
@@ -92,23 +88,25 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
 
 
     public class DataViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView storyTitle, substoryTitle, date,categoryname, year, numberOfArticles;
-        public ImageView imageView,mButton,ReadImageBlur;
+        public TextView storyTitle, substoryTitle, date,categoryname, readstatustext, numberOfArticles;
+        public ImageView imageView,ReadImageBlur;
         public View leftline, rightLine , cardline,bottomline;
+        public Button mButton;
 
 
         public DataViewHolder(View itemView) {
             super(itemView);
 
 
-            ReadImageBlur = (ImageView) itemView.findViewById(R.id.main_image_blur);
+           ReadImageBlur = (ImageView) itemView.findViewById(R.id.readstatus_story);
+            readstatustext=(TextView) itemView.findViewById(R.id.readstatus_text_story);
             storyTitle = (TextView) itemView.findViewById(R.id.Story_title);
             substoryTitle = (TextView) itemView.findViewById(R.id.substory_title);
             date = (TextView) itemView.findViewById(R.id.date);
             /*month = (TextView) itemView.findViewById(R.id.month);
             year = (TextView) itemView.findViewById(R.id.year);*/
             numberOfArticles = (TextView) itemView.findViewById(R.id.number_of_articles);
-            mButton = (ImageView) itemView.findViewById(R.id.follow_button_image);
+            mButton = (Button) itemView.findViewById(R.id.follow_button_image);
             categoryname = (TextView)itemView.findViewById(R.id.categoryname);
             leftline = (View)itemView.findViewById(R.id.leftline);
             rightLine= (View)itemView.findViewById(R.id.rightline);
@@ -116,6 +114,9 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
             bottomline = (View)itemView.findViewById(R.id.bottomline);
 
             imageView = (ImageView) itemView.findViewById(R.id.main_image);
+
+            readstatustext.setVisibility(View.GONE);
+            ReadImageBlur.setVisibility(View.GONE);
 
 
             imageView.setOnClickListener(this);
@@ -125,7 +126,7 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
 
             mButton.setOnClickListener(this);
             numberOfArticles.setOnClickListener(this);
-            ReadImageBlur.setOnClickListener(this);
+          // ReadImageBlur.setOnClickListener(this);
             substoryTitle.setOnClickListener(this);
 
 
@@ -143,12 +144,13 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
             String mString = StoryDataList.get(mposition).getStoryId();
             String storytitle = StoryDataList.get(mposition).getStoryName();
             String hex_colour = StoryDataList.get(mposition).getCategoryColour();
+            String category = StoryDataList.get(mposition).getCategoryName();
 
             //application = AnalyticsApplication.getInstance();
             //mTracker = application.getDefaultTracker();
             pref = PreferenceManager.getDefaultSharedPreferences(context);
 
-            if (view == imageView || view == storyTitle||view==numberOfArticles||view==ReadImageBlur||view==substoryTitle) {
+            if (view == imageView || view == storyTitle||view==numberOfArticles||view==substoryTitle) {
                /* if (TextUtils.isEmpty(pref.getString("auth_token", null))) {
                      application.sendEventCollection(mTracker, SoupContract.CLICK, SoupContract.CLICK_COLLECTION, SoupContract.HOME_PAGE,Storyname,mString);
                 }else{
@@ -161,6 +163,7 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
                 intent.putExtra("storytitle",storytitle);
                 intent.putExtra("followstatus",mfollowstatus);
                 intent.putExtra("fragmenttag",fragmenttag);
+                intent.putExtra("category",category);
                 intent.putExtra("hex_colour",hex_colour);
 
                 context.startActivity(intent);
@@ -220,7 +223,7 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
 
     @Override
     public StoryFeedAdapter.DataViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.story_new, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.story_new1, parent, false);
 
         return new DataViewHolder(itemView);
     }
@@ -239,11 +242,13 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
         String Readstatus = mStoryData.getReadStatus();
 
         holder.ReadImageBlur.setVisibility(View.GONE);
+        holder.readstatustext.setVisibility(View.GONE);
 
 
         if(Readstatus!=null&&!Readstatus.isEmpty()){
             if(Readstatus.equals("1")){
                 holder.ReadImageBlur.setVisibility(View.VISIBLE);
+                holder.readstatustext.setVisibility(View.VISIBLE);
 
             }
 
@@ -314,11 +319,11 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
 
             holder.storyTitle.setText(storytitlehtml);
             holder.substoryTitle.setText(substorytitlehtml);
-            Picasso.with(context).load(ImageUrl).centerCrop().placeholder(R.drawable.placeholder).resize(400, 400).into(holder.imageView);
+            Picasso.with(context).load(ImageUrl).placeholder(R.drawable.placeholder).resize(360, 200).into(holder.imageView);
             holder.date.setText(time + ", " + Date + " " + month + " " + year);
             //holder.month.setText(month);
             //holder.year.setText(year);
-            holder.numberOfArticles.setText(Num_of_articles + " ARTICLES " + " EXPLORE");
+            holder.numberOfArticles.setText(Num_of_articles + "  SOURCES IN THIS ISSUE - VIEW ALL");
 
             if (mStoryData.getCategoryName() != null && !mStoryData.getCategoryName().isEmpty()) {
                 holder.categoryname.setText(mStoryData.getCategoryName());
@@ -326,23 +331,24 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
 
 
             if (followstatus.equals("1")) {
-                holder.mButton.setImageResource(R.drawable.minus);
+                holder.mButton.setText("FOLLOWING");
             } else if (followstatus.equals("0")) {
-                holder.mButton.setImageResource(R.drawable.plus);
+                holder.mButton.setText("FOLLOW");
             } else if (TextUtils.isEmpty(followstatus)) {
 
-                holder.mButton.setImageResource(R.drawable.plus);
+                holder.mButton.setText("FOLLOW");
 
             }
 
 
             if (mStoryData.getCategoryColour() != null && !mStoryData.getCategoryColour().isEmpty()) {
-                holder.categoryname.setBackgroundColor(Color.parseColor("#" + mStoryData.getCategoryColour()));
-                holder.leftline.setBackgroundColor(Color.parseColor("#" + mStoryData.getCategoryColour()));
-                holder.rightLine.setBackgroundColor(Color.parseColor("#" + mStoryData.getCategoryColour()));
-                holder.cardline.setBackgroundColor(Color.parseColor("#" + mStoryData.getCategoryColour()));
+                holder.categoryname.setTextColor(Color.parseColor("#" + mStoryData.getCategoryColour()));
+                holder.mButton.setBackgroundColor(Color.parseColor("#" + mStoryData.getCategoryColour()));
+//                holder.leftline.setBackgroundColor(Color.parseColor("#" + mStoryData.getCategoryColour()));
+  //              holder.rightLine.setBackgroundColor(Color.parseColor("#" + mStoryData.getCategoryColour()));
+    //            holder.cardline.setBackgroundColor(Color.parseColor("#" + mStoryData.getCategoryColour()));
                 // holder.mButton.setTextColor(Color.parseColor("#"+mStoryData.getCategoryColour()));
-                DrawableCompat.setTint(holder.mButton.getDrawable(), Color.parseColor(("#" + mStoryData.getCategoryColour())));
+                //DrawableCompat.setTint(holder.mButton.getDrawable(), Color.parseColor(("#" + mStoryData.getCategoryColour())));
                 holder.numberOfArticles.setTextColor(Color.parseColor("#" + mStoryData.getCategoryColour()));
 
 

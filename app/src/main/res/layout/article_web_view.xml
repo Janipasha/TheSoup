@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="MissingPrefix">
 
 
 
@@ -31,13 +33,13 @@
                 android:layout_gravity="center_vertical">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="The Soup"
+                    android:textSize="14sp"
                     android:textColor="#ffffff"
-                    android:textSize="16sp"
-                    android:layout_gravity="center_vertical"
-                    android:textStyle="bold"
+                    android:text="GO BACK TO THE COLLECTION"
+                    fontPath= "fonts/proxima-nova-black.otf"
+
                     />
 
             </LinearLayout>

@@ -8,8 +8,10 @@ import android.util.Log;
 import java.util.List;
 
 import in.thesoup.thesoup.GSONclasses.filters.Filterdata;
+import in.thesoup.thesoup.GSONclasses.filters1.Filters;
 import in.thesoup.thesoup.SoupContract;
 
+import static android.R.attr.id;
 import static android.R.attr.value;
 import static android.os.Build.ID;
 
@@ -31,14 +33,45 @@ public class PrefUtilFilter {
 
     }
 
-    public String getStatusofID(String ID){
+    public void SaveIDstatus(List<Filters> Data, int position, String value){
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(Data.get(position).getId(),value);
+        editor.apply();
 
-        if (pref.getString(ID, null) != null && !pref.getString(ID, null).isEmpty()) {
+    }
+
+    public String getStatusofID(String ID){
+
+        if(ID!=null&&!ID.isEmpty()){
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity);
+            return pref.getString(ID,null);
+        }else{
+            return null;
+        }
+
+
+
+        /*if (pref.getString(ID, null) != null && !pref.getString(ID, null).isEmpty()) {
             return pref.getString(ID, null);
         } else {
             return "1";
-        }
+        }*/
+
+    }
+
+    public void SaveFilterListSize(int count){
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("count",String.valueOf(count));
+        editor.apply();
+
+    }
+
+    public String getFilterlistSize(){
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity);
+
+        return pref.getString("count",null);
 
     }
 
