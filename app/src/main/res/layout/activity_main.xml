@@ -7,7 +7,7 @@
     android:id="@+id/drawer_design_support_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="in.thesoup.thesoup.Activities.MainActivity"
+    tools:context="in.thesoupstoriesnews.thesoup.Activities.MainActivity"
     tools:ignore="MissingPrefix"
     android:background="#222222">
 
@@ -23,16 +23,17 @@
             android:id="@+id/sliding_tabs"
             android:layout_width="0dp"
             android:layout_weight="7"
-            android:layout_height="wrap_content"
-            android:background="#000000"
+            android:layout_height="72dp"
+            android:background="#222222"
             app:tabIndicatorColor="#ffffff"
             app:tabMode="fixed"
+            app:tabGravity="fill"
             app:tabSelectedTextColor="#ffffff"
             app:tabTextColor="#B3ffffff"
-
             />
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/filtertab"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -41,7 +42,7 @@
 
             <TextView
                 android:layout_marginLeft="10dp"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="center"
                 android:id="@+id/filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,8 +50,7 @@
                 android:textColor="#B3ffffff"
                 android:textSize="13sp"
                 android:layout_marginRight="2dp"
-                fontPath= "fonts/proxima-nova-black.otf"
-                android:layout_centerInParent="true"/>
+                fontPath= "fonts/proxima-nova-black.otf" />
 
            <!-- <ImageView
 
@@ -66,10 +66,9 @@
             <ImageView
                 android:layout_gravity="center_vertical"
                 android:id="@+id/filter_tick"
-                android:layout_width="20dp"
-                android:layout_height="18dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:textColor="#B3ffffff"
-                android:layout_toRightOf="@id/filter"
                 android:textStyle="bold"
                 app:srcCompat= "@drawable/ic_check_black_24dp"
 

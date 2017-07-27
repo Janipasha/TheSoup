@@ -1,38 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/main_content"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#000000">
+    android:background="#ffffff"
+    tools:ignore="MissingPrefix" >
 
 
     <FrameLayout
-        android:layout_marginTop="10dp"
         android:id="@+id/skipnextbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin">
+        android:paddingEnd="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingStart="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <Button
             android:id="@+id/intro_btn_back"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|center"
+            android:paddingLeft="-5dp"
             android:text="BACK"
+            android:layout_gravity="start|center"
+            android:minHeight="0dp"
+            android:textSize="14sp"
             android:textAllCaps="true"
-            android:textColor="@android:color/white" />
+            android:textColor="#222222"
+            fontPath="fonts/montserrat-bold.ttf"
+
+            />
 
         <LinearLayout
+            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_alignBaseline="@id/intro_btn_back">
 
             <ImageView
                 android:id="@+id/intro_indicator_0"
@@ -64,39 +75,39 @@
         <!-- This overlaps the next button in the last slide -->
         <Button
             android:id="@+id/intro_btn_finish"
+            android:minHeight="0dp"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center"
-            android:text="Finish"
-            android:textColor="@android:color/white"
-            android:visibility="gone" />
+            android:text="Next"
+            android:textSize="14sp"
+            android:textColor="#222222"
+            android:visibility="gone"
+            fontPath="fonts/montserrat-bold.ttf"/>
 
-        <ImageButton
+        <Button
+            android:text="NEXT"
+            android:layout_gravity="end|center"
+            android:minHeight="0dp"
+            android:layout_alignParentRight="true"
             android:id="@+id/intro_btn_next"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|center"
-            android:padding="@dimen/activity_horizontal_margin"
-            app:srcCompat="@drawable/ic_chevron_right_24dp"
-            android:tint="#ffffff" />
+            android:textSize="14sp"
+            android:textColor="#222222"
+            fontPath="fonts/montserrat-bold.ttf"/>
 
     </FrameLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="?attr/actionBarSize"
-        android:alpha="0.12"
-        android:background="@android:color/white" />
 
     <android.support.v4.view.ViewPager
-        android:layout_below="@id/skipnextbar"
+        android:layout_above="@id/skipnextbar"
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="?attr/actionBarSize" />
+        android:layout_height="match_parent" />
+
+
 
     <!-- divider -->
 

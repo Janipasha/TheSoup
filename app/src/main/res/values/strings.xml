@@ -12,19 +12,20 @@
     <!-- Button text -->
     <string name="btn_logout_from_google">Logout from Google</string>
     <string name="btn_revoke_access">Revoke Access</string>
-    <string name="server_client_id">548883092457-odk00idmd3kk62u04b1vjrp0a8eb1md8.apps.googleusercontent.com</string>
+    <string name="server_client_id">703334613722-m7fcrkadju384iktdt4s01tdi23eu4lk.apps.googleusercontent.com</string>
     <string name="title_activity_on_boarding">PagerActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
     <string name="onboarding_heading1">DISCOVER</string>
-    <string name="onboarding_heading11">COLLECTIONS</string>
-    <string name="onboarding_content1">Every Collection Comprises Of\nMultiple Issues \nArranged By Date</string>
-    <string name="onboarding_heading2">FOLLOW</string>
-    <string name="onboarding_heading22">COLLECTIONS</string>
-    <string name="onboarding_content2">Following Collections Adds Them To \nMY FEED \nNever Miss An Issue Again</string>
-    <string name="onboarding_heading3">VIEW</string>
-    <string name="onboarding_heading33">ISSUES</string>
-    <string name="onboarding_content3">Our Richly Curated Issues Links You To \n Multiple Sources \n \n Know Different Views &amp; \r\n Burst Your Ignorance Bubble</string>
-
-
+    <string name="onboarding_heading11">STORIES</string>
+    <string name="onboarding_content1">Everything has a Story</string>
+    <string name="onboarding_content11">We\'ll Help You Discover Them</string>
+    <string name="onboarding_heading2">GET</string>
+    <string name="onboarding_heading22">UPDATES</string>
+    <string name="onboarding_content2">Real World Stories Take Time To Unfold</string>
+    <string name="onboarding_content22">Follow them as they happen</string>
+    <string name="onboarding_heading3">BINGE</string>
+    <string name="onboarding_heading33">SMART</string>
+    <string name="onboarding_content3">Our topic based updates comprise of</string>
+    <string name="onboarding_content33">multiple sources &amp; fit in a Story timeline \n &#160; &#160; &#160; Ensuring You never lose context</string>
 </resources>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:drawable="@color/black"/>
-
     <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/ic_launcher"/>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/white" />
+        </shape>
+    </item>
+    <item>
+        <bitmap android:gravity="center" android:src="@drawable/background_splash_soup" />
     </item>
 
 </layer-list>

@@ -1,62 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="@null"
+    android:background="#ffffff"
+    tools:ignore="MissingPrefix">
+
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/list_articles"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="#000000">
+    android:divider="@null"/>
 
-   <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarArticle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:titleTextColor="@android:color/white"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        app:contentInsetStartWithNavigation="0dp">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/showmore"
+            fontPath="fonts/montserrat-light.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:onClick="onClick"
+            android:text="Showmore"
+            android:textColor="#a9382b"
+            android:textSize="11sp" />
+
+        <View
+            android:id="@+id/bottomline_article"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="8"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="The Soup"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp"
-                    android:layout_gravity="center_vertical"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+            android:layout_height="0.5dp"
+            android:layout_below="@id/showmore"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="#a9382b" />
 
 
+        <TextView
+            android:id="@+id/number_of_articles"
+            fontPath="fonts/montserrat-light.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/showmore"
+            android:textColor="#757575"
+            android:textSize="11sp"
+            tools:text="7 Articles"
 
-    </android.support.v7.widget.Toolbar>
+            />
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_articles"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@null"
-        android:layout_below="@id/toolbarArticle"
-        android:dividerHeight="0dp" />
+    </RelativeLayout>
 
 
-
-
-</RelativeLayout>
+</LinearLayout>
