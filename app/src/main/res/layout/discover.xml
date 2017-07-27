@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f5f5f5"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp">
+
+    <RelativeLayout
+        android:id="@+id/toplayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#a9382b">
+
+
+        <LinearLayout
+            android:minHeight="48dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_top">
+
+            <ImageView
+                android:id="@+id/filtericon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="9dp"
+                android:src="@drawable/globe" />
+
+            <TextView
+                android:id="@+id/Story_title"
+                fontPath="fonts/montserrat-medium.ttf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="7"
+                android:letterSpacing="-0.03"
+                android:lineSpacingExtra="2sp"
+                android:layout_gravity="center_vertical"
+                android:textColor="#b3ffffff"
+                android:textSize="13sp"
+                tools:text="Farmer Suicides, Agitations The Indian Agrarian Crisis" />
+
+            <RelativeLayout
+                android:id="@+id/button_follow"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="3dp"
+                android:layout_weight="3">
+
+                <Button
+                    android:id="@+id/follow_button_image"
+                    fontPath="fonts/montserrat-medium.ttf"
+                    android:layout_width="87dp"
+                    android:layout_height="32dp"
+                    android:textAllCaps="false"
+                    android:background="@drawable/button"
+                    android:layout_alignParentRight="true"
+                    android:lineSpacingExtra="0sp"
+                    android:text="FOLLOW"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:layout_centerVertical="true" />
+
+                <ImageButton
+                    android:id="@+id/tickmark_follow"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/tick_inside_a_circle"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linearlayoutStory"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_card">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="0dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginLeft="15dp">
+        
+        <LinearLayout
+            android:layout_gravity="bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginRight="15dp">
+
+        <ImageView
+            android:id="@+id/circle"
+            android:layout_gravity="bottom"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:paddingBottom="0dp"
+          app:srcCompat="@drawable/ic_radio_button_unchecked_black_24dp"
+            />
+
+            
+        </LinearLayout>
+
+
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_gravity="bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        fontPath="fonts/montserrat-medium.ttf"
+        android:textColor="#757575"
+        android:letterSpacing="-0.03"
+        android:lineSpacingExtra="0sp"
+        tools:text="8 hours ago"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="21.5dp">
+
+        <View
+            android:id="@+id/leftline"
+            android:layout_gravity="center"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="#a9382b"
+            android:layout_marginRight="19dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginRight="20dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/main_image"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/background_splash"
+            android:layout_marginBottom="12dp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"/>
+
+
+
+
+                <ImageView
+                    android:id="@+id/readstatus_story"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="10dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/readblur"
+                    android:contentDescription="@string/contentdescimage"
+                    android:scaleType="fitXY" />
+
+                <TextView
+                    android:id="@+id/readstatus_text_story"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:letterSpacing="0.03"
+                    android:text="SEEN"
+                    fontPath="fonts/montserrat-bold.ttf"
+                    android:textColor="#000000" />
+
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/substory_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                android:textColor="#222222"
+                android:lineSpacingExtra="3sp"
+                fontPath="fonts/roboto-regular.ttf"
+                tools:text="Presidential election | Modi-Shah ace: Who can object to a Dalit rights crusader Ram Nath Kovind?"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/seeall"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:textColor="#a9382b"
+            android:textSize="11sp"
+            android:text="SEE ALL"
+            fontPath="fonts/montserrat-light.ttf"
+            />
+
+        <View
+            android:id="@+id/bottomline"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/seeall"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            android:background="#a9382b" />
+
+
+
+        <View
+            android:id="@+id/leftline1"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignBottom="@id/bottomline"
+            android:layout_marginLeft="21.5dp"
+            android:background="#a9382b" />
+
+
+
+        <TextView
+            android:id="@+id/number_of_articles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/seeall"
+            android:textColor="#757575"
+            fontPath="fonts/montserrat-light.ttf"
+            android:textSize="11sp"
+            tools:text="7 Articles"
+
+            />
+
+
+
+
+    </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            >
+
+            <RelativeLayout
+                android:id="@+id/bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="13dp">
+
+
+                <ImageView
+                    android:id="@+id/pluscircle"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    app:srcCompat="@drawable/ic_add_circle_outline_black_24dp"
+                    android:layout_marginLeft="9dp"/>
+
+                <TextView
+                    android:id="@+id/count_substories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                   android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/pluscircle"
+                    android:text="30 Older Updates"
+                    fontPath="fonts/montserrat-light.ttf"
+                    android:textColor="#757575"
+                    android:textSize="11sp" />
+
+                <View
+                    android:id="@+id/leftline2"
+                    android:layout_width="2dp"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/pluscircle"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="21.5dp"
+                    android:background="#a9382b"></View>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/view_more"
+                fontPath="fonts/montserrat-light.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:text="VIEW FULL STORY"
+                android:textColor="#a9382b"
+                android:textSize="11sp"
+
+
+                />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

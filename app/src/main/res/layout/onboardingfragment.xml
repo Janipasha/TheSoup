@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="6"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/onboarding_icon"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/globe" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:orientation="vertical">
+
+
+            <TextView
+                android:includeFontPadding="false"
+                android:minHeight="0dp"
+                android:id="@+id/onboardinghero"
+                fontPath="fonts/montserrat-bold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="-0.03"
+                android:text="DISCOVER"
+                android:layout_marginBottom="-8dp"
+                android:textColor="#222222"
+                android:textSize="29sp"
+                android:layout_gravity="center_horizontal"/>
+
+
+
+            <TextView
+                android:includeFontPadding="false"
+                android:minHeight="0dp"
+                android:id="@+id/onboardinghero2"
+                fontPath="fonts/montserrat-black.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:letterSpacing="-0.03"
+                android:lineSpacingExtra="-1sp"
+                android:textColor="#222222"
+                android:textSize="36sp"
+                tools:text="STORIES"
+                android:layout_marginBottom="18dp"/>
+
+
+        <TextView
+            android:id="@+id/onboardingcontent"
+            fontPath="fonts/montserrat-light.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="3dp"
+            android:letterSpacing="-0.01"
+            android:lineSpacingExtra="6sp"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            tools:text="Every Collection Comprises Of" />
+
+        <TextView
+            android:id="@+id/onboardingcontent1"
+            fontPath="fonts/montserrat-light.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:letterSpacing="-0.01"
+            android:lineSpacingExtra="6sp"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            tools:text="Multiple Issues Arranged By Date" />
+
+        <!--<Button
+            android:id="@+id/letsgobuttn"
+            fontPath="fonts/proxima-nova-black.otf"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="46dp"
+            android:layout_marginRight="46dp"
+            android:layout_marginTop="46dp"
+            android:background="#ffffff"
+            android:onClick="onClick"
+            android:text="LET’S GET STARTED"
+            android:textSize="15sp"
+            android:visibility="gone" />-->
+
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingPrefix">
+
+    <Button
+        android:id="@+id/go_to_discover"
+        android:layout_width="268dp"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:text="Start Following Stories"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        fontPath="fonts/montserrat-bold.ttf"
+        android:background="@drawable/button"
+        android:layout_centerInParent="true"
+        />
+
+
+    <TextView
+        android:id="@+id/warningtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="#222222"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/go_to_discover"
+        android:layout_marginBottom="18dp"
+        fontPath="fonts/montserrat-light.ttf"
+        android:text="You gotta first follow a Story mate!"
+        />
+
+    <ImageView
+        android:id="@+id/attention_drawable"
+        android:layout_centerHorizontal="true"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/icon_attention"
+        android:layout_above="@id/warningtext"
+        android:layout_marginBottom="11dp"/>
+
+    
+
+
+</RelativeLayout>

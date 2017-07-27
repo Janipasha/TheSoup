@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix"
+    android:background="#ffffff">
+
+    <LinearLayout
+        android:id="@+id/categoryfilters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:background="#00000000"
+            android:id="@+id/backfilter"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:maxWidth="48dp"
+            android:maxHeight="48dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@drawable/chevron_left"
+            android:onClick="onClick" />
+
+
+
+        <LinearLayout
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:orientation="vertical">
+
+           <!-- <TextView
+                fontPath="fonts/proxima-nova-black.otf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginRight="20dp"
+
+                android:letterSpacing="-0.03"
+                android:lineSpacingExtra="1sp"
+                android:text="CATEGORY"
+                android:textColor="#000000"
+                android:textSize="24sp"
+
+                />-->
+
+
+            <TextView
+                android:layout_marginTop="20dp"
+                fontPath="fonts/proxima-nova-black.otf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
+                android:letterSpacing="-0.03"
+                android:lineSpacingExtra="1sp"
+                android:text="FILTERS"
+                android:textColor="#000000"
+                android:textSize="29sp"
+                android:textStyle="bold" />
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#c7c7c7" />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/bottomnav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:id="@+id/cancel"
+            fontPath="fonts/proxima-nova-black.otf"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginRight="-6dp"
+            android:layout_weight="1"
+            android:background="#000000"
+            android:onClick="onClick"
+            android:text="CANCEL"
+            android:textColor="#B3ffffff"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/apply"
+            fontPath="fonts/proxima-nova-black.otf"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:background="#000000"
+            android:onClick="onClick"
+            android:text="APPLY"
+            android:textColor="#ffffff"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recylerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottomnav"
+        android:layout_below="@id/categoryfilters">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+
+</RelativeLayout>
