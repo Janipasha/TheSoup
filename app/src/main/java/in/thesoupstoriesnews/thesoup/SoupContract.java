@@ -7,6 +7,7 @@ package in.thesoupstoriesnews.thesoup;
 public class SoupContract {
 
     //public static final String URL = "http://192.168.1.130/newsapp/api/get_story_feed";
+    public static final String LOGOUT_URL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/logout";
     public static final String FOLLOWURL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/follow";
     public static final String UNFOLLOWURL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/unfollow";
     public static final String LOGINURL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/login_android";
@@ -16,6 +17,11 @@ public class SoupContract {
    public static final String READURL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/mark_as_read";
    public static final String FILTERURL2 = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_categories_android";
     public static final String AUTHVERIFY = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/auth";
+    public static final String GETNOTIFICATIONS ="http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_notifications";
+    public static final String MARKCLICK = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/mark_as_clicked";
+    public static final String SETCATEGORIES = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/set_interested_categories";
+    public static final String GETFEED = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_feed";
+    public static final String GETFOLLOWING = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_following";
     //analytics events
     public static final String TOTAL_REFRESH = "totalrefresh";
     public static final String PAGE_VIEW = "page_view";
@@ -66,6 +72,7 @@ public class SoupContract {
     public static final String CLICK_SUBCOLLECTION = "click_subcollection";
     public static final String FIREBASEID = "firebase_id";
     public static final int TIMEOUT_RETRY_TIME = 15000;
+    public static final String CATEGORIES = "categories";
 
 
 }

@@ -6,18 +6,22 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.HttpAuthHandler;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,16 +32,20 @@ import in.thesoupstoriesnews.thesoup.Activities.MainActivity;
 import in.thesoupstoriesnews.thesoup.Adapters.MyFeedAdapter;
 import in.thesoupstoriesnews.thesoup.Adapters.StoryFeedAdapter;
 import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSON.StoryData;
+import in.thesoupstoriesnews.thesoup.NetworkCalls.NetworkUtilsClick;
 import in.thesoupstoriesnews.thesoup.NetworkCalls.NetworkUtilswithToken;
 import in.thesoupstoriesnews.thesoup.PreferencesFbAuth.PrefUtil;
 import in.thesoupstoriesnews.thesoup.R;
 import in.thesoupstoriesnews.thesoup.SoupContract;
 
+import static in.thesoupstoriesnews.thesoup.R.layout.activity_main;
+import static in.thesoupstoriesnews.thesoup.R.layout.myfeed;
+
 /**
  * Created by Jani on 22-05-2017.
  */
 
-public class MyFeedFragment extends Fragment {
+public class MyFeedFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private MyFeedAdapter mStoryfeedAdapter;
     private List<StoryData> mStoryData;
@@ -56,6 +64,8 @@ public class MyFeedFragment extends Fragment {
 	private int mLastFirstVisibleItem;
 	private boolean mIsScrollingUp;
     private String unread = "";
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private int seenStatus = 0;
 	// Analytics end
 
     public MyFeedFragment newinstance(int position) {
@@ -117,30 +127,6 @@ public class MyFeedFragment extends Fragment {
         StoryView.setHasFixedSize(true);
 
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
-			// CVIPUL Analytics
-			// TODO : Verify the new function this is added to, also the correctness
-			/*@Override
-			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
-			{
-				super.onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount);
-				
-				private String scroll_direction;
-				if (firstVisibleItem > mLastFirstVisibleItem) {
-					mIsScrollingUp = false;
-					scroll_direction = "scroll_screen_down";
-				} else if (firstVisibleItem < mLastFirstVisibleItem) {
-					mIsScrollingUp = true;
-					scroll_direction = "scroll_screen_up";
-				}
-				mLastFirstVisibleItem = currentFirstVisibleItem;
-				
-				
-				Bundle params = new Bundle();
-				params.putString("screen_name", "myfeed_screen");
-				params.putString("scroll_direction", scroll_direction);
-				mFirebaseAnalytics.logEvent("scroll",params);
-			}*/
-			// End Analytics
 			
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -151,28 +137,33 @@ public class MyFeedFragment extends Fragment {
         };
         StoryView.addOnScrollListener(scrollListener);
 
-        params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
-        params.put("myfeed", "1"); // 1 is the value required for getting myfeed
-        params.put("page", "0");
-        Log.d("auth_token1", pref.getString(SoupContract.AUTH_TOKEN, null));
-
-        progress.setProgress(0);
-        NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
-        networkutilsToken.getFeed(1, totalrefresh);
-		
+      NetworkCallNotification();
+        swipeRefreshLayout= (SwipeRefreshLayout)RootView.findViewById(R.id.container_discover);
+        swipeRefreshLayout.setOnRefreshListener(MyFeedFragment.this);
 		
 		// CVIPUL Analytics
 		// TODO : Verify view MyFeed screen
-		Bundle mparams = new Bundle();
-		mparams.putString("screen_name", "myfeed_screen");
-		mparams.putString("category", "screen_view");
-		mFirebaseAnalytics.logEvent("viewed_screen_myfeed",mparams);
-		// 
+
 		
         return RootView;
     }
 
+    private void NetworkCallNotification() {
+
+        totalrefresh = "1";
+        params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
+        params.put("myfeed", "1"); // 1 is the value required for getting myfeed
+        params.put("page", "0");
+      //  Log.d("auth_token1", pref.getString(SoupContract.AUTH_TOKEN, null));
+
+        progress.setProgress(0);
+        NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
+        networkutilsToken.getFeedNotification(1, totalrefresh);
+
+    }
+
     private void loadNextDataFromApi(int offset) {
+        totalrefresh="0";
         String Page = String.valueOf(offset);
         params.put("myfeed", "1");
         params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
@@ -185,7 +176,7 @@ public class MyFeedFragment extends Fragment {
         NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
 
 
-        networkutilsToken.getFeed(1, totalrefresh);
+        networkutilsToken.getFeedNotification(1, totalrefresh);
 
 
     }
@@ -194,14 +185,15 @@ public class MyFeedFragment extends Fragment {
 
         StoryView.setVisibility(View.GONE);
         mTextView.setVisibility(View.VISIBLE);
-        warningImage.setVisibility(View.VISIBLE);
-        gotodiscover.setVisibility(View.VISIBLE);
+       // warningImage.setVisibility(View.VISIBLE);
+        //gotodiscover.setVisibility(View.VISIBLE);
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
 
     }
 
     public void startAdapter(List<StoryData> mStoryData,String num_unread) {
+
         mStoryfeedAdapter.refreshData(mStoryData);
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
@@ -213,6 +205,7 @@ public class MyFeedFragment extends Fragment {
             ((MainActivity)getActivity()).NumberofUnread(num_unread);
 
         }
+        swipeRefreshLayout.setRefreshing(false);
 
                 Log.d("mStoryData startAdapter", String.valueOf(mStoryData.size()));
     }
@@ -227,6 +220,7 @@ public class MyFeedFragment extends Fragment {
             ((MainActivity)getActivity()).NumberofUnread(num_unread);
 
         }
+        swipeRefreshLayout.setRefreshing(false);
 
         Log.d("mStoryData refresh", String.valueOf(nStoryData.size()));
     }
@@ -236,9 +230,33 @@ public class MyFeedFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
 
         if (isVisibleToUser) {
+
             if (getActivity() == null) {
                 Log.d("context is null", " at fragment");
             } else {
+
+                if(seenStatus==0){
+                    HashMap<String ,String> nparams = new HashMap<>();
+                    nparams.put(SoupContract.AUTH_TOKEN,pref.getString(SoupContract.AUTH_TOKEN,null));
+                    nparams.put("type","notif_screen_click");
+                    NetworkUtilsClick networkUtilsClick = new NetworkUtilsClick(getActivity(),nparams);
+                    try {
+                        networkUtilsClick.sendClick();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    ((MainActivity)getActivity()).NumberofUnread(String.valueOf(0));
+                    seenStatus=1;
+
+
+                }
+
+
+                Bundle mparams = new Bundle();
+                mparams.putString("screen_name", "notification_screen");
+                mparams.putString("category", "screen_view");
+                mFirebaseAnalytics.logEvent("viewed_screen_notification" , mparams);
+
                 PrefUtil prefUtil = new PrefUtil(getActivity());
                 totalrefresh = prefUtil.getTotalRefresh();
                 Log.d("totalRefresh filter",totalrefresh);
@@ -246,8 +264,8 @@ public class MyFeedFragment extends Fragment {
                 if (totalrefresh.equals("1")) {
                     StoryView.setVisibility(View.VISIBLE);
                     mTextView.setVisibility(View.GONE);
-                    warningImage.setVisibility(View.GONE);
-                    gotodiscover.setVisibility(View.GONE);
+                   // warningImage.setVisibility(View.GONE);
+                   //gotodiscover.setVisibility(View.GONE);
                     params.put("page", "0");
                     for (String name : params.keySet()) {
                         String key = name;
@@ -256,7 +274,7 @@ public class MyFeedFragment extends Fragment {
                     }
 
                     NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
-                    networkutilsToken.getFeed(1, totalrefresh);
+                    networkutilsToken.getFeedNotification(1, totalrefresh);
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString(SoupContract.TOTAL_REFRESH, "0");
                     editor.apply();
@@ -272,7 +290,7 @@ public class MyFeedFragment extends Fragment {
 		// CVIPUL Analytics
 		// TODO : Verify follow/unfollow event
 		Bundle mparams = new Bundle();
-		mparams.putString("screen_name", "myfeed_screen"); // "myfeed / discover"
+		mparams.putString("screen_name", "notification_screen"); // "myfeed / discover"
 		mparams.putString("collection_id", mStoryData.get(position).getStoryId());
 		mparams.putString("follow_status", mStoryData.get(position).getFollowStatus());
 		mparams.putString("collection_name", mStoryData.get(position).getStoryName());
@@ -305,7 +323,6 @@ public class MyFeedFragment extends Fragment {
         }else {
             int i = Integer.valueOf(unread)-1;
             unread = String.valueOf(i);
-
             ((MainActivity)getActivity()).NumberofUnread(String.valueOf(i));
 
         }
@@ -318,8 +335,8 @@ public class MyFeedFragment extends Fragment {
 
             StoryView.setVisibility(View.GONE);
             mTextView.setVisibility(View.VISIBLE);
-            warningImage.setVisibility(View.VISIBLE);
-            gotodiscover.setVisibility(View.VISIBLE);
+            //warningImage.setVisibility(View.VISIBLE);
+           // gotodiscover.setVisibility(View.VISIBLE);
             progress.setProgress(100);
             progress.setVisibility(View.GONE);
         }
@@ -342,6 +359,13 @@ public class MyFeedFragment extends Fragment {
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
     */}
+
+    @Override
+    public void onRefresh() {
+        seenStatus=0;
+        swipeRefreshLayout.setRefreshing(true);
+        NetworkCallNotification();
+    }
 
     public interface Badgeonfilter{
         void NumberofUnread(String num_unread);

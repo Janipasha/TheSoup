@@ -4,6 +4,7 @@ package in.thesoupstoriesnews.thesoup.Adapters;
  * Created by Jani on 09-06-2017.
  */
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -49,6 +51,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     //private HashMap<String, List<String>> _listDataChild;
     //CVIPUL Analytics
     private FirebaseAnalytics mFirebaseAnalytics;
+    private String StoryId;
     private ChildHolder childHolder = new ChildHolder();
     //End Analytics
 
@@ -61,8 +64,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         //End Analytics
     }
 
-    public void refreshData(List<Substories> substories) {
+    public void refreshData(List<Substories> substories,String StoryId) {
         _listDataHeader.addAll(substories);
+        this.StoryId = StoryId;
+        notifyDataSetChanged();
+    }
+
+    public void totalRefreshData(List<Substories> substories,String StoryId){
+        this._listDataHeader = substories;
+        this.StoryId = StoryId;
         notifyDataSetChanged();
     }
 
@@ -233,14 +243,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded,
+    public View getGroupView(final int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
 
 
-        ImageView mImageView, ReadImageblur, circle;
+        ImageView mImageView, ReadImageblur, circle,shareIcon;
 
-        TextView mSubstory, mNumber_of_articles, Readstatustext, mDate, mMonth, mYear;
+        TextView mSubstory, mNumber_of_articles, Readstatustext, mDate, mMonth, mYear,shareText;
         View leftline, leftline1, bottomline, topline;
+        LinearLayout sharelayout;
 
 
         if (convertView == null) {
@@ -263,6 +274,21 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         leftline1.setVisibility(View.VISIBLE);
         mNumber_of_articles.setVisibility(View.VISIBLE);
         bottomline.setVisibility(View.VISIBLE);
+        shareIcon = (ImageView)convertView.findViewById(R.id.shareicon);
+        shareText= (TextView)convertView.findViewById(R.id.sharetext);
+        sharelayout = (LinearLayout)convertView.findViewById(R.id.shareLayout);
+
+        sharelayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String URL = "http://whatsonapp.info/share/"+StoryId+"/"+_listDataHeader.get(groupPosition).getSubstoryId();
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT,  "Share via");
+                i.putExtra(Intent.EXTRA_TEXT, URL);
+                mcontext.startActivity(Intent.createChooser(i,"Share via"));
+            }
+        });
 
 
         if (groupPosition == 0) {
@@ -288,9 +314,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             bottomline.setBackgroundColor(Color.parseColor("#" + "80" + storyColour));
             topline.setBackgroundColor(Color.parseColor("#" + storyColour));
             circle.setColorFilter(Color.parseColor("#" + storyColour));
+            shareIcon.setColorFilter(Color.parseColor("#"+storyColour));
+            shareText.setTextColor(Color.parseColor("#"+storyColour));
 
         } else {
             mNumber_of_articles.setTextColor(Color.parseColor("#000000"));
+            shareIcon.setColorFilter(Color.parseColor("#000000"));
+            shareText.setTextColor(Color.parseColor("#000000"));
         }
 
         final Substories mSubstories = _listDataHeader.get(groupPosition);
@@ -406,13 +436,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             bottomline.setVisibility(View.INVISIBLE);
             // CVIPUL Analytics
             // TODO : Verify follow event, add collection location if possible
-            Bundle mparams = new Bundle();
+          /*  Bundle mparams = new Bundle();
             mparams.putString("screen_name", "collection_screen"); // "myfeed / discover"
             mparams.putString("card_type", "subcollection");
             mparams.putString("subcollection_name", substoryTitle);
             mparams.putString("category", "conversion");
             mFirebaseAnalytics.logEvent("explore_subcollection", mparams);
-            // End Analytics
+            // End Analytics*/
 
         } else {
             mNumber_of_articles.setText(String.valueOf(NumberofArticles) + " Articles SEE ALL");

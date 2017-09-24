@@ -25,6 +25,7 @@ import in.thesoupstoriesnews.thesoup.Activities.MainActivity;
 import in.thesoupstoriesnews.thesoup.Fragments.DiscoverFragment;
 import in.thesoupstoriesnews.thesoup.Fragments.MyFeedFragment;
 import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSON.StoryData;
+import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSONMain.StoryDataMain;
 import in.thesoupstoriesnews.thesoup.SoupContract;
 import in.thesoupstoriesnews.thesoup.gsonConversion;
 
@@ -35,6 +36,7 @@ import in.thesoupstoriesnews.thesoup.gsonConversion;
 public class NetworkUtilswithToken {
 
     private Context mcontext;
+    private List<StoryDataMain> nStoryData;
     private List<StoryData> mStoryData;
     private final static String BOUNDARY = "khisarner";
     private HashMap<String, String> params;
@@ -45,8 +47,6 @@ public class NetworkUtilswithToken {
         this.mcontext = context;
         this.mStoryData = storyData;
         this.params = params;
-
-
     }
 
     private String createPostBody(HashMap<String, String> params) {
@@ -122,6 +122,199 @@ public class NetworkUtilswithToken {
                                     }
                                 }
 
+                                Log.d("asdfghj", String.valueOf(networkResponse.statusCode));
+                            }
+                        }
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headerParam = new HashMap<>();
+                headerParam.put("Content-Type", "multipart/form-data;boundary=" + BOUNDARY + ";");
+                return headerParam;
+            }
+
+            @Override
+            public byte[] getBody() {
+                String postBody = createPostBody(params);
+
+                return postBody.getBytes();
+            }
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                   /* if(volleyError.networkResponse != null && volleyError.networkResponse.data != null){
+                        VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
+                        volleyError = error;
+                    }
+
+                    return volleyError;*/
+
+                statusCode = response.statusCode;
+                return super.parseNetworkResponse(response);
+            }
+        };
+
+        jsObjRequest.setRetryPolicy(new DefaultRetryPolicy(
+                SoupContract.TIMEOUT_RETRY_TIME,0,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        singleton.addToRequestQueue(jsObjRequest); //
+
+
+    }
+
+
+    public void getFeed1(final int fragmenttag, final String totalrefresh) {
+
+        MySingleton singleton = MySingleton.getInstance(mcontext);
+
+        //RequestQueue queue = singleton.getRequestQueue();
+
+
+        final JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.POST, SoupContract.GETFEED, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i("akunamatata", response.toString());
+                        gsonConversion mpopulateUI = new gsonConversion();
+                        mpopulateUI.fillUI(response, mcontext, fragmenttag, totalrefresh);
+                    }
+                    //mEarthquakedatajsonclass = red;
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null) {
+                            NetworkResponse networkResponse = error.networkResponse;
+                            //TODO: error response write for fragment
+
+                            if (networkResponse != null) {
+                                if (networkResponse.statusCode == 404) {
+                                    if (mcontext instanceof MainActivity) {
+                                        if (params.get("page").equals("0")) {
+                                            MainActivity activity = (MainActivity) mcontext;
+
+                                            if (fragmenttag == 1) {
+                                                Fragment f = activity.getFragment(fragmenttag);
+                                                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mcontext);
+                                                if (pref.getString("filter_count", null) != null && !pref.getString("filter_count", null).isEmpty()) {
+                                                    ((MyFeedFragment) f).filterApplied();
+                                                } else {
+                                                    ((MyFeedFragment) f).Nofollowers();
+                                                }
+
+
+                                            }
+                                        } else {
+                                            MainActivity activity = (MainActivity) mcontext;
+                                            if (fragmenttag == 1) {
+                                                Fragment f = activity.getFragment(fragmenttag);
+                                                ((MyFeedFragment) f).stopProgress();
+                                            } else if (fragmenttag == 0) {
+                                                Fragment f = activity.getFragment(fragmenttag);
+                                                ((DiscoverFragment) f).stopProgress();
+                                            }
+
+
+                                        }
+                                    }
+                                }
+
+                                Log.d("asdfghj", String.valueOf(networkResponse.statusCode));
+                            }
+                        }
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headerParam = new HashMap<>();
+                headerParam.put("Content-Type", "multipart/form-data;boundary=" + BOUNDARY + ";");
+                return headerParam;
+            }
+
+            @Override
+            public byte[] getBody() {
+                String postBody = createPostBody(params);
+
+                return postBody.getBytes();
+            }
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                   /* if(volleyError.networkResponse != null && volleyError.networkResponse.data != null){
+                        VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
+                        volleyError = error;
+                    }
+
+                    return volleyError;*/
+
+                statusCode = response.statusCode;
+                return super.parseNetworkResponse(response);
+            }
+        };
+
+        jsObjRequest.setRetryPolicy(new DefaultRetryPolicy(
+                SoupContract.TIMEOUT_RETRY_TIME,0,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        singleton.addToRequestQueue(jsObjRequest); //
+
+
+    }
+
+
+
+    public void getFeedNotification(final int fragmenttag, final String totalrefresh) {
+
+        MySingleton singleton = MySingleton.getInstance(mcontext);
+
+        //RequestQueue queue = singleton.getRequestQueue();
+
+
+        final JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.POST, SoupContract.GETNOTIFICATIONS, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i("akunamatata", response.toString());
+                        gsonConversion mpopulateUI = new gsonConversion();
+                        mpopulateUI.fillUINotification(response, mcontext, fragmenttag, totalrefresh);
+                    }
+                    //mEarthquakedatajsonclass = red;
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null) {
+                            NetworkResponse networkResponse = error.networkResponse;
+                            //TODO: error response write for fragment
+
+                            if (networkResponse != null) {
+                                if (networkResponse.statusCode == 404) {
+                                    if (mcontext instanceof MainActivity) {
+                                        if (params.get("page").equals("0")) {
+                                            MainActivity activity = (MainActivity) mcontext;
+                                            if (fragmenttag == 1) {
+                                                Fragment f = activity.getFragment(fragmenttag);
+                                                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mcontext);
+                                                if (pref.getString("filter_count", null) != null && !pref.getString("filter_count", null).isEmpty()) {
+                                                    ((MyFeedFragment) f).filterApplied();
+                                                } else {
+                                                    ((MyFeedFragment) f).Nofollowers();
+                                                }
+                                            }
+                                        } else {
+                                            MainActivity activity = (MainActivity) mcontext;
+                                            if (fragmenttag == 1) {
+                                                Fragment f = activity.getFragment(fragmenttag);
+                                                ((MyFeedFragment) f).stopProgress();
+                                            } else if (fragmenttag == 0) {
+                                                Fragment f = activity.getFragment(fragmenttag);
+                                                ((DiscoverFragment) f).stopProgress();
+                                            }
+                                        }
+                                    }
+                                }
                                 Log.d("asdfghj", String.valueOf(networkResponse.statusCode));
                             }
                         }

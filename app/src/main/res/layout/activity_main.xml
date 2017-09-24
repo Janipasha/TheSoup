@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_design_support_layout"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="in.thesoupstoriesnews.thesoup.Activities.MainActivity"
@@ -12,16 +12,57 @@
     android:background="#222222">
 
 
-    <LinearLayout
-        android:id="@+id/topnavbar"
-        android:layout_alignParentTop="true"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#000000">
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            android:background="#222222"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="16dp"
+                >
+                <TextView
+                    android:layout_alignParentLeft="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WhatsOn"
+                    fontPath="fonts/montserrat-medium.ttf"
+                    android:textColor="#ffffff"
+                    android:layout_centerVertical="true"
+                    android:textSize="20sp"/>
+
+                <ImageButton
+                    android:background="#222222"
+                    android:id="@+id/logout"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="40dp"
+                    android:onClick="onClick"
+                    android:padding="10dp"
+                    android:layout_height="40dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/icons8_logout"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="end"/>
+            </RelativeLayout>
+
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
 
         <android.support.design.widget.TabLayout
             android:id="@+id/sliding_tabs"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_weight="7"
             android:layout_height="72dp"
             android:background="#222222"
@@ -32,60 +73,11 @@
             app:tabTextColor="#B3ffffff"
             />
 
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/filtertab"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3">
+    </android.support.design.widget.AppBarLayout>
 
-
-            <TextView
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="center"
-                android:id="@+id/filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="FILTERS"
-                android:textColor="#B3ffffff"
-                android:textSize="13sp"
-                android:layout_marginRight="2dp"
-                fontPath= "fonts/proxima-nova-black.otf" />
-
-           <!-- <ImageView
-
-                android:id="@+id/filter_img"
-                android:layout_width="15dp"
-                android:layout_height="14dp"
-                android:layout_marginRight="3dp"
-                android:layout_marginBottom="2dp"
-                app:srcCompat ="@drawable/filter"
-                android:layout_toLeftOf="@id/filter"
-                android:layout_alignBottom="@id/filter"/>-->
-
-            <ImageView
-                android:layout_gravity="center_vertical"
-                android:id="@+id/filter_tick"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:textColor="#B3ffffff"
-                android:textStyle="bold"
-                app:srcCompat= "@drawable/ic_check_black_24dp"
-
-               />
-
-
-
-
-        </LinearLayout>
-
-
-
-    </LinearLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
-        android:layout_below="@id/topnavbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
@@ -95,4 +87,5 @@
         />
 
 
-</RelativeLayout>
+
+    </android.support.design.widget.CoordinatorLayout>

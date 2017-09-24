@@ -34,15 +34,17 @@ public class NetworkUtilsStory {
     private String Storytitle, followstatus,StoryId;
     private final String BOUNDARY= "whatsnonega";
     private HashMap<String,String> params;
+    private String totalRefresh ;
 
 
 
 
 
-    public NetworkUtilsStory(Context context,HashMap<String,String> params){
+    public NetworkUtilsStory(Context context,HashMap<String,String> params,String totalRefresh){
         this.mcontext = context;
         this.Storytitle = Storytitle;
         this.params = params;
+        this.totalRefresh = totalRefresh;
 
     }
 
@@ -85,7 +87,7 @@ public class NetworkUtilsStory {
 
                         Log.i("gson", mpopulateUIStory.toString());
 
-                        mpopulateUIStory.fillStoryUI(response,mcontext);
+                        mpopulateUIStory.fillStoryUI(response,mcontext,totalRefresh);
 
 
                     }

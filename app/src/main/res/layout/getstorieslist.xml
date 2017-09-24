@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container_discover"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#4a4a4a"
+    android:background="#f2f2f2"
     android:name ="in.thesoup.thesoup.Fragments.DiscoverFragment">
 
 <RelativeLayout
@@ -15,11 +15,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:ignore="MissingPrefix"
-    android:background="#4a4a4a">
+    android:background="#f2f2f2">
 
 
     <Button
-        android:visibility="gone"
+        android:visibility="invisible"
         android:id="@+id/go_to_discover"
         android:layout_width="268dp"
         android:layout_height="48dp"
@@ -46,7 +46,7 @@
         android:layout_above="@id/go_to_discover"
         android:layout_marginBottom="18dp"
         fontPath="fonts/montserrat-light.ttf"
-        android:text="You gotta first follow a Story mate!"
+        android:text="You gotta follow a story mate"
         />
 
     <ImageView
@@ -182,4 +182,4 @@
 
 </RelativeLayout>
 
-</FrameLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

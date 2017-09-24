@@ -18,8 +18,8 @@
        <ImageView
            android:id="@+id/globe1"
            android:layout_marginTop="7dp"
-           android:layout_width="22dp"
-           android:layout_height="22dp"
+           android:layout_width="16dp"
+           android:layout_height="16dp"
            android:layout_gravity="center"
            android:src="@drawable/globe"
            android:layout_marginBottom="2dp"
@@ -34,8 +34,8 @@
                 android:layout_marginTop="6dp"
                 android:id="@+id/notificationbell"
                 android:layout_centerInParent="true"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:visibility="gone"
                 android:layout_marginBottom="2dp"
                 android:src="@drawable/icon_notification"/>
@@ -57,14 +57,14 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:gravity="center"
-        app:fontPath="montserrat-bold.ttf"
+        app:fontPath="montserrat-regular.otf"
         tools:ignore="MissingPrefix"
         tools:text="User Profile"
         android:textAllCaps="true"
         android:layout_marginBottom="2dp"
         android:layout_gravity="center"
         android:textColor="@drawable/tab_text_color"
-        android:textSize="11sp" />
+        android:textSize="8.5sp" />
 
         <TextView
             android:id="@+id/badge"

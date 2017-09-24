@@ -104,7 +104,7 @@ public class PagerActivity extends AppCompatActivity {
       } else{
 
           CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                  .setDefaultFontPath("fonts/proxima-nova-black.otf")
+                  .setDefaultFontPath("fonts/montserrat-bold.ttf")
                   .setFontAttrId(R.attr.fontPath)
                   .build()
           );
@@ -180,6 +180,12 @@ public class PagerActivity extends AppCompatActivity {
                   mparams.putString("category","tap");
                   mparams.putString("position_scn_onboarding",String.valueOf(page));//(only if possible)
                   mFirebaseAnalytics.logEvent("tap_next",mparams);
+
+                  Bundle nparams = new Bundle();
+                  mparams.putString("label", "onboarding_screen");
+                  mparams.putString("category","screen_view");
+                  mparams.putString("position_scn_onboarding",String.valueOf(page-1));//(only if possible)
+                  mFirebaseAnalytics.logEvent("viewed_screen_onboarding",nparams);
                   mViewPager.setCurrentItem(page, true);
               }
           });
@@ -239,7 +245,7 @@ public class PagerActivity extends AppCompatActivity {
             SharedPreferences.Editor edit = pref.edit();
             edit.putString(SoupContract.AUTH_TOKEN,AuthToken);
             edit.apply();
-            Intent intent = new Intent(this,MainActivity.class);
+            Intent intent = new Intent(this,NavigationActivity.class);
             startActivity(intent);
             finish();
         }else{

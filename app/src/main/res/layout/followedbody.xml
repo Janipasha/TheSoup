@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f2f2f2"
+    tools:ignore="MissingPrefix">
+
+    <RelativeLayout
+        android:id="@+id/follow_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/filterimage_follow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icons8_plus_filled"
+            android:layout_marginLeft="20dp"/>
+        
+        <LinearLayout
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginRight="20dp"
+            android:paddingRight="2dp"
+            android:paddingLeft="2dp"
+            android:id="@+id/notificationNumber"
+            android:background="#222222"
+            >
+
+            <TextView
+                android:id="@+id/numberfollowingupdates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textSize="15sp"
+                fontPath="fonts/montserrat-bold.ttf"
+                android:textColor="#ffffff"
+                android:layout_marginBottom="-3dp"
+                android:lineSpacingExtra="3sp"
+                android:gravity="center_horizontal"
+                android:text="02"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="8sp"
+                android:textColor="#ffffff"
+                android:layout_marginTop="-3dp"
+                fontPath="fonts/montserrat-bold.ttf"
+                android:letterSpacing="0.04"
+                android:lineSpacingExtra="0sp"
+                android:gravity="end"
+                android:text="NEW"
+                />
+
+
+
+
+        </LinearLayout>
+
+        <TextView
+
+            android:layout_toRightOf="@id/filterimage_follow"
+            android:layout_toLeftOf="@id/notificationNumber"
+            android:id="@+id/categoryfollow"
+            fontPath="fonts/montserrat-regular.otf"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="22dp"
+            android:textSize="13sp"
+            android:letterSpacing="-0.04"
+            android:lineSpacingExtra="3sp"
+            android:layout_marginBottom="9dp"
+            android:text="Indian Government &amp; National Politics Updates"
+
+             />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="13dp"
+            android:layout_below="@id/notificationNumber"
+            android:background="#979797"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

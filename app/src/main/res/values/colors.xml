@@ -10,6 +10,8 @@
     <color name="green">#4CAF50</color>
     <color name="black_trans80">#33000000</color>
     <color name="white">#ffffff</color>
+    <color name="filter_grey">#f2f2f2</color>
     <color name="trans_white">#b3ffffff</color>
+    <color name="bottom_navigation">#222222</color>
 
 </resources>

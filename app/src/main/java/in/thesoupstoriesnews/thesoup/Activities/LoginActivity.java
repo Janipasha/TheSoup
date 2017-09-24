@@ -74,20 +74,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     PrefUtil prefUtil;
     private String StoryId, activityId;
     private HashMap<String, String> params;
-    private Intent intent1;
-    //private Tracker mTracker;
+    private Intent intent1;;
     private static final int RC_SIGN_IN = 007;
     private static final String TAGI = "handle request response";
-    // private AnalyticsApplication application;
     private SharedPreferences pref;
     private Button fb, google;
     private SignInButton signInButton;
     public static final String TAG = "ServerAuthCodeActivity";
     private static final int RC_GET_AUTH_CODE = 9003;
     private FirebaseAnalytics mFirebaseAnalytics;
-
     private GoogleApiClient mGoogleApiClient;
-    private TextView mAuthCodeTextView;
+
 
 
     @Override
@@ -98,52 +95,27 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         AppEventsLogger.activateApp(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
             Window window = this.getWindow();
-
-// clear FLAG_TRANSLUCENT_STATUS flag:
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-
             window.setStatusBarColor(Color.parseColor("#ffffff"));
         }
 
-
-
-
         pref = PreferenceManager.getDefaultSharedPreferences(this);
-
         if (TextUtils.isEmpty(pref.getString("auth_token", null))) {
-
-            if(getIntent().getStringExtra("toast")!=null&&!getIntent().getStringExtra("toast").isEmpty()){
-
-                if(getIntent().getStringExtra("toast").equals("showtoast")){
-
-
+            if (getIntent().getStringExtra("toast") != null && !getIntent().getStringExtra("toast").isEmpty()) {
+                if (getIntent().getStringExtra("toast").equals("showtoast")) {
                     LoginManager.getInstance().logOut();
-                    Toast.makeText(this,"Your login expired,please login again",Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Your login expired,please login again", Toast.LENGTH_LONG).show();
                 }
-
             }
-
-
-
-
-            /*View decorView = getWindow().getDecorView();
-// Hide the status bar.
-            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-            decorView.setSystemUiVisibility(uiOptions);*/
 
             setContentView(R.layout.login);
             mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
             Bundle mparams = new Bundle();
             mparams.putString("label", "login_screen");
             mparams.putString("category", "screen_view");
-            mFirebaseAnalytics.logEvent("viewed_screen_login",mparams);
+            mFirebaseAnalytics.logEvent("viewed_screen_login", mparams);
 
             CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                     .setDefaultFontPath("fonts/OpenSans-Semibolditalic.ttf")
@@ -152,13 +124,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             );
             validateServerClientID();
 
-
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestScopes(new Scope(Scopes.PROFILE))
                     .requestEmail()
                     .requestIdToken(getString(R.string.server_client_id))
                     .build();
-
 
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .enableAutoManage(this, this)
@@ -166,8 +136,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     .build();
 
             signInButton = (SignInButton) findViewById(R.id.sign_in_button);
-            //findViewById(R.id.sign_in_button).setOnClickListener(this);
-
 
             callbackmanager = CallbackManager.Factory.create();
             prefUtil = new PrefUtil(this);
@@ -177,8 +145,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             loginButton = (LoginButton) findViewById(R.id.login_button);
 
-
-
             loginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
 
             loginButton.registerCallback(callbackmanager,
@@ -186,17 +152,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         @Override
                         public void onSuccess(LoginResult loginResult) {
 
-
                             Bundle mparams = new Bundle();
                             mparams.putString("label", "login_screen");
-                            mparams.putString("category","conversion");
-                            mparams.putString("type_login","facebook");//(only if possible)
-                            mFirebaseAnalytics.logEvent("login",mparams);
-
+                            mparams.putString("category", "conversion");
+                            mparams.putString("type_login", "facebook");//(only if possible)
+                            mFirebaseAnalytics.logEvent("login", mparams);
 
                             String getScopes = loginResult.getAccessToken().getPermissions().toString();
                             Log.d("Scopes", getScopes);
-
 
                             System.out.println("Success");
                             Log.d("Acess Token", loginResult.getAccessToken().getToken().toString());
@@ -209,9 +172,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                     loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                                         @Override
                                         public void onCompleted(JSONObject jsonobject, GraphResponse response) {
-
                                             Bundle facebookData = getFacebookData(jsonobject);
-
 
                                             params = new HashMap<>();
                                             params.put(SoupContract.SOCIAL_NAME, "fb");
@@ -228,24 +189,24 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                             //params.put("dob",);//send dob as null for future
                                             params.put(SoupContract.IMAGE_URL, prefUtil.getPictureUrl());
 
-
-                                            // Log.d("prefUtilemail",prefUtil.getEmail());
-
                                             for (String name : params.keySet()) {
-
                                                 String key = name;
-
-
                                                 String value = params.get(key);
                                                 Log.d("param values", key + " " + value);
-
-
                                             }
 
 
-                                            NetworkUtilsLogin loginRequest = new NetworkUtilsLogin(LoginActivity.this, params);
-                                            loginRequest.loginvolleyRequestfromMain();
+                                            if(prefUtil.getEmail()!=null&&!prefUtil.getEmail().isEmpty()){
 
+                                                NetworkUtilsLogin loginRequest = new NetworkUtilsLogin(LoginActivity.this, params);
+                                                loginRequest.loginvolleyRequestfromMain();
+
+                                            }else{
+
+                                                Intent intent = new Intent(LoginActivity.this, EmailActivity.class);
+                                                intent.putExtra("params",params);
+                                                startActivity(intent);
+                                            }
 
                                             if (response.getError() != null) {
                                                 // handle error
@@ -254,37 +215,28 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                                 System.out.println("Success");
 
                                             }
-                                        }
 
+
+                                        }
                                     });
                             Bundle parameters = new Bundle();
                             parameters.putString("fields", "id,first_name,last_name,email,gender,age_range");
                             request.setParameters(parameters);
                             request.executeAsync();
+
                         }
-
-
                         @Override
                         public void onCancel() {
-
                         }
-
                         @Override
                         public void onError(FacebookException error) {
                             Log.d("fbloginerror", ": " + error.toString());
-
                         }
-
                     });
         } else {
-
             startActivityMD();
         }
-
-
     }
-
-
 
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -293,11 +245,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         callbackmanager.onActivityResult(requestCode, resultCode, data);
-        // super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             int statuscode = result.getStatus().getStatusCode();
@@ -310,30 +258,18 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAGI, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-
             Bundle mparams = new Bundle();
             mparams.putString("label", "login_screen");
-            mparams.putString("category","conversion");
-            mparams.putString("type_login","google");//(only if possible)
-            mFirebaseAnalytics.logEvent("login",mparams);
-
-
-
+            mparams.putString("category", "conversion");
+            mparams.putString("type_login", "google");//(only if possible)
+            mFirebaseAnalytics.logEvent("login", mparams);
             if (result != null) {
-
                 GoogleSignInAccount acct = result.getSignInAccount();
-
-
                 String authCode = acct.getServerAuthCode();
-
-
                 acct.getGrantedScopes();
-
                 prefUtil.saveUserInfo(acct.getGivenName(), acct.getFamilyName(), acct.getEmail(), "", acct.getPhotoUrl().toString(), acct.getId(), "", "");
                 prefUtil.saveAccessToken(acct.getIdToken());
-
                 Log.d("acesstoken", ": " + acct.getIdToken());
-
                 params = new HashMap<>();
                 params.put(SoupContract.SOCIAL_NAME, "gplus");
                 params.put(SoupContract.SOCIAL_TOKEN, prefUtil.getToken());
@@ -349,33 +285,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 params.put(SoupContract.IMAGE_URL, prefUtil.getPictureUrl());
 
                 for (String name : params.keySet()) {
-
                     String key = name;
-
-
                     String value = params.get(key);
                     Log.d("param values", key + " " + value);
-
-
                 }
 
                 NetworkUtilsLogin loginRequest = new NetworkUtilsLogin(LoginActivity.this, params);
                 loginRequest.loginvolleyRequestfromMain();
-
-
                 Log.d("result", result.getSignInAccount().getGrantedScopes().toString());
                 Log.d("email google", acct.getEmail() + "\n" + acct.getIdToken() + "\n" + acct.getDisplayName() + "\n");
             }
 
-            //TODO login google thing
-            //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            //updateUI(true);
-        } else {
+                  } else {
             // Signed out, show unauthenticated UI.
             //updateUI(false);
         }
     }
-
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -383,16 +308,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     public void startActivityMD() {
-
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        finish();
+        Intent intent = new Intent(LoginActivity.this, NavigationActivity.class);
         startActivity(intent);
-
     }
 
     private Bundle getFacebookData(JSONObject object) {
         Bundle bundle = new Bundle();
-
         try {
             String id = object.getString("id");
             URL profile_pic;
@@ -410,8 +331,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 bundle.putString(SoupContract.FIRST_NAME, object.getString("first_name"));
             if (object.has(SoupContract.LAST_NAME))
                 bundle.putString(SoupContract.LAST_NAME, object.getString("last_name"));
-            if (object.has(SoupContract.EMAIL_ID))
-                bundle.putString(SoupContract.EMAIL_ID, object.getString("email"));
+            if (object.has("email")){
+                if(object.getString("email")!=null&&!object.getString("email").isEmpty())
+                {
+                    bundle.putString(SoupContract.EMAIL_ID, object.getString("email"));
+                }
+            }
+
             if (object.has(SoupContract.GENDER))
                 bundle.putString(SoupContract.GENDER, object.getString("gender"));
 
@@ -426,24 +352,34 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 age_max = object.getJSONObject("age_range").getString("max");
             }
 
+            if (object.has("email")){
+                if(object.getString("email")!=null&&!object.getString("email").isEmpty())
+                {
 
+                    prefUtil.saveUserInfo(object.getString(SoupContract.FIRST_NAME),
+                            object.getString(SoupContract.LAST_NAME),
+                            object.getString("email"),
+                            object.getString(SoupContract.GENDER),
+                            profile_pic.toString(),
+                            object.getString("id"),
+                            age_min, age_max);
+                }
+            }else {
 
-            prefUtil.saveUserInfo(object.getString(SoupContract.FIRST_NAME),
-                    object.getString(SoupContract.LAST_NAME),
-                    object.getString("email"),
-                    object.getString(SoupContract.GENDER),
-                    profile_pic.toString(),
-                    object.getString("id"),
-                    age_min, age_max);
+                prefUtil.saveUserInfo(object.getString(SoupContract.FIRST_NAME),
+                        object.getString(SoupContract.LAST_NAME),
+                        "",
+                        object.getString(SoupContract.GENDER),
+                        profile_pic.toString(),
+                        object.getString("id"),
+                        age_min, age_max);
 
+            }
 
-            //SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-            //Log.d("Shared Preference ",pref.getString("email","") + " "+ pref.getString("first_name","")+" "+pref.getString("age_min"," "));
 
         } catch (Exception e) {
-            Log.d("BUNDLE Exception : ", e.toString());
+            Log.e("BUNDLE Exception : ", e.toString());
         }
-
         return bundle;
     }
 
@@ -451,25 +387,21 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (v == fb) {
             Bundle mparams = new Bundle();
             mparams.putString("label", "login_screen");
-            mparams.putString("category","tap");
-            mparams.putString("type_login","facebook");//(only if possible)
-            mFirebaseAnalytics.logEvent("tap_login",mparams);
+            mparams.putString("category", "tap");
+            mparams.putString("type_login", "facebook");//(only if possible)
+            mFirebaseAnalytics.logEvent("tap_login", mparams);
 
             loginButton.performClick();
 
         } else if (v == google) {
-
             Bundle mparams = new Bundle();
             mparams.putString("label", "login_screen");
-            mparams.putString("category","tap");
-            mparams.putString("type_login","google");//(only if possible)
-            mFirebaseAnalytics.logEvent("tap_login",mparams);
-
+            mparams.putString("category", "tap");
+            mparams.putString("type_login", "google");//(only if possible)
+            mFirebaseAnalytics.logEvent("tap_login", mparams);
 
             signInButton.performClick();
             signIn();
-
-
         }
     }
 
@@ -478,7 +410,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         String suffix = ".apps.googleusercontent.com";
         if (!serverClientId.trim().endsWith(suffix)) {
             String message = "Invalid server client ID in strings.xml, must end with " + suffix;
-
             Log.w(TAG, message);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         }

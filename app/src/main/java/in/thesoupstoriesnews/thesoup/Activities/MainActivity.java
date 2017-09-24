@@ -1,6 +1,8 @@
 package in.thesoupstoriesnews.thesoup.Activities;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -15,33 +17,50 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.api.Status;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.w3c.dom.Text;
+
+import java.util.HashMap;
 
 import in.thesoupstoriesnews.thesoup.Adapters.FeedFragmentPagerAdapter;
 import in.thesoupstoriesnews.thesoup.App.Config;
 import in.thesoupstoriesnews.thesoup.Fragments.DiscoverFragment;
 import in.thesoupstoriesnews.thesoup.Fragments.MyFeedFragment;
+import in.thesoupstoriesnews.thesoup.NetworkCalls.NetworkUtilsLogin;
 import in.thesoupstoriesnews.thesoup.PreferencesFbAuth.PrefUtil;
 import in.thesoupstoriesnews.thesoup.R;
 import in.thesoupstoriesnews.thesoup.SoupContract;
-import me.toptas.fancyshowcase.FancyShowCaseView;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+
 import static android.R.id.text1;
+import static in.thesoupstoriesnews.thesoup.R.id.logout;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, MyFeedFragment.Badgeonfilter {
@@ -53,63 +72,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout mlinearlayout;
     private SharedPreferences pref;
     private TabLayout tabLayout;
+    private ImageButton logout;
     private FirebaseAnalytics mFirebaseAnalytics;
     boolean doubleBackToExitPressedOnce = false;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
          Window window = this.getWindow();
-
-// clear FLAG_TRANSLUCENT_STATUS flag:
          window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
           window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-
-            window.setStatusBarColor(Color.parseColor("#222222"));
+              window.setStatusBarColor(Color.parseColor("#222222"));
         }
-
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
-        // View decorView = getWindow().getDecorView();
-// Hide the status bar.
-        //int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        //decorView.setSystemUiVisibility(uiOptions);
-
         setContentView(R.layout.activity_main);
 
         String fragmentPosition = "";
-
         Intent startingIntent = getIntent();
-
         if (startingIntent != null) {
             fragmentPosition = startingIntent.getStringExtra("fragmentPosition");
         }
 
-
         PrefUtil prefUtil = new PrefUtil(this);
-
         prefUtil.saveTotalRefresh("0");
 
-        // Toolbar toolbar = (Toolbar)findViewById(R.id.toolbarfilter);
-        //setSupportActionBar(toolbar);
-
-
-        mTextView = (TextView) findViewById(R.id.filter);
-        //mimageView = (ImageView)findViewById(R.id.filter_img);
-        tickImage = (ImageView) findViewById(R.id.filter_tick);
-        tickImage.setVisibility(View.GONE);
-        // mimageView.setOnClickListener(this);
-        mTextView.setOnClickListener(this);
-        mlinearlayout = (LinearLayout) findViewById(R.id.filtertab);
-        mlinearlayout.setOnClickListener(this);
 
         int filter_count = 0;
 
@@ -124,13 +115,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("filtercount", String.valueOf(filter_count));
             if (filter_count > 0 && filter_count < count) {
 
-                tickImage.setVisibility(View.VISIBLE);
+               // tickImage.setVisibility(View.VISIBLE);
             }
 
         }
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/montserrat-light.ttf")
@@ -138,13 +128,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build()
         );
 
-
         // Create an adapter that knows which fragment should be shown on each page
         adapter = new FeedFragmentPagerAdapter(getSupportFragmentManager(), this);
 
-
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);
+        logout = (ImageButton)findViewById(R.id.logout);
 
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -157,8 +146,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ImageView imageView1 = (ImageView)tab.getCustomView().findViewById(R.id.notificationbell);
                 imageView.setVisibility(View.GONE);
                 imageView.setVisibility(View.GONE);
-
-
 
                 TextView textView = (TextView) tab.getCustomView().findViewById(R.id.tabtext);
 
@@ -217,18 +204,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switch (position){
                     case 0:
                         Bundle mparams = new Bundle();
-                        mparams.putString("screen_name", "myfeed_screen");
+                        mparams.putString("screen_name", "notification_screen");
                         mparams.putString("category", "tap"); //(only if possible)
                         mFirebaseAnalytics.logEvent("tap_discover", mparams);
                     case 1:
                         Bundle nparams = new Bundle();
                         nparams.putString("screen_name", "discover_screen");
                         nparams.putString("category", "tap"); //(only if possible)
-                        mFirebaseAnalytics.logEvent("tap_myfeed", nparams);
-
-
+                        mFirebaseAnalytics.logEvent("tap_notifications", nparams);
                 }
-
             }
 
             @Override
@@ -246,25 +230,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onStart() {
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestScopes(new Scope(Scopes.PROFILE))
+                .requestEmail()
+                .requestIdToken(getString(R.string.server_client_id))
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        mGoogleApiClient.connect();
+
         super.onStart();
+
         SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
         String regId = pref.getString(SoupContract.FIREBASEID, null);
 
         //CVIPUL Analytics
-        // TODO : put user's name/id/email/gender/age/etc details
-        mFirebaseAnalytics.setUserId("");
-        mFirebaseAnalytics.setUserProperty("user_name", "");
-        mFirebaseAnalytics.setUserProperty("user_email", "");
-        mFirebaseAnalytics.setUserProperty("user_gender", "");
+
+        //mFirebaseAnalytics.setUserId("");
+      PrefUtil prefUtil = new PrefUtil(this);
+
+        if(prefUtil.getEmail()!=null&&!prefUtil.getEmail().isEmpty()){
+            mFirebaseAnalytics.setUserProperty("user_email", "");
+        }
+
+        if(prefUtil.getFirstname()!=null&&!prefUtil.getFirstname().isEmpty()){
+            mFirebaseAnalytics.setUserProperty("user_name",prefUtil.getFirstname());
+        }
+
+        if(prefUtil.getGender()!=null&&!prefUtil.getGender().isEmpty()){
+            mFirebaseAnalytics.setUserProperty("user_gender",prefUtil.getGender());
+        }
+
+
         mFirebaseAnalytics.setUserProperty("user_dob", "");
 
-        // TODO : Temperarily here, move to specific pager with its name
         // discover_screen / myfeed_screen / filters_screen
-        Bundle mparams = new Bundle();
-        mparams.putString("screen_name", "home_screen");
-        mparams.putString("category", "screen_view");
-        mFirebaseAnalytics.logEvent("viewed_screen_home", mparams);
-        // End Analytics
+
 
         Log.e("MAIN_ACTIVITY", "Firebase reg id: " + regId);
     }
@@ -290,10 +299,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-
         /*Intent intent = new Intent(MainActivity.this, FilterActivity.class);
 
-        //CVIPUL Analytics
+       //CVIPUL Analytics
         // Assuming this is called on when somebody taps on "FILTER"
         // TODO : verify, put the name of originating 'pager' if possible.
         Bundle mparams = new Bundle();
@@ -303,6 +311,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // End Analytics
 
         startActivity(intent);*/
+
+        if(view == logout){
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+// 2. Chain together various setter methods to set the dialog characteristics
+            builder.setMessage("Are you sure you want to logout ?");
+
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User clicked OK button
+
+
+                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                    HashMap<String,String> mparams = new HashMap<String, String>();
+                    mparams.put(SoupContract.AUTH_TOKEN,pref.getString(SoupContract.AUTH_TOKEN,null));
+                    NetworkUtilsLogin networkUtilsLogin = new NetworkUtilsLogin(MainActivity.this,mparams);
+                    networkUtilsLogin.logoutVolleyRequest();
+
+
+
+
+
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User cancelled the dialog
+                }
+            });
+
+// 3. Get the AlertDialog from create()
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+
+        }
 
     }
 
@@ -359,5 +404,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onclickFeed(View v){
         viewPager.setCurrentItem(0);
+    }
+
+    public void googleLogout() {
+
+        LoginManager.getInstance().logOut();
+
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+
+                    }
+                });
+
+    }
+
+    public void goLoginActivity() {
+        SharedPreferences.Editor edit = pref.edit();
+        edit.clear();
+        edit.apply();
+        edit.putBoolean("simulateclick1", true);
+        edit.putBoolean("simulateclick5", true);
+        edit.apply();
+
+        Intent intent = new Intent (MainActivity.this,LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

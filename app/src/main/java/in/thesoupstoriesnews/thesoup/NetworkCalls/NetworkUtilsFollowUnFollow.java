@@ -25,7 +25,10 @@ import in.thesoupstoriesnews.thesoup.Activities.DetailsActivity;
 import in.thesoupstoriesnews.thesoup.Activities.MainActivity;
 //import in.thesoup.thesoup.Activities.feedActivity;
 //import in.thesoup.thesoup.Application.AnalyticsApplication;
+import in.thesoupstoriesnews.thesoup.Activities.NavigationActivity;
 import in.thesoupstoriesnews.thesoup.Fragments.DiscoverFragment;
+import in.thesoupstoriesnews.thesoup.Fragments.DiscoverFragmentMain;
+import in.thesoupstoriesnews.thesoup.Fragments.HomeFragment;
 import in.thesoupstoriesnews.thesoup.Fragments.MyFeedFragment;
 import in.thesoupstoriesnews.thesoup.SoupContract;
 
@@ -82,9 +85,9 @@ public class NetworkUtilsFollowUnFollow {
 
                         String Story_id = "";
 
-                        if (mcontext instanceof MainActivity) {
+                        if (mcontext instanceof NavigationActivity) {
 
-                            MainActivity activity = (MainActivity) mcontext;
+                           NavigationActivity activity = (NavigationActivity) mcontext;
 
 
                             if (fragmenttag == 0) {
@@ -100,10 +103,10 @@ public class NetworkUtilsFollowUnFollow {
 
                                     // application.sendEventCollectionUser(mTracker, SoupContract.CONVERSION, SoupContract.FOLLOW, SoupContract.HOME_PAGE_DISCOVE, Storytitle, String.valueOf(Story_id), pref.getString(SoupContract.FB_ID, null), pref.getString(SoupContract.FIRSTNAME, null) + pref.getString(SoupContract.LASTNAME, null));
 
-                                    ((DiscoverFragment) f).demo1(position, "1");
+                                    ((DiscoverFragmentMain) f).demo1(position, "1");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    ((DiscoverFragment) f).demo1(position, "0");
+                                    ((DiscoverFragmentMain) f).demo1(position, "0");
                                 }
                             } else if (fragmenttag == 1) {
 
@@ -118,10 +121,10 @@ public class NetworkUtilsFollowUnFollow {
 
                                     // application.sendEventCollectionUser(mTracker, SoupContract.CONVERSION, SoupContract.FOLLOW, SoupContract.HOME_PAGE_DISCOVE, Storytitle, String.valueOf(Story_id), pref.getString(SoupContract.FB_ID, null), pref.getString(SoupContract.FIRSTNAME, null) + pref.getString(SoupContract.LASTNAME, null));
 
-                                    ((MyFeedFragment) f).demo1(position, "1");
+                                    ((HomeFragment) f).demo1(position, "1");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    ((MyFeedFragment) f).demo1(position, "0");
+                                    ((HomeFragment) f).demo1(position, "0");
                                 }
 
                             }
@@ -223,8 +226,8 @@ public class NetworkUtilsFollowUnFollow {
 
                         String Story_id = "";
 
-                        if (mcontext instanceof MainActivity) {
-                            MainActivity activity = (MainActivity) mcontext;
+                        if (mcontext instanceof NavigationActivity) {
+                            NavigationActivity activity = (NavigationActivity) mcontext;
                             if (fragmenttag == 0) {
                                 Fragment f = activity.getFragment(fragmenttag);
                                 try {
@@ -232,10 +235,10 @@ public class NetworkUtilsFollowUnFollow {
                                     String Storytitle = "";
                                     //analytics
                                     //application.sendEventCollectionUser(mTracker, SoupContract.CONVERSION, SoupContract.UNFOLLOW, SoupContract.HOME_PAGE_DISCOVER, Storytitle, String.valueOf(Story_id), pref.getString(SoupContract.FB_ID, null),pref.getString(SoupContract.FIRSTNAME, null) + pref.getString(SoupContract.LASTNAME, null));
-                                    ((DiscoverFragment) f).demo1(position, "0");
+                                    ((DiscoverFragmentMain) f).demo1(position, "0");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    ((DiscoverFragment) f).demo1(position, "1");
+                                    ((DiscoverFragmentMain) f).demo1(position, "1");
                                 }
                             } else if (fragmenttag == 1) {
                                 Fragment f = activity.getFragment(fragmenttag);
@@ -245,10 +248,10 @@ public class NetworkUtilsFollowUnFollow {
                                     //analytics
                                     // application.sendEventCollectionUser(mTracker, SoupContract.CONVERSION, SoupContract.FOLLOW, SoupContract.HOME_PAGE_DISCOVE, Storytitle, String.valueOf(Story_id), pref.getString(SoupContract.FB_ID, null), pref.getString(SoupContract.FIRSTNAME, null) + pref.getString(SoupContract.LASTNAME, null));
                                     Log.d("position", String.valueOf(position));
-                                    ((MyFeedFragment) f).demo1(position, "0");
+                                    ((HomeFragment) f).demo1(position, "0");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    ((MyFeedFragment) f).demo1(position, "1");
+                                    ((HomeFragment) f).demo1(position, "1");
                                 }
                             }
                         } else if (mcontext instanceof DetailsActivity) {

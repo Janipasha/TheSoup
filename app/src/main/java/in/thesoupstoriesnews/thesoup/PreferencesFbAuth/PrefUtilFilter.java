@@ -68,6 +68,21 @@ public class PrefUtilFilter {
 
     }
 
+    public void SaveFirstFiltername(String firstfiltername){
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("firstfiltername",firstfiltername);
+        editor.apply();
+
+    }
+
+    public String getFirstFiltername(){
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity);
+
+        return pref.getString("firstfiltername",null);
+
+    }
+
     public void AllIDselect(int m){
         for(int i =1;i<=m;i++){
             IDstatus(String.valueOf(i),"1");

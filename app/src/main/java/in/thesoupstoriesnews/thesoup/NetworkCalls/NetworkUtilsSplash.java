@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import in.thesoupstoriesnews.thesoup.Activities.FilterActivity;
 import in.thesoupstoriesnews.thesoup.Activities.PagerActivity;
 import in.thesoupstoriesnews.thesoup.Activities.SplashActivity;
 import in.thesoupstoriesnews.thesoup.GSONclasses.filters.Filterdata;
@@ -79,8 +80,8 @@ public class NetworkUtilsSplash {
                         edit.putString("filterobject",response.toString());
                         edit.apply();
 
-                        //SplashActivity activity = (SplashActivity) mcontext;
-                        //((SplashActivity) mcontext).ToMainActivity();
+                        SplashActivity activity = (SplashActivity) mcontext;
+                        ((SplashActivity) mcontext).ToMainActivity();
 
 
 
@@ -179,6 +180,76 @@ public class NetworkUtilsSplash {
         };
         jsObjRequest.setRetryPolicy(new DefaultRetryPolicy(
                SoupContract.TIMEOUT_RETRY_TIME,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        singleton.addToRequestQueue(jsObjRequest);
+
+
+
+    }
+
+    public void setInterestedCategories(){
+
+        MySingleton singleton = MySingleton.getInstance(mcontext);
+
+        //RequestQueue queue = singleton.getRequestQueue();
+
+
+        final JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.POST, SoupContract.SETCATEGORIES, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i("setFilterResponse", response.toString());
+
+
+                        FilterActivity activity = (FilterActivity) mcontext;
+                        activity.goTomainActivity();
+
+
+
+
+                    }
+
+
+                    //mEarthquakedatajsonclass = red;
+
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Auto-generated method stub
+
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null) {
+                            NetworkResponse networkResponse = error.networkResponse;
+                            //TODO: error response write for fragment
+
+
+
+                            Log.d("setFilercallerror",": "+String.valueOf(networkResponse.statusCode));
+
+                        }
+
+                    }
+                }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> headerParam = new HashMap<>();
+                headerParam.put("Content-Type","multipart/form-data;boundary="+BOUNDARY+";");
+                return headerParam;
+            }
+
+            @Override
+            public byte[] getBody() {
+                String postBody = createPostBody(params);
+
+                return postBody.getBytes();
+            }
+        };
+        jsObjRequest.setRetryPolicy(new DefaultRetryPolicy(
+                SoupContract.TIMEOUT_RETRY_TIME,
                 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 

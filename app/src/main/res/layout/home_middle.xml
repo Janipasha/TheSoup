@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="35dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="15dp"
+    android:layout_marginLeft="20dp"
+    tools:ignore="MissingPrefix">
+
+    <TextView
+        android:id="@+id/moreforyou"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="#222222"
+        fontPath="fonts/montserrat-bold.ttf"
+        android:lineSpacingExtra="0sp"
+        tools:text="More stories for you"
+         />
+
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/moreseeall"
+        android:layout_alignBaseline="@id/moreforyou"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        fontPath="fonts/montserrat-medium.ttf"
+        android:textColor="#222222"
+        android:lineSpacingExtra="1sp"
+        android:gravity="end"
+        tools:text="See All"
+        />
+
+
+</RelativeLayout>

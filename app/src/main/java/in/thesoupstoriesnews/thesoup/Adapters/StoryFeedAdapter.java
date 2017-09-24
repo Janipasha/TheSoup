@@ -13,7 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -39,11 +41,14 @@ import java.util.List;
 //import in.thesoup.thesoup.Activities.MainActivity;
 //import in.thesoup.thesoup.Application.AnalyticsApplication;
 import in.thesoupstoriesnews.thesoup.Activities.DetailsActivity;
+import in.thesoupstoriesnews.thesoup.Activities.MainActivity;
 import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSON.StoryData;
 //import in.thesoup.thesoup.NetworkCalls.NetworkUtilsFollowUnFollow;
 import in.thesoupstoriesnews.thesoup.NetworkCalls.NetworkUtilsFollowUnFollow;
 import in.thesoupstoriesnews.thesoup.R;
 import in.thesoupstoriesnews.thesoup.SoupContract;
+import me.toptas.fancyshowcase.FancyShowCaseQueue;
+import me.toptas.fancyshowcase.FancyShowCaseView;
 
 import static android.R.attr.format;
 
@@ -88,14 +93,15 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
     }
 
 
-    public class DataViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView storyTitle, substoryTitle, date, seeall, viewmore, numberOfArticles,countSubstories,readstatustext;
-        public ImageView imageView, ReadImageBlur,circle,pluscircle,filtericon;
-        public View leftline, leftLine1, leftline2, bottomline;
+    public class DataViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnTouchListener {
+        public TextView storyTitle, substoryTitle, date, seeall, viewmore, numberOfArticles,countSubstories,readstatustext,shareText;
+        public ImageView imageView, ReadImageBlur,circle,pluscircle,filtericon,shareIcon;
         public Button mButton;
+        public View leftline, leftLine1, leftline2, bottomline;
         public ImageButton tickfollow;
         public RelativeLayout toplayout,followlayout;
-        public LinearLayout linearLayout;
+        public LinearLayout linearLayout,sharelayout;
+
 
 
         public DataViewHolder(View itemView) {
@@ -129,12 +135,15 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
             filtericon = (ImageView)itemView.findViewById(R.id.filtericon);
             countSubstories = (TextView)itemView.findViewById(R.id.count_substories);
             followlayout = (RelativeLayout)itemView.findViewById(R.id.button_follow);
+            shareIcon = (ImageView)itemView.findViewById(R.id.shareicon);
+            shareText= (TextView)itemView.findViewById(R.id.sharetext);
+            sharelayout = (LinearLayout) itemView.findViewById(R.id.shareLayout);
 
             readstatustext.setVisibility(View.GONE);
            ReadImageBlur.setVisibility(View.GONE);
 
-
             imageView.setOnClickListener(this);
+            sharelayout.setOnClickListener(this);
             tickfollow.setOnClickListener(this);
 
             storyTitle.setOnClickListener(this);
@@ -147,9 +156,25 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
             linearLayout.setOnClickListener(this);
             followlayout.setOnClickListener(this);
 
+            linearLayout.setOnTouchListener(this);
+            itemView.setOnClickListener(this);
+
+
 
         }
 
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+
+
+
+            pref = PreferenceManager.getDefaultSharedPreferences(context);
+
+
+
+            return false;
+
+        }
 
         @Override
         public void onClick(View view) {
@@ -163,12 +188,10 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
             String hex_colour = StoryDataList.get(mposition).getCategoryColour();
            String category = StoryDataList.get(mposition).getCategoryName();
 
-
-            //application = AnalyticsApplication.getInstance();
-            //mTracker = application.getDefaultTracker();
             pref = PreferenceManager.getDefaultSharedPreferences(context);
 
             if (view == imageView || view == storyTitle || view == numberOfArticles ||view == linearLayout||view == substoryTitle||view ==ReadImageBlur) {
+
 
                 Intent intent = new Intent(context, DetailsActivity.class);
                 intent.putExtra("story_id", mString);
@@ -187,19 +210,70 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
                 mparams.putString("position_card_collection", String.valueOf(mposition));
                 mparams.putString("follow_status", mfollowstatus);
                 mparams.putString("category", "tap");
+
+                if(fragmenttag==0){
+                    mparams.putString("label","discover_screen");
+                }else if(fragmenttag==1){
+                    mparams.putString("label","notification_screen");
+                }
+
                 mFirebaseAnalytics.logEvent("tap_card_cover", mparams);
                 //
-
 
                 context.startActivity(intent);
 
             } else if (view == mButton||view==tickfollow||view ==followlayout) {
+
+
                 clickposition = mposition;
                 clickStoryId = mString;
                 clickStoryName = Storyname;
 
                 followstory();
             }
+
+            if(view ==itemView){
+
+                MainActivity activity = (MainActivity)context;
+
+                final FancyShowCaseView fancyShowCaseView1 = new FancyShowCaseView.Builder(activity)
+                        .focusOn(mButton)
+                        .backgroundColor(Color.parseColor("#CD000000"))
+                        .title("Tap To Follow This Story")
+                        .titleSize(20,1)
+                        .build();
+
+
+                final FancyShowCaseView fancyShowCaseView3 =new FancyShowCaseView.Builder(activity)
+                        .customView(R.layout.overlay1,null)
+                        .backgroundColor(Color.parseColor("#CD000000"))
+                        .build();
+
+                if (!pref.getBoolean("showcase1", false)) {
+
+                    new FancyShowCaseQueue()
+                            .add(fancyShowCaseView1)
+                            .add(fancyShowCaseView3)
+                            .show();
+
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putBoolean("showcase1", true);
+                    editor.commit();
+
+                }
+
+            }
+
+            if(view==sharelayout){
+
+                String URL = "http://whatsonapp.info/share/"+StoryDataList.get(mposition).getStoryId()+"/"+StoryDataList.get(mposition).getSubstoryId();
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT,  "Share via");
+                i.putExtra(Intent.EXTRA_TEXT, URL);
+                context.startActivity(Intent.createChooser(i,"Share via"));
+            }
+
 
         }
 
@@ -213,12 +287,17 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
         // CVIPUL Analytics
         // TODO : Verify follow event, add collection location if possible
         Bundle mparams = new Bundle();
-        mparams.putString("screen_name", String.valueOf(fragmenttag)); // "myfeed / discover"
+       // mparams.putString("screen_name", String.valueOf(fragmenttag)); // "myfeed / discover"
         mparams.putString("collection_id", clickStoryId);
         mparams.putString("collection_name", clickStoryName);
         mparams.putString("position_card_collection", String.valueOf(clickposition));
         mparams.putString("category", "tap");
-        //
+        if(fragmenttag==0){
+            mparams.putString("label","discover_screen");
+        }else if(fragmenttag==1){
+            mparams.putString("label","notification_screen");
+        }
+
 
         if (mfollowstatus.equals("") || mfollowstatus.equals("0") || TextUtils.isEmpty(mfollowstatus)) {
 
@@ -236,9 +315,7 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
 
             //Analytics
             mFirebaseAnalytics.logEvent("tap_remove", mparams);
-
             HashMap<String, String> params = new HashMap<>();
-
             params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
             params.put("story_id", clickStoryId);
 
@@ -264,9 +341,9 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
     @Override
     public void onBindViewHolder(StoryFeedAdapter.DataViewHolder holder, int position) {
 
+
         final StoryData mStoryData = StoryDataList.get(position);
         String followstatus = mStoryData.getFollowStatus();
-
 
         String storytitle = mStoryData.getStoryName();
 
@@ -276,6 +353,8 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
 
        holder.ReadImageBlur.setVisibility(View.GONE);
         holder.readstatustext.setVisibility(View.GONE);
+
+
 
 
         if (Readstatus != null && !Readstatus.isEmpty()) {
@@ -436,9 +515,7 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
             holder.mButton.setVisibility(View.GONE);
             holder.tickfollow.setVisibility(View.VISIBLE);
 
-            Typeface face = Typeface.createFromAsset(context.getAssets(),
-                    "fonts/proxima-nova-bold.otf");
-            holder.mButton.setTypeface(face);
+
         } else if (followstatus.equals("0")) {
             holder.mButton.setVisibility(View.VISIBLE);
             holder.mButton.setText("Follow");
@@ -482,9 +559,14 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.Data
             //holder.categoryname.setTextColor(Color.parseColor("#" + mStoryData.getCategoryColour()));
             holder.seeall.setTextColor(Color.parseColor("#" + mStoryData.getCategoryColour()));
             holder.viewmore.setTextColor(Color.parseColor("#"+color));
+            holder.shareText.setTextColor(Color.parseColor("#"+color));
+            holder.shareIcon.setColorFilter(Color.parseColor("#"+color));
         } else {
             //holder.categoryname.setVisibility(View.INVISIBLE);
             holder.numberOfArticles.setTextColor(Color.parseColor("#000000"));
+            holder.shareText.setTextColor(Color.parseColor("#000000"));
+            holder.shareIcon.setColorFilter(Color.parseColor("#000000"));
+
         }
 
 

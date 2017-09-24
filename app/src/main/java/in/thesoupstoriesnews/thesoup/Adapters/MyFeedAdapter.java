@@ -23,6 +23,8 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,6 +37,7 @@ import java.util.List;
 import in.thesoupstoriesnews.thesoup.Activities.DetailsActivity;
 import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSON.StoryData;
 //import in.thesoup.thesoup.NetworkCalls.NetworkUtilsFollowUnFollow;
+import in.thesoupstoriesnews.thesoup.NetworkCalls.NetworkUtilsClick;
 import in.thesoupstoriesnews.thesoup.NetworkCalls.NetworkUtilsFollowUnFollow;
 import in.thesoupstoriesnews.thesoup.R;
 import in.thesoupstoriesnews.thesoup.SoupContract;
@@ -107,7 +110,7 @@ public class MyFeedAdapter extends RecyclerView.Adapter<MyFeedAdapter.DataViewHo
                 //bottomline = (View) itemView.findViewById(R.id.bottomline);
                 filtericon = (ImageView)itemView.findViewById(R.id.filtericon);
 
-                imageView = (ImageView) itemView.findViewById(R.id.filtericon);
+               // imageView = (ImageView) itemView.findViewById(R.id.filtericon);
                 Readdot = (ImageView)itemView.findViewById(R.id.red_dot);
                 Readdot.setVisibility(View.VISIBLE);
                 cardView = (CardView)itemView.findViewById(R.id.myfeedcard);
@@ -139,7 +142,7 @@ public class MyFeedAdapter extends RecyclerView.Adapter<MyFeedAdapter.DataViewHo
 
                 int mposition = getAdapterPosition();
                 String Storyname = StoryDataList.get(mposition).getStoryName();
-                String mfollowstatus = StoryDataList.get(mposition).getFollowStatus();
+                //String mfollowstatus = StoryDataList.get(mposition).getFollowStatus();
                 String mString = StoryDataList.get(mposition).getStoryId();
                 String storytitle = StoryDataList.get(mposition).getStoryName();
                 String hex_colour = StoryDataList.get(mposition).getCategoryColour();
@@ -151,10 +154,25 @@ public class MyFeedAdapter extends RecyclerView.Adapter<MyFeedAdapter.DataViewHo
 
                 if (view == storyTitle|| view == substoryTitle||view ==cardView) {
 
+
+                    cardView.setCardBackgroundColor(Color.parseColor("#dddddd"));
+                    Readdot.setVisibility(View.INVISIBLE);
+
+                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+                    HashMap<String,String> params = new HashMap<>();
+                    params.put(SoupContract.AUTH_TOKEN,pref.getString(SoupContract.AUTH_TOKEN,null));
+                    params.put("id",StoryDataList.get(mposition).getNotifId());
+                    params.put("type","notify");
+                    NetworkUtilsClick networkUtilsClick = new NetworkUtilsClick(context,params);
+                    try {
+                        networkUtilsClick.sendClick();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     Intent intent = new Intent(context, DetailsActivity.class);
                     intent.putExtra("story_id", mString);
                     intent.putExtra("storytitle", storytitle);
-                    intent.putExtra("followstatus", mfollowstatus);
+                    intent.putExtra("followstatus", "1");
                     intent.putExtra("fragmenttag", fragmenttag);
                     intent.putExtra("category", category);
                     intent.putExtra("hex_colour", hex_colour);
@@ -162,76 +180,30 @@ public class MyFeedAdapter extends RecyclerView.Adapter<MyFeedAdapter.DataViewHo
                     // CVIPUL Analytics
                     // TODO : Verify card_click event, add collection location if possible
                     Bundle mparams = new Bundle();
-                    mparams.putString("screen_name", String.valueOf(fragmenttag)); // "myfeed / discover"
+                    // mparams.putString("screen_name", String.valueOf(fragmenttag)); // "myfeed / discover"
                     mparams.putString("collection_id", mString);
                     mparams.putString("collection_name", Storyname);
                     mparams.putString("position_card_collection", String.valueOf(mposition));
-                    mparams.putString("follow_status", mfollowstatus);
+                    mparams.putString("follow_status", "1");
                     mparams.putString("category", "tap");
+                    if (fragmenttag == 0) {
+                        mparams.putString("label", "discover_screen");
+                    } else if (fragmenttag == 1) {
+                        mparams.putString("label", "notification_screen");
+                    }
                     mFirebaseAnalytics.logEvent("tap_card_cover", mparams);
                     //
 
 
                     context.startActivity(intent);
 
-                }/* else if (view == mButton) {
-                    clickposition = mposition;
-                    clickStoryId = mString;
-                    clickStoryName = Storyname;
-
-                    followstory();
-                }*/
+                }
 
             }
 
         }
 
-        public void followstory() {
 
-            Log.d("follow worked", clickStoryId);
-            String mfollowstatus = StoryDataList.get(clickposition).getFollowStatus();
-
-            // CVIPUL Analytics
-            // TODO : Verify follow event, add collection location if possible
-            Bundle mparams = new Bundle();
-            mparams.putString("screen_name", String.valueOf(fragmenttag)); // "myfeed / discover"
-            mparams.putString("collection_id", clickStoryId);
-            mparams.putString("collection_name", clickStoryName);
-            mparams.putString("position_card_collection", String.valueOf(clickposition));
-            mparams.putString("category", "tap");
-            //
-
-            if (mfollowstatus.equals("") || mfollowstatus.equals("0") || TextUtils.isEmpty(mfollowstatus)) {
-
-                //Analytics
-                mFirebaseAnalytics.logEvent("tap_add", mparams);
-                HashMap<String, String> params = new HashMap<>();
-
-                params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
-                params.put("story_id", clickStoryId);
-                NetworkUtilsFollowUnFollow followrequest = new NetworkUtilsFollowUnFollow(context, params);
-                followrequest.followRequest(clickposition, fragmenttag);
-
-
-            } else if (mfollowstatus.equals("1")) {
-
-                //Analytics
-                mFirebaseAnalytics.logEvent("tap_remove", mparams);
-
-                HashMap<String, String> params = new HashMap<>();
-
-                params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
-                params.put("story_id", clickStoryId);
-
-                Log.d("Check mStorydata size", String.valueOf(StoryDataList.size()));
-
-                NetworkUtilsFollowUnFollow unFollowrequest = new NetworkUtilsFollowUnFollow(context, params);
-
-                unFollowrequest.unFollowRequest(clickposition, fragmenttag);
-
-
-            }
-        }
 
 
         @Override
@@ -251,10 +223,14 @@ public class MyFeedAdapter extends RecyclerView.Adapter<MyFeedAdapter.DataViewHo
 
             String storytitle = mStoryData.getStoryName();
 
-            String Readstatus = mStoryData.getReadStatus();
+            String Readstatus = mStoryData.getClicked();
 
             //holder.ReadImageBlur.setVisibility(View.GONE);
             //holder.readstatustext.setVisibility(View.GONE);
+
+            holder.Readdot.setVisibility(View.VISIBLE);
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#ffffff"));
+
 
 
             if (Readstatus != null && !Readstatus.isEmpty()) {

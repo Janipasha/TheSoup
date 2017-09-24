@@ -160,11 +160,12 @@ public class HorizontalArticleAdapter extends RecyclerView.Adapter<HorizontalArt
             String ArticleURL = articles.get(position).getUrl();
 
 
+
             Intent intent = new Intent(context, ArticleWebViewActivity.class);
             intent.putExtra("ArticleURL", ArticleURL);
             intent.putExtra("storycolor",storyColor);
            intent.putExtra("substory_id",SubstoryId);
-           /* //CVIPUL Analytics
+            /*//CVIPUL Analytics
             intent.putExtra("collection_id", StoryId);
             intent.putExtra("follow_status", followStatus);
             intent.putExtra("collection_name", StoryTitle);

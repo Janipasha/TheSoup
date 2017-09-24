@@ -62,7 +62,6 @@
             fontPath="fonts/montserrat-medium.ttf"
             android:letterSpacing="-0.03"
             android:lineSpacingExtra="0sp"
-
             tools:text="8 hours ago"
             />
 
@@ -202,6 +201,33 @@
             android:layout_marginLeft="21.5dp"
             android:background="#a9382b" />
 
+        <LinearLayout
+            android:id="@+id/shareLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_toRightOf="@id/leftline1"
+            android:layout_marginLeft="20dp"
+            android:layout_alignBottom="@id/number_of_articles_story"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:id="@+id/sharetext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SHARE"
+                android:textSize="11sp"
+                fontPath="fonts/montserrat-light.ttf"/>
+
+            <ImageView
+                android:id="@+id/shareicon"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src= "@drawable/icons8_share"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"/>
+
+        </LinearLayout>
 
 
 

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginTop="15dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix">
+
+    <TextView
+        android:id="@+id/hello_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        fontPath="fonts/montserrat-bold.ttf"
+        android:textColor="#222222"
+        android:lineSpacingExtra="0sp"
+        tools:text="Hello Aditya"
+       />
+
+    <TextView
+        android:id="@+id/manage_home"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        fontPath="fonts/montserrat-medium.ttf"
+        android:textColor="#222222"
+        android:lineSpacingExtra="1sp"
+        android:gravity="end"
+        android:layout_alignBaseline="@id/hello_user"
+        tools:text="Manage Home" />
+
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/hello_user"
+        android:id="@+id/follwedstories_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        fontPath="fonts/montserrat-light.ttf"
+        android:textColor="#222222"
+        android:lineSpacingExtra="2sp"
+        tools:text="12 of your followed stories got updated while you were away"/>
+
+
+    <TextView
+        android:layout_marginBottom="15dp"
+        android:layout_below="@id/follwedstories_message"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        fontPath="fonts/montserrat-bold.ttf"
+        android:textSize="20sp"
+        android:textColor="#222222"
+        android:id="@+id/followedtext"
+        android:lineSpacingExtra="0sp"
+        tools:text="From Your Followed"
+        />
+
+    <LinearLayout
+        android:layout_alignBottom="@id/followedtext"
+        android:layout_toRightOf="@id/followedtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginRight="20dp"
+        android:padding="3dp"
+        android:id="@+id/notificationNumber"
+        android:background="#222222"
+        >
+
+        <TextView
+            android:id="@+id/numberfollowingupdates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="15sp"
+            fontPath="fonts/montserrat-bold.ttf"
+            android:textColor="#ffffff"
+            android:lineSpacingExtra="3sp"
+            android:gravity="center_horizontal"
+            tools:text="02"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/followedseeall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="#222222"
+        android:lineSpacingExtra="1sp"
+        android:gravity="end"
+        tools:text="See All"
+        fontPath="fonts/montserrat-medium.ttf"
+        android:layout_alignBaseline="@+id/followedtext"
+        android:layout_alignBottom="@+id/followedtext"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/fromyourfollowedtext"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/followedtext"
+        android:layout_alignLeft="@id/followedtext"
+        android:layout_marginBottom="35dp"
+        android:text="Nice! You are up to date with your followed stories.
+
+We have gathered More Stories For You below.
+Or check out other stories in Discover."/>
+
+</RelativeLayout>

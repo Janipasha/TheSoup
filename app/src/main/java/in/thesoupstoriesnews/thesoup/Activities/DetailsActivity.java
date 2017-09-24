@@ -11,10 +11,16 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -39,6 +45,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import in.thesoupstoriesnews.thesoup.Adapters.DetailsmainAdapter;
 import in.thesoupstoriesnews.thesoup.Adapters.ExpandableListAdapter;
 //import in.thesoup.thesoup.Application.AnalyticsApplication;
 import in.thesoupstoriesnews.thesoup.GSONclasses.SinglestoryGSON.Articles;
@@ -47,9 +54,11 @@ import in.thesoupstoriesnews.thesoup.NetworkCalls.NetworkUtilsFollowUnFollow;
 import in.thesoupstoriesnews.thesoup.NetworkCalls.NetworkUtilsStory;
 import in.thesoupstoriesnews.thesoup.R;
 import in.thesoupstoriesnews.thesoup.SoupContract;
+import me.toptas.fancyshowcase.FancyShowCaseView;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static in.thesoupstoriesnews.thesoup.R.id.bottomline;
 import static in.thesoupstoriesnews.thesoup.R.id.detailslayout;
 import static in.thesoupstoriesnews.thesoup.R.id.showmore;
 
@@ -57,13 +66,13 @@ import static in.thesoupstoriesnews.thesoup.R.id.showmore;
  * Created by Jani on 09-04-2017.
  */
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private List<Substories> mSubstories;
-    private ExpandableListView SingleStoryView;
-    private ExpandableListAdapter nSingleStoryAdapter;
+    private RecyclerView SingleStoryView;
+    private DetailsmainAdapter nSingleStoryAdapter;
     private String StoryTitle, followStatus, StoryId;
-    private EndlessScrollListener scrollListener;
+    private EndlessRecyclerViewScrollListener scrollListener;
     private SharedPreferences pref;
     HashMap<String, String> mparams;
     private int fragmenttag;
@@ -76,6 +85,9 @@ public class DetailsActivity extends AppCompatActivity {
     private ImageView filtericon;
     private FirebaseAnalytics mFirebaseAnalytics;
     private RelativeLayout relativeLayout, relativeLayouttick;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private String totalRefresh = "0";
+    private HashMap<String, String> expandedCount;
 
 
     @Override
@@ -115,7 +127,7 @@ public class DetailsActivity extends AppCompatActivity {
             Window window = this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.parseColor("#222222"));
+            window.setStatusBarColor(Color.parseColor("#"+storyColour));
         }
 
         progress = (ProgressBar) findViewById(R.id.progressbarstory);
@@ -163,57 +175,70 @@ public class DetailsActivity extends AppCompatActivity {
         Log.d("followstatus details2", followStatus);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/proxima-nova-black.otf")
+                .setDefaultFontPath("fonts/montserrat-bold.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
 
         mSubstories = new ArrayList<>();
 
-        SingleStoryView = (ExpandableListView) findViewById(R.id.lvExp);
-        SingleStoryView.setDivider(null);
+        SingleStoryView = (RecyclerView) findViewById(R.id.lvExp);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        SingleStoryView.setLayoutManager(layoutManager);
 
-       scrollListener = new EndlessScrollListener(5) {
+        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
-            public void onLoadMore(int page, int totalItemsCount, AbsListView view) {
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
 
                 loadNextDataFromApi(page);
-
             }
         };
 
-        SingleStoryView.setOnScrollListener(scrollListener);
-
+        SingleStoryView.addOnScrollListener(scrollListener);
         mparams = new HashMap<>();
         mparams.put("page", "0");
         mparams.put("story_id", StoryId);
 
-        if (pref.getString(SoupContract.AUTH_TOKEN, null)!=null&&!pref.getString(SoupContract.AUTH_TOKEN, null).isEmpty()) {
+        nSingleStoryAdapter = new DetailsmainAdapter(this, mSubstories, storyColour);
+        SingleStoryView.setAdapter(nSingleStoryAdapter);
 
+        NetworkCallDetails();
+
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_details);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+
+        expandedCount = new HashMap<>();
+
+    }
+
+    private void NetworkCallDetails() {
+
+        if (pref.getString(SoupContract.AUTH_TOKEN, null)!=null&&!pref.getString(SoupContract.AUTH_TOKEN, null).isEmpty()) {
+            mparams.put("page", "0");
+            mparams.put("story_id", StoryId);
             mparams.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
             progress.setVisibility(View.VISIBLE);
             progress.setProgress(0);
-            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, mparams);
+            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, mparams,totalRefresh);
             try {
                 networkutils.getSingleStory();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }else{
+            mparams.put("page", "0");
+            mparams.put("story_id", StoryId);
             progress.setVisibility(View.VISIBLE);
             progress.setProgress(0);
-            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, mparams);
+            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, mparams,totalRefresh);
             try {
                 networkutils.getSingleStory();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-
-        nSingleStoryAdapter = new ExpandableListAdapter(this, mSubstories, storyColour);
-        SingleStoryView.setAdapter(nSingleStoryAdapter);
-
-
     }
 
     private void followButtonStatus() {
@@ -247,6 +272,8 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void loadNextDataFromApi(int offset) {
 
+        totalRefresh="0";
+
         String page = String.valueOf(offset);
 
         if (pref.getString(SoupContract.AUTH_TOKEN, null)!=null&&!pref.getString(SoupContract.AUTH_TOKEN, null).isEmpty()) {
@@ -256,7 +283,7 @@ public class DetailsActivity extends AppCompatActivity {
             mparams.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
             mparams.put("page", String.valueOf(offset));
             mparams.put("story_id", StoryId);
-            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, mparams);
+            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, mparams,totalRefresh);
 
             try {
                 networkutils.getSingleStory();
@@ -270,7 +297,7 @@ public class DetailsActivity extends AppCompatActivity {
             mparams.put("story_id", StoryId);
             progress.setVisibility(View.VISIBLE);
             progress.setProgress(0);
-            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, mparams);
+            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, mparams,totalRefresh);
 
             try {
                 networkutils.getSingleStory();
@@ -282,17 +309,34 @@ public class DetailsActivity extends AppCompatActivity {
 
         }
 
+    @Override
+    public void onRefresh() {
+        totalRefresh="1";
+        swipeRefreshLayout.setRefreshing(true);
+        NetworkCallDetails();
+    }
 
-
-
-    public void startAdapter(List<Substories> mSubstories, String StoryTitle) {
+    public void startRefreshAdapter(List<Substories> mSubstories, String storyTitle,String StoryId) {
 
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
         // nSingleStoryAdapter.refreshData(mSubstories,StoryTitle);
 
-        nSingleStoryAdapter.refreshData((mSubstories));
-        SingleStoryView.expandGroup(0);
+        nSingleStoryAdapter.totalRefreshData((mSubstories),StoryId);
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+
+
+
+    public void startAdapter(List<Substories> mSubstories, String StoryTitle,String StoryId) {
+
+        progress.setProgress(100);
+        progress.setVisibility(View.GONE);
+        // nSingleStoryAdapter.refreshData(mSubstories,StoryTitle);
+
+        nSingleStoryAdapter.refreshData((mSubstories),StoryId);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -306,7 +350,7 @@ public class DetailsActivity extends AppCompatActivity {
 
             if (restartactivitystatus == 1) {
 
-                Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
+                Intent intent = new Intent(DetailsActivity.this, NavigationActivity.class);
                 startActivity(intent);
                 finish();
 
@@ -431,6 +475,31 @@ public class DetailsActivity extends AppCompatActivity {
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
     }
+
+
+    public void sendFirebaseExpandEvent(List<Substories> mSubstories) {
+         if(expandedCount.containsKey(String.valueOf(0))){
+
+        }else{
+        if(mSubstories.size()>0) {
+            Bundle mparams = new Bundle();
+            mparams.putString("screen_name", "collection_screen"); // "myfeed / discover"
+            mparams.putString("card_type", "subcollection");
+            String substoryTitle = mSubstories.get(0).getSubstoryName();
+            String upToNCharacters = substoryTitle.substring(0, Math.min(substoryTitle.length(), 100));
+            mparams.putString("subcollection_name", upToNCharacters);
+            mparams.putString("category", "conversion");
+            if (followStatus.equals("1")) {
+                mparams.putString("subscription_state", "added");
+            } else {
+                mparams.putString("subscription_state", "not added");
+            }
+            mparams.putString("subcollection_position", String.valueOf(0));
+            mFirebaseAnalytics.logEvent("explore_subcollection", mparams);
+            expandedCount.put(String.valueOf(0),String.valueOf(0));
+        }
+
+    }}
 }
 
 

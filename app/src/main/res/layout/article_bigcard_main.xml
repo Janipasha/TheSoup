@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingPrefix">
+    
+    <LinearLayout
+        android:id="@+id/firstarticle"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <RelativeLayout
+            android:layout_marginTop="11dp"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content">
+            
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/sourceImage1"
+                android:layout_marginRight="5dp"
+                android:src = "@drawable/background_splash"/>
+            
+            <TextView
+                android:id="@+id/source1"
+                android:layout_toRightOf="@id/sourceImage1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="9sp"
+                fontPath="fonts/montserrat-regular.otf"
+                android:textColor="#757575"
+                android:letterSpacing="-0.04"
+                android:text="NDTV"
+                 />
+            
+            <TextView
+                android:id="@+id/source1_time"
+                android:layout_below="@id/source1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/sourceImage1"
+                android:textSize="9sp"
+                fontPath="fonts/montserrat-regular.otf"
+                android:textColor="#9b9b9b"
+                android:text="9.30 AM, 25 Sep 2017" />
+            
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/article_title1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#222222"
+            android:letterSpacing="-0.02"
+            fontPath="fonts/montserrat-regular.otf"
+            android:lineSpacingExtra="3sp"
+            android:text="Presidential election | Modi-Shah ace: Who can object to a Dalit rights crusader Ram Nath"/>
+
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#f2f2f2"/>
+
+
+        
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/secondarticle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="11dp">
+
+            <ImageView
+                android:id="@+id/sourceImage2"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/background_splash" />
+
+            <TextView
+                android:id="@+id/source2"
+                fontPath="fonts/montserrat-regular.otf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/sourceImage2"
+                android:letterSpacing="-0.04"
+                android:text="NDTV"
+                android:textColor="#757575"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/source2_time"
+                android:layout_width="wrap_content"
+                fontPath="fonts/montserrat-regular.otf"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/source2"
+                android:layout_toRightOf="@id/sourceImage2"
+                android:text="9.30 AM, 25 Sep 2017"
+                android:textColor="#9b9b9b"
+                android:textSize="9sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/article_title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="-0.02"
+            android:lineSpacingExtra="3sp"
+            fontPath="fonts/montserrat-regular.otf"
+            android:text="Presidential election | Modi-Shah ace: Who can object to a Dalit rights crusader Ram Nath"
+            android:textColor="#222222"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="#f2f2f2" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/thirdarticle"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_marginTop="11dp"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/sourceImage3"
+                android:layout_marginRight="5dp"
+                android:src = "@drawable/background_splash"/>
+
+            <TextView
+                android:id="@+id/source3"
+                android:layout_toRightOf="@id/sourceImage3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="9sp"
+                fontPath="fonts/montserrat-regular.otf"
+                android:textColor="#757575"
+                android:letterSpacing="-0.04"
+                android:text="NDTV"/>
+
+            <TextView
+                android:id="@+id/source3_time"
+                android:layout_below="@id/source3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/sourceImage3"
+                android:textSize="9sp"
+                fontPath="fonts/montserrat-regular.otf"
+                android:textColor="#9b9b9b"
+                android:text="9.30 AM, 25 Sep 2017" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/article_title3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            fontPath="fonts/montserrat-regular.otf"
+            android:textColor="#222222"
+            android:letterSpacing="-0.02"
+            android:lineSpacingExtra="3sp"
+            android:text="Presidential election | Modi-Shah ace: Who can object to a Dalit rights crusader Ram Nath"/>
+
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#f2f2f2"/>
+
+
+
+    </LinearLayout>
+</LinearLayout>

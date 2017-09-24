@@ -23,6 +23,8 @@ public class StoryData {
     String active;
     String read;
     String num_substories;
+    String clicked;
+    String notif_id;
 
 
 
@@ -75,6 +77,14 @@ public class StoryData {
     public String getCountSubstories(){
         return num_substories;
     }
+
+    public String getSubstoryId(){
+        return substory_id;
+    }
+
+    public String getNotifId(){return notif_id;}
+
+    public String getClicked(){return clicked;}
 
 
 

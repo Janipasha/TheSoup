@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f2f2f2"
+    tools:ignore="MissingPrefix">
+
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="#222222"
+        fontPath="fonts/montserrat-bold.ttf"
+        android:lineSpacingExtra="0sp"
+        android:text="Stories You Follow"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="19dp">
+
+        <TextView
+            android:layout_alignParentRight="true"
+            android:id="@+id/Sortby"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#222222"
+            fontPath="fonts/montserrat-light.ttf"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Sort By"/>
+
+        <TextView
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            fontPath="fonts/montserrat-bold.ttf"
+            android:layout_height="wrap_content"
+            android:id="@+id/newlyfollowed"
+            android:textColor="#222222"
+            android:layout_marginRight="20dp"
+            android:layout_below="@id/Sortby"
+            android:text="Newly Followed"/>
+
+        <TextView
+            android:id="@+id/seperator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/newlyfollowed"
+            android:text="|"
+            android:layout_below="@id/Sortby"
+            android:layout_marginRight="2dp"/>
+
+        <TextView
+            fontPath="fonts/montserrat-bold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/LatestUpdate"
+            android:layout_below="@id/Sortby"
+            android:text="Latest Updated"
+            android:layout_marginRight="2dp"
+            android:textStyle="bold"
+            android:textColor="#222222"
+            android:layout_toLeftOf="@id/seperator"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#979797"
+            android:layout_below="@id/newlyfollowed"
+            android:layout_marginTop="15dp"/>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

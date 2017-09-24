@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f2f2f2"
+    android:layout_marginBottom="35dp"
+    tools:ignore="MissingPrefix">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="15dp"
+        android:textColor="#222222"
+        android:layout_marginLeft="20dp"
+        fontPath="fonts/montserrat-bold.ttf"
+        android:lineSpacingExtra="0sp"
+        android:text="Discover Stories In"
+         />
+
+    <RelativeLayout
+        android:id="@+id/discover_button"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:background="@drawable/discover_button"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_height="68dp">
+
+        <TextView
+            android:id="@+id/change"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#222222"
+            android:lineSpacingExtra="0sp"
+            fontPath="fonts/montserrat-medium.ttf"
+            android:gravity="end"
+            android:layout_marginLeft="40dp"
+            android:text="Change"
+            />
+
+        <TextView
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/change"
+            android:id="@+id/filter_discover"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            fontPath="fonts/montserrat-bold.ttf"
+            android:textColor="#222222"
+            android:lineSpacingExtra="2sp"
+            android:layout_marginLeft="10dp"
+            android:text="Diplomacy, Defence, War &amp; Terrorism"
+            />
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>

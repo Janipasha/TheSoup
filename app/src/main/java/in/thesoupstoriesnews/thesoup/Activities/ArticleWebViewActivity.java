@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -63,7 +64,7 @@ public class ArticleWebViewActivity extends AppCompatActivity {
 		
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/proxima-nova-black.otf")
+                .setDefaultFontPath("fonts/montserrat-bold.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
@@ -76,7 +77,7 @@ public class ArticleWebViewActivity extends AppCompatActivity {
         mExtras = getIntent().getExtras();
 
         URL = mExtras.getString("ArticleURL");
-        SubstoryId = mExtras.getString("substory_id");
+       // SubstoryId = mExtras.getString("substory_id");
         storyColor = mExtras.getString("storycolor");
 
        /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -152,26 +153,28 @@ public class ArticleWebViewActivity extends AppCompatActivity {
         wView = (WebView)findViewById(R.id.webview);
         //TODO: progress bar add
         progress = (ProgressBar) findViewById(R.id.progressBar);
-        progress.setVisibility(View.GONE);
+        progress.setVisibility(View.VISIBLE);
 
         wView.setWebViewClient(new MyWebViewClient());
 
         wView.getSettings().setLoadsImagesAutomatically(true);
+        wView.getSettings().setLoadsImagesAutomatically(true);
         wView.getSettings().setJavaScriptEnabled(true);
+        wView.setWebChromeClient(new WebChromeClient());
+        wView.getSettings().setDomStorageEnabled(true);
         wView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         wView.loadUrl(URL);
-
-
-
 
     }
 
     private class MyWebViewClient extends WebViewClient {
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
             return true;
         }
+
 
         @Override
         public void onPageFinished(WebView view, String url) {
@@ -195,9 +198,9 @@ public class ArticleWebViewActivity extends AppCompatActivity {
 			// TODO : verify Entity(article) click event
 			mParams.putString("url_browsing", url);
 			Bundle params = mParams;
-			params.putString("category", "screen_view");
+			params.putString("category", "conversion");
 			if(url.equals(mParams.getString("url_entity"))){
-				mFirebaseAnalytics.logEvent("viewed_screen_browser", params);
+				mFirebaseAnalytics.logEvent("read", params);
 			} else {
 				mFirebaseAnalytics.logEvent("viewed_screen_browser_hyperlink",params);
 			}
@@ -205,23 +208,6 @@ public class ArticleWebViewActivity extends AppCompatActivity {
         }
     }
 
-    /*@Override
-    protected void onStart() {
-        super.onStart();
-
-        application.sendScreenName(mTracker, SoupContract.ARTICLE_WEB_PAGE_VIEWED);
-
-        if(pref.contains(SoupContract.FB_ID)){
-
-            String name = pref.getString(SoupContract.FIRSTNAME,null)+pref.getString(SoupContract.LASTNAME,null);
-            application.sendEventUser(mTracker, SoupContract.PAGE_VIEW, SoupContract.ARTICLE_WEB_PAGE_VIEWED,
-                    SoupContract.ARTICLEWEB_PAGE, SoupContract.FB_ID,name);
-        }else {
-
-            application.sendEvent(mTracker, SoupContract.PAGE_VIEW, SoupContract.ARTICLE_WEB_PAGE_VIEWED, SoupContract.ARTICLEWEB_PAGE);
-        }
-
-    }*/
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -238,6 +224,8 @@ public class ArticleWebViewActivity extends AppCompatActivity {
 			mparams.putString("category", "tap");
 			mFirebaseAnalytics.logEvent("tap_browser_backward",mparams);
 			// End Analytics
+
+        finish();
 		
         onBackPressed();
         return true;

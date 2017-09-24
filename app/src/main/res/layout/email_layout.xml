@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_card"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="6"
+        android:orientation="vertical">
+
+        <TextView
+            android:text="HELLO"
+            fontPath="fonts/montserrat-bold.ttf"
+            android:id="@+id/hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="#222222"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:layout_marginTop="-8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/name"
+            android:textSize="29sp"
+            fontPath="fonts/montserrat-black.ttf"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/hello"
+            tools:text="ADITYA"
+            android:textColor="#222222"
+            android:textAllCaps="true"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="34dp">
+
+        <TextView
+            android:id="@+id/welcome"
+            android:textSize="20sp"
+            android:textColor="#222222"
+            android:letterSpacing="-0.03"
+            android:lineSpacingExtra="0sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fontPath="fonts/montserrat-light.ttf"
+            android:text="Welcome To TheSoup"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BETA"
+                android:textSize="11sp"
+                android:textColor="#222222"
+                android:layout_toRightOf="@id/welcome"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:orientation="vertical">
+
+
+        <EditText
+            android:minHeight="0dp"
+            android:inputType="text"
+            android:id="@+id/edittext"
+            fontPath="fonts/montserrat-bold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="268dp"
+            android:letterSpacing="-0.03"
+            android:textColor="#222222"
+            android:textSize="14sp"
+            android:hint="Please enter your email id"
+            android:backgroundTint="#222222"
+            android:layout_gravity="center_horizontal"/>
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_marginTop="70dp"
+            android:layout_width="268dp"
+            android:layout_height="48dp"
+            android:text="Submit"
+            android:onClick="Onclick"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:textSize="15sp"
+            fontPath="fonts/montserrat-bold.ttf"
+            android:background="@drawable/button_submit"
+            android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
+</LinearLayout>

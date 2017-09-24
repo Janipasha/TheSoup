@@ -11,6 +11,15 @@
 
     </style>
 
+    <style name="translucent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowNoTitle">true</item>
@@ -25,6 +34,11 @@
 
     <style name="AppTheme.WhiteAccent1">
         <item name="colorAccent">#ffffff</item> <!-- Whatever color you want-->
+    </style>
+
+    <style name ="overlay">
+        <item name="fontPath">fonts/montserrat-medium.ttf</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 

@@ -49,6 +49,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".Activities.ArticlesActivity"
+            android:theme="@style/translucent"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+
         <activity android:name="in.thesoupstoriesnews.thesoup.Activities.DetailsActivity"
             android:screenOrientation="portrait"
             android:parentActivityName="in.thesoupstoriesnews.thesoup.Activities.MainActivity"
@@ -64,6 +70,15 @@
         <activity android:name="in.thesoupstoriesnews.thesoup.Activities.ArticleWebViewActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"/>
+
+        <activity android:name="in.thesoupstoriesnews.thesoup.Activities.EmailActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+
+        <activity android:name="in.thesoupstoriesnews.thesoup.Activities.NavigationActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+
         <activity android:name="in.thesoupstoriesnews.thesoup.Activities.LoginActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"/>

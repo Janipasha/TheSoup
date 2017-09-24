@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#f2f2f2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/sliding_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#222222"
+        app:tabIndicatorColor="#ffffff"
+        app:tabMode="fixed"
+        android:layout_alignParentBottom="true"
+        app:tabGravity="fill"
+        app:tabSelectedTextColor="#ffffff"
+        app:tabTextColor="#B3ffffff"/>
+
+
+
+    <in.thesoupstoriesnews.thesoup.Activities.CustomViewPager
+        android:layout_above="@id/sliding_tabs"
+        android:id="@+id/viewpager_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+
+</RelativeLayout>

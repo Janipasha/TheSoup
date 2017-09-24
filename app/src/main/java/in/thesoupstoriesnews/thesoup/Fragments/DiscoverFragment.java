@@ -2,16 +2,21 @@ package in.thesoupstoriesnews.thesoup.Fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.net.Network;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -30,11 +35,12 @@ import in.thesoupstoriesnews.thesoup.NetworkCalls.NetworkUtilswithToken;
 import in.thesoupstoriesnews.thesoup.PreferencesFbAuth.PrefUtil;
 import in.thesoupstoriesnews.thesoup.R;
 import in.thesoupstoriesnews.thesoup.SoupContract;
+import me.toptas.fancyshowcase.FancyShowCaseQueue;
 import me.toptas.fancyshowcase.FancyShowCaseView;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 
-public class DiscoverFragment extends Fragment {
+public class DiscoverFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private StoryFeedAdapter mStoryfeedAdapter;
     private List<StoryData> mStoryData;
@@ -49,25 +55,24 @@ public class DiscoverFragment extends Fragment {
     private String filter="";
 	//CVIPUL Analytics
 	private FirebaseAnalytics mFirebaseAnalytics;
+    private SwipeRefreshLayout swipeRefreshLayout;
 	private int mLastFirstVisibleItem;
+    private  MotionEvent motionEvent;
 	//private boolean mIsScrollingUp;
 	// Analytics end
+
+
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View RootView = inflater.inflate(R.layout.getstorieslist,container,false);
 
-
-
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		//CVIPUL Analytics
-		mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
-		//End Analytics		
-		
-        //hardcoding of filters can change may be with SQL database
 
+		mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
 
 
        if(pref.getString("filters",null)!=null&&!pref.getString("filters",null).isEmpty()) {
@@ -77,11 +82,6 @@ public class DiscoverFragment extends Fragment {
        }
 
 
-        new FancyShowCaseView.Builder(getActivity())
-                .customView(R.layout.overlay, null)
-                .backgroundColor(Color.parseColor("#33000000"))
-                .build()
-                .show();
 
         //removing coma at the end
 
@@ -109,43 +109,60 @@ public class DiscoverFragment extends Fragment {
         mStoryfeedAdapter = new StoryFeedAdapter(mStoryData, getActivity(),0);
         StoryView.setAdapter(mStoryfeedAdapter);
         StoryView.setHasFixedSize(true);
-        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
-            
-			// CVIPUL Analytics
-			// TODO : Verify the new function this is added to, also the correctness
 
-			/*@Override
-			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
-			{
-                super.onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount);
-				
-				private String scroll_direction;
-				if (firstVisibleItem > mLastFirstVisibleItem) {
-					//mIsScrollingUp = false;
-					scroll_direction = "scroll_screen_down";
-				} else if (firstVisibleItem < mLastFirstVisibleItem) {
-					//mIsScrollingUp = true;
-					scroll_direction = "scroll_screen_up";
-				}
-				mLastFirstVisibleItem = currentFirstVisibleItem;
-				
-				
-				Bundle params = new Bundle();
-				params.putString("screen_name", "discover_screen");
-				params.putString("scroll_direction", scroll_direction);
-				mFirebaseAnalytics.logEvent("scroll",params);
-			}*/
-			// End Analytics
-			
+
+        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
 			@Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
+
                 loadNextDataFromApi(page);
             }
         };
 
         StoryView.addOnScrollListener(scrollListener);
+        swipeRefreshLayout = (SwipeRefreshLayout)RootView.findViewById(R.id.container_discover);
+
+
+        NetworkCall();
+
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/montserrat-bold.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
+		
+		// CVIPUL Analytics
+		// TODO : Verify view Discover feed screen
+		Bundle params = new Bundle();
+		params.putString("screen_name", "discover_screen");
+		params.putString("category", "screen_view");
+		mFirebaseAnalytics.logEvent("viewed_screen_discover",params);
+
+      /*  if (!pref.getBoolean("simulateclick1", false)) {
+
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    StoryView.findViewHolderForAdapterPosition(0).itemView.performClick();
+                }
+            }, 1500);
+
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean("simulateclick1", true);
+            editor.commit();
+
+        }*/
+
+
+        swipeRefreshLayout.setOnRefreshListener(DiscoverFragment.this);
+
+
+        return RootView;
+    }
+
+    public void NetworkCall(){
+
 
 
         if (TextUtils.isEmpty(pref.getString(SoupContract.AUTH_TOKEN, null))) {
@@ -168,28 +185,20 @@ public class DiscoverFragment extends Fragment {
             Log.d("auth_token", pref.getString(SoupContract.AUTH_TOKEN, null));
 
             NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
-            networkutilsToken.getFeed(0,totalrefresh);
-
+            networkutilsToken.getFeed(1,totalrefresh);
         }
-
-
-
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/OpenSans-Semibolditalic.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build()
-        );
-		
-		// CVIPUL Analytics
-		// TODO : Verify view Discover feed screen
-		Bundle params = new Bundle();
-		params.putString("screen_name", "discover_screen");
-		params.putString("category", "screen_view");
-		mFirebaseAnalytics.logEvent("viewed_screen_discover",params);
-		// 
-
-        return RootView;
     }
+
+    @Override
+    public void onRefresh() {
+        totalrefresh = "1";
+        swipeRefreshLayout.setRefreshing(true);
+
+        NetworkCall();
+
+    }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -199,6 +208,8 @@ public class DiscoverFragment extends Fragment {
     }
 
     public void loadNextDataFromApi(int offset) {
+
+        totalrefresh="0";
 
         String Page = String.valueOf(offset);
 
@@ -211,7 +222,7 @@ public class DiscoverFragment extends Fragment {
             NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
 
 
-            networkutilsToken.getFeed(0,totalrefresh);
+            networkutilsToken.getFeed(1,totalrefresh);
 
         } else {
 
@@ -225,7 +236,7 @@ public class DiscoverFragment extends Fragment {
             NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
 
 
-            networkutilsToken.getFeed(0,totalrefresh);
+            networkutilsToken.getFeed(1,totalrefresh);
 
         }
 
@@ -234,11 +245,22 @@ public class DiscoverFragment extends Fragment {
 
 
     public void startAdapter(List<StoryData> mStoryData) {
-        //
         //StoryView.setAdapter(mStoryfeedAdapter);
         mStoryfeedAdapter.refreshData(mStoryData);
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
+
+// Dispatch touch event to view
+
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
 
     }
 
@@ -247,11 +269,12 @@ public class DiscoverFragment extends Fragment {
         mStoryfeedAdapter.totalRefreshData(nStoryData);
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
 
 
     }
 
-    @Override
+   /* @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
@@ -261,14 +284,20 @@ public class DiscoverFragment extends Fragment {
                 Log.d("context is null"," at fragment");
             }else {
 
+
+                mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+                Bundle mparams = new Bundle();
+                mparams.putString("screen_name", "discover_screen");
+                mparams.putString("category", "screen_view");
+                mFirebaseAnalytics.logEvent("viewed_screen_discover", mparams);
+
+
                 PrefUtil prefUtil = new PrefUtil(getActivity());
 
                 totalrefresh = prefUtil.getTotalRefresh();
                 Log.d("totalRefresh Discover",totalrefresh);
 
                 if (totalrefresh.equals("1")) {
-
-
 
                     params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
                     params.put("page", "0");
@@ -287,7 +316,7 @@ public class DiscoverFragment extends Fragment {
                     Log.d(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
 
                     NetworkUtilswithToken networkutilsToken = new NetworkUtilswithToken(getActivity(), mStoryData, params);
-                    networkutilsToken.getFeed(0, totalrefresh);
+                    networkutilsToken.getFeed(1, totalrefresh);
 
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString(SoupContract.TOTAL_REFRESH, "0");
@@ -302,8 +331,8 @@ public class DiscoverFragment extends Fragment {
 
 
 
+    }*/
 
-    }
 
 
 

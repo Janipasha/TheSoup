@@ -10,6 +10,7 @@ public class DataStories {
 
     List<StoryData> stories;
     UnRead num_unread;
+    String unseen;
 
     public  List<StoryData> getStoryDataList(){
         return stories;
@@ -17,6 +18,9 @@ public class DataStories {
 
     public UnRead getUnRead(){
         return num_unread;
+    }
 
+    public String getUnseen(){
+        return unseen;
     }
 }
