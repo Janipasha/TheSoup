@@ -9,6 +9,7 @@
     tools:ignore="MissingPrefix">
 
     <TextView
+        android:visibility="invisible"
         android:id="@+id/hello_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,6 +21,7 @@
        />
 
     <TextView
+        android:visibility="invisible"
         android:id="@+id/manage_home"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
@@ -33,6 +35,7 @@
         tools:text="Manage Home" />
 
     <TextView
+        android:visibility="invisible"
         android:layout_marginTop="15dp"
         android:layout_below="@id/hello_user"
         android:id="@+id/follwedstories_message"
@@ -46,6 +49,7 @@
 
 
     <TextView
+        android:visibility="invisible"
         android:layout_marginBottom="15dp"
         android:layout_below="@id/follwedstories_message"
         android:layout_marginTop="30dp"
@@ -61,6 +65,7 @@
         />
 
     <LinearLayout
+        android:visibility="invisible"
         android:layout_alignBottom="@id/followedtext"
         android:layout_toRightOf="@id/followedtext"
         android:layout_width="wrap_content"
@@ -88,6 +93,7 @@
     </LinearLayout>
 
     <TextView
+        android:visibility="invisible"
         android:id="@+id/followedseeall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -105,11 +111,14 @@
     <TextView
         android:id="@+id/fromyourfollowedtext"
         android:layout_width="wrap_content"
-        android:visibility="gone"
         android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:textSize="12sp"
         android:layout_below="@id/followedtext"
         android:layout_alignLeft="@id/followedtext"
         android:layout_marginBottom="35dp"
+        android:textColor="#222222"
+        fontPath="fonts/montserrat-light.ttf"
         android:text="Nice! You are up to date with your followed stories.
 
 We have gathered More Stories For You below.

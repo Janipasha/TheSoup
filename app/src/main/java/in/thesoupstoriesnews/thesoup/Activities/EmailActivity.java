@@ -65,7 +65,7 @@ public class EmailActivity extends AppCompatActivity {
     }
 
     public void main() {
-        Intent intent = new Intent(EmailActivity.this, MainActivity.class);
+        Intent intent = new Intent(EmailActivity.this, NavigationActivity.class);
         finish();
         startActivity(intent);
     }

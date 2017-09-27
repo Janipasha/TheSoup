@@ -24,11 +24,9 @@ import android.widget.Toast;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import in.thesoupstoriesnews.thesoup.Adapters.FragmentPagerNavigation;
-import in.thesoupstoriesnews.thesoup.Fragments.DiscoverFragment;
 import in.thesoupstoriesnews.thesoup.Fragments.DiscoverFragmentMain;
 import in.thesoupstoriesnews.thesoup.Fragments.FollowingFragment;
 import in.thesoupstoriesnews.thesoup.Fragments.HomeFragment;
-import in.thesoupstoriesnews.thesoup.Fragments.MyFeedFragment;
 import in.thesoupstoriesnews.thesoup.PreferencesFbAuth.PrefUtil;
 import in.thesoupstoriesnews.thesoup.R;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -155,7 +153,6 @@ public class NavigationActivity extends FragmentActivity {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override

@@ -123,15 +123,26 @@ public class FollowFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             if(view==followlayout){
                 int mposition =getAdapterPosition()-1;
-
                 String StoryId=StoryDataList.get(mposition).getStoryId();
                 String storyTitle = StoryDataList.get(mposition).getStoryName();
                 String category = StoryDataList.get(mposition).getCategoryName();
                 String storyColor = StoryDataList.get(mposition).getHexColor();
 
+                HashMap<String, String> params = new HashMap<>();
+                pref = PreferenceManager.getDefaultSharedPreferences(context);
+                params.put(SoupContract.AUTH_TOKEN,pref.getString(SoupContract.AUTH_TOKEN,null));
+                params.put("id",StoryId);
+                params.put("type","stories");
+
+                NetworkUtilsClick Click = new NetworkUtilsClick(context,params);
+                try {
+                    Click.sendClick();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
                 Intent intent = new Intent(context, DetailsActivity.class);
-                NavigationActivity activity = (NavigationActivity)context;
-                activity.finish();
                 intent.putExtra("story_id", StoryId);
                 intent.putExtra("storytitle", storyTitle);
                 intent.putExtra("followstatus","1");
@@ -260,6 +271,10 @@ public class FollowFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                 String numUnseen = mStoryData.getNumUnseen();
 
+                if(numUnseen.equals("0")){
+                    ((DataViewHolder) holder).numberunseenlayout.setVisibility(View.GONE);
+                }
+
                 if(Integer.valueOf(numUnseen)<10){
                     ((DataViewHolder) holder).numberfollowingupdate.setText("0"+numUnseen);
 
@@ -268,7 +283,7 @@ public class FollowFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 }
 
             } else {
-                ((DataViewHolder) holder).numberunseenlayout.setVisibility(View.INVISIBLE);
+                ((DataViewHolder) holder).numberunseenlayout.setVisibility(View.GONE);
             }
 
         } else if(holder instanceof HeaderViewHolder){

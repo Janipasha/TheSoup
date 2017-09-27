@@ -6,18 +6,14 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -29,7 +25,6 @@ import com.squareup.picasso.Picasso;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,37 +33,14 @@ import in.thesoupstoriesnews.thesoup.Activities.ArticleWebViewActivity;
 import in.thesoupstoriesnews.thesoup.Activities.ArticlesActivity;
 import in.thesoupstoriesnews.thesoup.Activities.DetailsActivity;
 import in.thesoupstoriesnews.thesoup.Activities.FilterActivity;
-import in.thesoupstoriesnews.thesoup.Activities.MainActivity;
 import in.thesoupstoriesnews.thesoup.Activities.NavigationActivity;
-import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSON.StoryData;
 import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSONMain.ArticlesMain;
 import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSONMain.StoryDataMain;
 import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSONMain.SubstoriesMain;
-import in.thesoupstoriesnews.thesoup.GSONclasses.SinglestoryGSON.Articles;
-import in.thesoupstoriesnews.thesoup.GSONclasses.SinglestoryGSON.Substories;
 import in.thesoupstoriesnews.thesoup.NetworkCalls.NetworkUtilsFollowUnFollow;
 import in.thesoupstoriesnews.thesoup.PreferencesFbAuth.PrefUtilFilter;
 import in.thesoupstoriesnews.thesoup.R;
 import in.thesoupstoriesnews.thesoup.SoupContract;
-import me.toptas.fancyshowcase.FancyShowCaseQueue;
-import me.toptas.fancyshowcase.FancyShowCaseView;
-
-import static android.R.attr.category;
-import static android.R.attr.filter;
-import static android.text.util.Linkify.ALL;
-import static in.thesoupstoriesnews.thesoup.R.id.Story_title;
-import static in.thesoupstoriesnews.thesoup.R.id.bottom;
-import static in.thesoupstoriesnews.thesoup.R.id.second_topstory_layout;
-import static in.thesoupstoriesnews.thesoup.R.id.source1;
-import static in.thesoupstoriesnews.thesoup.R.id.source2;
-import static in.thesoupstoriesnews.thesoup.R.id.source3;
-import static in.thesoupstoriesnews.thesoup.R.id.time;
-import static in.thesoupstoriesnews.thesoup.R.id.time1;
-import static in.thesoupstoriesnews.thesoup.R.id.time2;
-import static in.thesoupstoriesnews.thesoup.R.id.time3;
-import static in.thesoupstoriesnews.thesoup.R.id.update1;
-import static in.thesoupstoriesnews.thesoup.R.id.update2;
-import static in.thesoupstoriesnews.thesoup.R.id.update3;
 
 /**
  * Created by Jani on 05-09-2017.
@@ -574,6 +546,8 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
 
 
             String storytitle = mStoryData.getStoryNameMain();
+
+            storytitle = gethtmlString(storytitle);
 
             ((StoryDataViewHolder)holder).storyTitle1.setText(storytitle);
 

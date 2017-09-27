@@ -308,8 +308,25 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     public void startActivityMD() {
-        Intent intent = new Intent(LoginActivity.this, NavigationActivity.class);
-        startActivity(intent);
+
+        if(pref.getString("filteronce",null)!=null){
+
+            Intent intent = new Intent(LoginActivity.this, NavigationActivity.class);
+            startActivity(intent);
+
+        } else {
+
+            Intent intent = new Intent(LoginActivity.this,FilterActivity.class);
+            startActivity(intent);
+            finish();
+
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("filteronce","0");
+            editor.apply();
+
+
+        }
+
     }
 
     private Bundle getFacebookData(JSONObject object) {

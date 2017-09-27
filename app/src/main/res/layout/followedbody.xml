@@ -10,7 +10,7 @@
         android:id="@+id/follow_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="12dp">
 
         <ImageView
             android:id="@+id/filterimage_follow"
@@ -23,6 +23,7 @@
         
         <LinearLayout
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -79,15 +80,15 @@
             android:letterSpacing="-0.04"
             android:lineSpacingExtra="3sp"
             android:layout_marginBottom="9dp"
-            android:text="Indian Government &amp; National Politics Updates"
+            android:text="Indian Government &amp; National Politics"
 
              />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="13dp"
-            android:layout_below="@id/notificationNumber"
+            android:layout_marginTop="16dp"
+            android:layout_below="@id/categoryfollow"
             android:background="#979797"/>
 
     </RelativeLayout>

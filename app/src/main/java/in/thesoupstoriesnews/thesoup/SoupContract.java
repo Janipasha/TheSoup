@@ -74,5 +74,7 @@ public class SoupContract {
     public static final int TIMEOUT_RETRY_TIME = 15000;
     public static final String CATEGORIES = "categories";
 
+    public static final String FILTERPREFERENCE = "pref for filter";
+
 
 }

@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import in.thesoupstoriesnews.thesoup.Fragments.DiscoverFragment;
 import in.thesoupstoriesnews.thesoup.Fragments.DiscoverFragmentMain;
 import in.thesoupstoriesnews.thesoup.Fragments.FollowingFragment;
 import in.thesoupstoriesnews.thesoup.Fragments.HomeFragment;

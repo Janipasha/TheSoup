@@ -46,7 +46,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import in.thesoupstoriesnews.thesoup.Adapters.DetailsmainAdapter;
-import in.thesoupstoriesnews.thesoup.Adapters.ExpandableListAdapter;
 //import in.thesoup.thesoup.Application.AnalyticsApplication;
 import in.thesoupstoriesnews.thesoup.GSONclasses.SinglestoryGSON.Articles;
 import in.thesoupstoriesnews.thesoup.GSONclasses.SinglestoryGSON.Substories;
@@ -58,9 +57,6 @@ import me.toptas.fancyshowcase.FancyShowCaseView;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static in.thesoupstoriesnews.thesoup.R.id.bottomline;
-import static in.thesoupstoriesnews.thesoup.R.id.detailslayout;
-import static in.thesoupstoriesnews.thesoup.R.id.showmore;
 
 /**
  * Created by Jani on 09-04-2017.
@@ -72,7 +68,7 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
     private RecyclerView SingleStoryView;
     private DetailsmainAdapter nSingleStoryAdapter;
     private String StoryTitle, followStatus, StoryId;
-    private EndlessRecyclerViewScrollListener scrollListener;
+    private EndlessRecyclerView scrollListener;
     private SharedPreferences pref;
     HashMap<String, String> mparams;
     private int fragmenttag;
@@ -186,12 +182,12 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         SingleStoryView.setLayoutManager(layoutManager);
 
-        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+        scrollListener = new EndlessRecyclerView(layoutManager) {
             @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-
-                loadNextDataFromApi(page);
+            public void onLoadMore(int current_page) {
+                loadNextDataFromApi(current_page);
             }
+
         };
 
         SingleStoryView.addOnScrollListener(scrollListener);
@@ -202,7 +198,7 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
         nSingleStoryAdapter = new DetailsmainAdapter(this, mSubstories, storyColour);
         SingleStoryView.setAdapter(nSingleStoryAdapter);
 
-        NetworkCallDetails();
+        //NetworkCallDetails();
 
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_details);
@@ -312,6 +308,7 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
     @Override
     public void onRefresh() {
         totalRefresh="1";
+        scrollListener.changeoffset(0);
         swipeRefreshLayout.setRefreshing(true);
         NetworkCallDetails();
     }

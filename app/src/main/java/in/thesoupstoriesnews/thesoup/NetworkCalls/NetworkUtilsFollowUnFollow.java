@@ -22,14 +22,11 @@ import java.util.Map;
 
 import in.thesoupstoriesnews.thesoup.Activities.DetailsActivity;
 //import in.thesoup.thesoup.Activities.LoginActivity;
-import in.thesoupstoriesnews.thesoup.Activities.MainActivity;
 //import in.thesoup.thesoup.Activities.feedActivity;
 //import in.thesoup.thesoup.Application.AnalyticsApplication;
 import in.thesoupstoriesnews.thesoup.Activities.NavigationActivity;
-import in.thesoupstoriesnews.thesoup.Fragments.DiscoverFragment;
 import in.thesoupstoriesnews.thesoup.Fragments.DiscoverFragmentMain;
 import in.thesoupstoriesnews.thesoup.Fragments.HomeFragment;
-import in.thesoupstoriesnews.thesoup.Fragments.MyFeedFragment;
 import in.thesoupstoriesnews.thesoup.SoupContract;
 
 /**

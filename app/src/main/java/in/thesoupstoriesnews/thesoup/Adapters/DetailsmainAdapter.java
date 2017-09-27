@@ -137,6 +137,8 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
                 bottomtextshowmore.setOnClickListener(this);
                 shareicon.setOnClickListener(this);
 
+                heroimage.setOnClickListener(this);
+
 
 
                 itemView.setOnClickListener(this);

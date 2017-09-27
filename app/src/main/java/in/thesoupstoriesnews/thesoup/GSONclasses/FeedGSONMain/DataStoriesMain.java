@@ -11,6 +11,7 @@ public class DataStoriesMain {
 
     List<StoryDataMain> stories;
     String result_count;
+    String unread_count;
 
     public  List<StoryDataMain> getStoryDataList(){
         return stories;
@@ -18,6 +19,10 @@ public class DataStoriesMain {
 
     public String getfollowedStoryiesCount(){
         return result_count;
+    }
+
+    public String getFollowedStoryUpdates(){
+       return unread_count;
     }
 
 }

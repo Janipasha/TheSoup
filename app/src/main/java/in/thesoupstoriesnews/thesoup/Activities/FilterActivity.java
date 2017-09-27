@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -25,11 +26,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import in.thesoupstoriesnews.thesoup.Adapters.FilterAdapter;
 import in.thesoupstoriesnews.thesoup.Adapters.FilterAdapterVersion;
 import in.thesoupstoriesnews.thesoup.GSONclasses.filters1.Filters;
 import in.thesoupstoriesnews.thesoup.NetworkCalls.NetworkUtilsSplash;
 import in.thesoupstoriesnews.thesoup.PreferencesFbAuth.PrefUtilFilter;
+import in.thesoupstoriesnews.thesoup.PreferencesFbAuth.PrefUtilFilter2;
 import in.thesoupstoriesnews.thesoup.R;
 import in.thesoupstoriesnews.thesoup.SoupContract;
 import in.thesoupstoriesnews.thesoup.gsonConversion;
@@ -45,25 +46,27 @@ public class FilterActivity extends AppCompatActivity {
     private FilterAdapterVersion mAdapter;
     private List<Filters> getFilters;
     private RecyclerView recyclerView;
-    private Button apply, cancel;
+    private Button apply, cancel,next;
     private PrefUtilFilter prefUtilFilter;
-    private int count=0;
-    private String resetfilter= "0";
-    private String firstfiltername ="";
+    private PrefUtilFilter2 prefUtilFilterManage;
+    private int count = 0;
+    private String resetfilter = "";
+    private String firstfiltername = "";
     private ImageButton filterback;
-	//CVIPUL Analytics
-	private FirebaseAnalytics mFirebaseAnalytics;
-	//End Analytics
+    //CVIPUL Analytics
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private LinearLayout applybackbutton;
+    //End Analytics
 
     private Map<String, String> IDmap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		
-		//CVIPUL Analytics
-		mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-		//End Analytics
+
+        //CVIPUL Analytics
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        //End Analytics
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
@@ -76,22 +79,31 @@ public class FilterActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 
-            window.setStatusBarColor(ContextCompat.getColor(this,R.color.filter_grey));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.filter_grey));
         }
 
         setContentView(R.layout.filterfragment1);
 
-        if(getIntent().getStringExtra("resetfilter")!=null){
+        if (getIntent().getStringExtra("resetfilter") != null) {
             resetfilter = getIntent().getStringExtra("resetfilter");
         }
 
         apply = (Button) findViewById(R.id.apply);
-       // cancel = (Button) findViewById(R.id.cancel);
-       // filterback = (ImageButton)findViewById(R.id.backfilter);
+        next = (Button) findViewById(R.id.next);
+        cancel = (Button) findViewById(R.id.cancel);
+        applybackbutton = (LinearLayout) findViewById(R.id.applycancelbutton);
+        // filterback = (ImageButton)findViewById(R.id.backfilter);
+
+        if(resetfilter.isEmpty()){
+            applybackbutton.setVisibility(View.GONE);
+        }else if(resetfilter.equals("0")||resetfilter.equals("1")){
+            next.setVisibility(View.GONE);
+        }
 
         IDmap = new HashMap<>();
 
         prefUtilFilter = new PrefUtilFilter(this);
+        prefUtilFilterManage = new PrefUtilFilter2(this);
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -109,17 +121,14 @@ public class FilterActivity extends AppCompatActivity {
         getFilters = getfilterObject.getFilters(filterJson);
 
 
-
-        for(int i=0;i<getFilters.size();i++){
-            if(getFilters.get(i).getId()!=null&&!getFilters.get(i).getId().isEmpty()){
-                count = count+1;
+        for (int i = 0; i < getFilters.size(); i++) {
+            if (getFilters.get(i).getId() != null && !getFilters.get(i).getId().isEmpty()) {
+                count = count + 1;
             }
         }
 
+        update(getFilters);
 
-
-
-            update(getFilters);
 
 
         recyclerView = (RecyclerView) findViewById(R.id.recylerview);
@@ -127,83 +136,98 @@ public class FilterActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        mAdapter = new FilterAdapterVersion(getFilters, this,resetfilter);
+        mAdapter = new FilterAdapterVersion(getFilters, this, resetfilter);
         recyclerView.setAdapter(mAdapter);
-		
-		// CVIPUL Analytics
-		// TODO : Verify view Filters screen
-		Bundle params = new Bundle();
-		params.putString("screen_name", "filters_screen");
-		params.putString("category", "screen_view");
-		mFirebaseAnalytics.logEvent("viewed_screen_filters",params);
-		// End Analytics
+
+        // CVIPUL Analytics
+        // TODO : Verify view Filters screen
+        Bundle params = new Bundle();
+        params.putString("screen_name", "filters_screen");
+        params.putString("category", "screen_view");
+        mFirebaseAnalytics.logEvent("viewed_screen_filters", params);
+        // End Analytics
 
     }
 
     private void update(List<Filters> getFilters) {
 
-        for(int i=0;i<getFilters.size();i++){
+        for (int i = 0; i < getFilters.size(); i++) {
 
-            if(getFilters.get(i).getId()!=null&&!getFilters.get(i).getId().isEmpty()){
+            if (getFilters.get(i).getId() != null && !getFilters.get(i).getId().isEmpty()) {
 
                 String Id = getFilters.get(i).getId();
 
-                if(prefUtilFilter.getStatusofID(Id)!=null&&!prefUtilFilter.getStatusofID(Id).isEmpty()){
-                    getFilters.get(i).changeStatus(prefUtilFilter.getStatusofID(Id));
-                    Log.d("filter"+Id," :"+getFilters.get(i).getStatus());
+                if (resetfilter.equals("0")) {
+                    if (prefUtilFilterManage.getStatusofID(Id) != null && !prefUtilFilterManage.getStatusofID(Id).isEmpty()) {
+                        getFilters.get(i).changeStatus(prefUtilFilterManage.getStatusofID(Id));
+                        Log.d("filter" + Id, " :" + getFilters.get(i).getStatus());
+                    }
+
+                } else if (resetfilter.equals("1")) {
+                    if (prefUtilFilter.getStatusofID(Id) != null && !prefUtilFilter.getStatusofID(Id).isEmpty()) {
+                        getFilters.get(i).changeStatus(prefUtilFilter.getStatusofID(Id));
+                        Log.d("filter" + Id, " :" + getFilters.get(i).getStatus());
+                    }
                 }
+
+
             }
 
         }
     }
 
-    public void onClick(View v){
-		// CVIPUL Analytics
-		// Moved out of if statement since the info is needed in else also
-		int presentFilterCount = 0;
+    public void onClick(View v) {
+        // CVIPUL Analytics
+        // Moved out of if statement since the info is needed in else also
+        int presentFilterCount = 0;
         String filters = "";
-        for (int n = 0; n <getFilters.size(); n++) {
 
-                if (IDmap.get(getFilters.get(n).getId())!= null && !IDmap.get(getFilters.get(n).getId()).isEmpty()) {
-                    //prefUtilFilter.IDstatus(String.valueOf(n), IDmap.get(String.valueOf(n)));
+        for (int n = 0; n < getFilters.size(); n++) {
 
-                      prefUtilFilter.SaveIDstatus(getFilters,n,IDmap.get(getFilters.get(n).getId()));
+            if (IDmap.get(getFilters.get(n).getId()) != null && !IDmap.get(getFilters.get(n).getId()).isEmpty()) {
+                //prefUtilFilter.IDstatus(String.valueOf(n), IDmap.get(String.valueOf(n)));
+                if (resetfilter.equals("0")) {
+                    prefUtilFilterManage.SaveIDstatus(getFilters, n, IDmap.get(getFilters.get(n).getId()));
+                } else if (resetfilter.equals("1")) {
+                    prefUtilFilter.SaveIDstatus(getFilters, n, IDmap.get(getFilters.get(n).getId()));
                 }
 
-                if(getFilters.get(n).getStatus().equals("1")){
-                    presentFilterCount++;
-                    if(firstfiltername.isEmpty()){
-                        firstfiltername = getFilters.get(n).getName();
-                    }
-                    filters= filters+getFilters.get(n).getId()+",";
+            }
+
+            if (getFilters.get(n).getStatus().equals("1")) {
+                presentFilterCount++;
+                if (firstfiltername.isEmpty()) {
+                    firstfiltername = getFilters.get(n).getName();
                 }
+                filters = filters + getFilters.get(n).getId() + ",";
+            }
 
         }
 
-        if(filters!=null&&!filters.isEmpty()){
-            filters = filters.substring(0,filters.length()-1);
+        if (filters != null && !filters.isEmpty()) {
+            filters = filters.substring(0, filters.length() - 1);
         }
-		// End Analytics
-		
-        if(v==apply){
+        // End Analytics
+
+        if (v == apply||v==next) {
 
             SharedPreferences.Editor edit = pref.edit();
-            edit.putString("filters",filters);
-            edit.putString("filter_count",String.valueOf(presentFilterCount));
+            edit.putString("filters", filters);
+            edit.putString("filter_count", String.valueOf(presentFilterCount));
             edit.apply();
-			
-			// CVIPUL Analytics
-			// TODO : Verify Tap to Remove on Filters screen
-			Bundle params = new Bundle();
-			params.putString("screen_name", "filters_screen");
-			params.putString("category", "tap");
-			params.putString("count_filters_selected", String.valueOf(presentFilterCount));
-			
-			mFirebaseAnalytics.logEvent("tap_filters_accept",params);
-			// End Analytics
+
+            // CVIPUL Analytics
+            // TODO : Verify Tap to Remove on Filters screen
+            Bundle params = new Bundle();
+            params.putString("screen_name", "filters_screen");
+            params.putString("category", "tap");
+            params.putString("count_filters_selected", String.valueOf(presentFilterCount));
+
+            mFirebaseAnalytics.logEvent("tap_filters_accept", params);
+            // End Analytics
 
 
-            if(resetfilter.equals("0")) {
+            if (resetfilter.equals("0")||resetfilter.isEmpty()) {
                 if (presentFilterCount < 3) {
                     Toast.makeText(this, "Please select atleast 3 categories", Toast.LENGTH_SHORT).show();
                 } else {
@@ -218,14 +242,14 @@ public class FilterActivity extends AppCompatActivity {
                     //TODO: add filters , open navigationactivity with home
 
                     Intent intent = new Intent(FilterActivity.this, NavigationActivity.class);
-                    prefUtilFilter.SaveFilterListSize(presentFilterCount);
-                    edit.putString("firstfiltername",firstfiltername);
+                    prefUtilFilterManage.SaveFilterListSize(presentFilterCount);
+                    edit.putString("firstfiltername", firstfiltername);
                     edit.apply();
                     finish();
                     startActivity(intent);
                 }
 
-            } else if(resetfilter.equals("1")){
+            } else if (resetfilter.equals("1")) {
 
                 if (presentFilterCount < 1) {
                     Toast.makeText(this, "Please select atleast 1 category", Toast.LENGTH_SHORT).show();
@@ -233,9 +257,9 @@ public class FilterActivity extends AppCompatActivity {
                     //TODO: add filters and open discoverfragment
 
                     Intent intent = new Intent(FilterActivity.this, NavigationActivity.class);
-                   prefUtilFilter.SaveFirstFiltername(firstfiltername);
+                    prefUtilFilter.SaveFirstFiltername(firstfiltername);
                     prefUtilFilter.SaveFilterListSize(presentFilterCount);
-                    intent.putExtra("fragmentPosition","0");
+                    intent.putExtra("fragmentPosition", "0");
                     edit.apply();
                     finish();
                     startActivity(intent);
@@ -244,12 +268,10 @@ public class FilterActivity extends AppCompatActivity {
             }
 
 
-
-
         }
 
-       /* if(v==cancel){
-			// CVIPUL Analytics
+        if(v==cancel){
+            // CVIPUL Analytics
 			// TODO : Verify Tap to Remove on Filters screen
 			Bundle params = new Bundle();
 			params.putString("screen_name", "filters_screen");
@@ -260,11 +282,9 @@ public class FilterActivity extends AppCompatActivity {
 			// End Analytics
 			
             finish();
-        }*/
+        }
 
-       /* if(v==filterback){
-            finish();
-        }*/
+
     }
 
 
@@ -275,7 +295,7 @@ public class FilterActivity extends AppCompatActivity {
 
     public void changeIDmapValue(String ID, String value) {
 
-        IDmap.put(ID,value);
+        IDmap.put(ID, value);
     }
 
     @Override
@@ -289,7 +309,7 @@ public class FilterActivity extends AppCompatActivity {
 
     public void goTomainActivity() {
 
-        Intent intent = new Intent(FilterActivity.this,NavigationActivity.class);
+        Intent intent = new Intent(FilterActivity.this, NavigationActivity.class);
         finish();
         startActivity(intent);
 

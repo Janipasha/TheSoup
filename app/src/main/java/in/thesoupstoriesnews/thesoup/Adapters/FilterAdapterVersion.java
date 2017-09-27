@@ -207,7 +207,7 @@ public class FilterAdapterVersion extends RecyclerView.Adapter <RecyclerView.Vie
             ((HeaderViewHolder)holder).filterheadernormal.setVisibility(View.VISIBLE);
             ((HeaderViewHolder)holder).discoverfilter.setVisibility(View.GONE);
 
-            if(resetfilter.equals("0")){
+            if(resetfilter.equals("0")||resetfilter.isEmpty()){
                 ((HeaderViewHolder)holder).filterheadernormal.setVisibility(View.VISIBLE);
                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mcontext);
                 String username = pref.getString(SoupContract.FIRST_NAME,null);

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
 import org.w3c.dom.Text;
 
 import java.io.Serializable;
@@ -40,6 +41,7 @@ import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSON.StoryData;
 import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSONMain.ArticlesMain;
 import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSONMain.StoryDataMain;
 import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSONMain.SubstoriesMain;
+import in.thesoupstoriesnews.thesoup.NetworkCalls.NetworkUtilsClick;
 import in.thesoupstoriesnews.thesoup.NetworkCalls.NetworkUtilsFollowUnFollow;
 import in.thesoupstoriesnews.thesoup.R;
 import in.thesoupstoriesnews.thesoup.SoupContract;
@@ -66,7 +68,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private List<StoryDataMain> StoryDataList, nStoryDataList;
     private Context context;
     private int clickposition, fragmenttag;
-    private String clickStoryId, clickStoryName, followcount;
+    private String clickStoryId, clickStoryName, followcount,followUpdateCount;
     //private AnalyticsApplication application;
     //private Tracker mTracker;
     private SharedPreferences pref;
@@ -83,10 +85,11 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         //End Analytics
     }
 
-    public void refreshData(List<StoryDataMain> Datalist, List<StoryDataMain> nStoryDataList, String followcount) {
+    public void refreshData(List<StoryDataMain> Datalist, List<StoryDataMain> nStoryDataList, String followcount,String followUpdateCount) {
         this.StoryDataList = Datalist;
         this.nStoryDataList = nStoryDataList;
         this.followcount = followcount;
+        this.followUpdateCount = followUpdateCount;
         notifyDataSetChanged();
     }
 
@@ -219,6 +222,15 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     StoryDataMain mStoryData = StoryDataList.get(mposition);
                     bottomclickHandle(mStoryData);
 
+                    HashMap<String,String> params = new HashMap<>();
+                    params.put("id",mStoryData.getStoryIdMain());
+                    params.put("type","stories");
+                    NetworkUtilsClick performClick = new NetworkUtilsClick(context,params);
+                    try {
+                        performClick.sendClick();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
 
                     if(view==heroimage){
@@ -276,6 +288,16 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     StoryDataMain mStoryData = StoryDataList.get(mposition);
                     articleClickHandle(mStoryData, 0);
 
+                    HashMap<String,String> params = new HashMap<>();
+                    params.put("id",mStoryData.getStoryIdMain());
+                    params.put("type","stories");
+                    NetworkUtilsClick performClick = new NetworkUtilsClick(context,params);
+                    try {
+                        performClick.sendClick();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
 
                     Bundle nparams = new Bundle();
                     nparams.putString("screen_name", "home_screen");
@@ -303,6 +325,17 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (view == secondarticle) {
                 if (mposition < StoryDataList.size()) {
                     StoryDataMain mStoryData = StoryDataList.get(mposition);
+
+                    HashMap<String,String> params = new HashMap<>();
+                    params.put("id",mStoryData.getStoryIdMain());
+                    params.put("type","stories");
+                    NetworkUtilsClick performClick = new NetworkUtilsClick(context,params);
+                    try {
+                        performClick.sendClick();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     articleClickHandle(mStoryData, 1);
                     Bundle nparams = new Bundle();
                     nparams.putString("screen_name", "home_screen");
@@ -329,6 +362,17 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (view == thirdarticle) {
                 if (mposition < StoryDataList.size()) {
                     StoryDataMain mStoryData = StoryDataList.get(mposition);
+
+                    HashMap<String,String> params = new HashMap<>();
+                    params.put("id",mStoryData.getStoryIdMain());
+                    params.put("type","stories");
+                    NetworkUtilsClick performClick = new NetworkUtilsClick(context,params);
+                    try {
+                        performClick.sendClick();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     articleClickHandle(mStoryData, 2);
 
                     Bundle nparams = new Bundle();
@@ -357,6 +401,16 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (view == viewfullstory || view == storyTitle||view==topstorylayout||view==secondtopstorylayout||view==thirdtopstorylayout) {
                 if (mposition < StoryDataList.size()) {
                     StoryDataMain mStoryData = StoryDataList.get(mposition);
+
+                    HashMap<String,String> params = new HashMap<>();
+                    params.put("id",mStoryData.getStoryIdMain());
+                    params.put("type","stories");
+                    NetworkUtilsClick performClick = new NetworkUtilsClick(context,params);
+                    try {
+                        performClick.sendClick();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                     goToDetails(mStoryData);
 
@@ -612,30 +666,59 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (mStoryData.getSubstories().size() == 3) {
 
             List<ArticlesMain> mArticles = mStoryData.getSubstories().get(2).getArticlesMain();
-            Intent intent = new Intent(context, ArticlesActivity.class);
-            intent.putExtra("ARTICLELIST", (Serializable) mArticles);
-            intent.putExtra("StoryTitle", storyTitle);
-            intent.putExtra("story_id", StoryId);
-            intent.putExtra("story_color", storyColor);
-            context.startActivity(intent);
-        } else if (mStoryData.getSubstories().size() == 2) {
+
+            if(mArticles.size()>3){
+                Intent intent = new Intent(context, ArticlesActivity.class);
+                intent.putExtra("ARTICLELIST", (Serializable) mArticles);
+                intent.putExtra("StoryTitle", storyTitle);
+                intent.putExtra("story_id", StoryId);
+                intent.putExtra("story_color", storyColor);
+                context.startActivity(intent);
+
+            }else{
+                Intent intent = new Intent(context,ArticleWebViewActivity.class);
+                intent.putExtra("ArticleURL", mArticles.get(0).getUrl());
+                intent.putExtra("substory_id", mStoryData.getSubstories().get(2).getSubstory_id());
+                intent.putExtra("storycolor", storyColor);
+                context.startActivity(intent);
+            }
+            } else if (mStoryData.getSubstories().size() == 2) {
 
             List<ArticlesMain> mArticles = mStoryData.getSubstories().get(1).getArticlesMain();
-            Intent intent = new Intent(context, ArticlesActivity.class);
-            intent.putExtra("ARTICLELIST", (Serializable) mArticles);
-            intent.putExtra("StoryTitle", storyTitle);
-            intent.putExtra("story_id", StoryId);
-            intent.putExtra("story_color", storyColor);
-            context.startActivity(intent);
 
+            if(mArticles.size()>3){
+                Intent intent = new Intent(context, ArticlesActivity.class);
+                intent.putExtra("ARTICLELIST", (Serializable) mArticles);
+                intent.putExtra("StoryTitle", storyTitle);
+                intent.putExtra("story_id", StoryId);
+                intent.putExtra("story_color", storyColor);
+                context.startActivity(intent);
+
+            }else{
+                Intent intent = new Intent(context,ArticleWebViewActivity.class);
+                intent.putExtra("ArticleURL", mArticles.get(0).getUrl());
+                intent.putExtra("substory_id", mStoryData.getSubstories().get(1).getSubstory_id());
+                intent.putExtra("storycolor", storyColor);
+                context.startActivity(intent);
+            }
         } else if (mStoryData.getSubstories().size() == 1) {
             List<ArticlesMain> mArticles = mStoryData.getSubstories().get(0).getArticlesMain();
-            Intent intent = new Intent(context, ArticlesActivity.class);
-            intent.putExtra("ARTICLELIST", (Serializable) mArticles);
-            intent.putExtra("StoryTitle", storyTitle);
-            intent.putExtra("story_id", StoryId);
-            intent.putExtra("story_color", storyColor);
-            context.startActivity(intent);
+
+            if(mArticles.size()>3){
+                Intent intent = new Intent(context, ArticlesActivity.class);
+                intent.putExtra("ARTICLELIST", (Serializable) mArticles);
+                intent.putExtra("StoryTitle", storyTitle);
+                intent.putExtra("story_id", StoryId);
+                intent.putExtra("story_color", storyColor);
+                context.startActivity(intent);
+
+            }else{
+                Intent intent = new Intent(context,ArticleWebViewActivity.class);
+                intent.putExtra("ArticleURL", mArticles.get(0).getUrl());
+                intent.putExtra("substory_id", mStoryData.getSubstories().get(0).getSubstory_id());
+                intent.putExtra("storycolor", storyColor);
+                context.startActivity(intent);
+            }
         }
     }
 
@@ -665,6 +748,8 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @Override
         public void onClick(View view) {
             if (view == managehome) {
+
+                pref = PreferenceManager.getDefaultSharedPreferences(context);
 
 
                 Bundle nparams = new Bundle();
@@ -781,6 +866,11 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             }
         } else if (holder instanceof HeaderViewHolder) {
+            ((HeaderViewHolder)holder).hellouser.setVisibility(View.VISIBLE);
+            ((HeaderViewHolder)holder).followedtext.setVisibility(View.VISIBLE);
+            ((HeaderViewHolder)holder).managehome.setVisibility(View.VISIBLE);
+            ((HeaderViewHolder)holder).followedseeall.setVisibility(View.VISIBLE);
+            ((HeaderViewHolder)holder).followedstoriesmessage.setVisibility(View.VISIBLE);
 
             ((HeaderViewHolder) holder).fromyourfollowedText.setVisibility(View.GONE);
             ((HeaderViewHolder) holder).notificationNumberLayout.setVisibility(View.INVISIBLE);
@@ -800,36 +890,57 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             if (followcount != null && !followcount.isEmpty()) {
                 ((HeaderViewHolder) holder).notificationNumberLayout.setVisibility(View.VISIBLE);
-                ((HeaderViewHolder) holder).numberfollowingupdates.setText(followcount);
-                if (StoryDataList.size() == 0 && followcount.equals("0")) {
-                    ((HeaderViewHolder) holder).followedstoriesmessage.setText("Browse through the stories & tap the Plus Button to follow the story");
-                    ((HeaderViewHolder) holder).fromyourfollowedText.setText("You are not following any story");
-                    ((HeaderViewHolder) holder).fromyourfollowedText.setVisibility(View.VISIBLE);
-                } else if (StoryDataList.size() > 0) {
-                    ((HeaderViewHolder) holder).fromyourfollowedText.setVisibility(View.GONE);
-                    ((HeaderViewHolder) holder).followedstoriesmessage.setText(String.valueOf(StoryDataList.size()) + " of your followed stories got updated while you were away");
-                } else if (StoryDataList.size() == 0) {
-                    ((HeaderViewHolder) holder).fromyourfollowedText.setText("You are not following any story");
-                    ((HeaderViewHolder) holder).fromyourfollowedText.setVisibility(View.VISIBLE);
-                    ((HeaderViewHolder) holder).followedstoriesmessage.setText("Nice! You are up to date with your followed stories./n /n We have gathered More Stories For You below./n Or check out other stories in Discover.");
+
+
+                if(followUpdateCount!=null&&!followUpdateCount.isEmpty()){
+
+                    if (followUpdateCount.equals("0") && followcount.equals("0")) {
+                        ((HeaderViewHolder) holder).notificationNumberLayout.setVisibility(View.GONE);
+                        ((HeaderViewHolder) holder).followedstoriesmessage.setText("Browse through the stories & tap the Plus " +
+                                "Button to follow the story");
+                        ((HeaderViewHolder)holder).followedseeall.setVisibility(View.GONE);
+                        ((HeaderViewHolder) holder).fromyourfollowedText.setText("You are not following any story");
+                        ((HeaderViewHolder) holder).fromyourfollowedText.setVisibility(View.VISIBLE);
+
+                    } else if (Integer.valueOf(followUpdateCount)>0 ) {
+                        ((HeaderViewHolder) holder).notificationNumberLayout.setVisibility(View.VISIBLE);
+                        ((HeaderViewHolder) holder).fromyourfollowedText.setVisibility(View.GONE);
+                        ((HeaderViewHolder) holder).followedstoriesmessage.setText(followUpdateCount + " of your followed stories got updated " +
+                                "while you were away");
+                        ((HeaderViewHolder) holder).numberfollowingupdates.setText(followUpdateCount);
+                    } else if (Integer.valueOf(followUpdateCount)==0) {
+                        ((HeaderViewHolder) holder).fromyourfollowedText.setText(R.string.followingtextstatus);
+                        ((HeaderViewHolder) holder).fromyourfollowedText.setVisibility(View.VISIBLE);
+                        ((HeaderViewHolder) holder).notificationNumberLayout.setVisibility(View.GONE);
+                        ((HeaderViewHolder) holder).followedstoriesmessage.setText(R.string.followingtexthome);
+
+                    }
 
                 }
-            } else if (StoryDataList.size() == 0) {
+
+            } else if(followUpdateCount!=null&&!followUpdateCount.isEmpty()){
+                if(followUpdateCount.equals("0")) {
                 ((HeaderViewHolder) holder).followedstoriesmessage.setText("Browse through the stories & tap the Plus Button to follow the story");
+                    ((HeaderViewHolder) holder).notificationNumberLayout.setVisibility(View.GONE);
+                    ((HeaderViewHolder) holder).fromyourfollowedText.setText("You are not following any story");
+                    ((HeaderViewHolder) holder).fromyourfollowedText.setVisibility(View.VISIBLE);
 
-            } else if (StoryDataList.size() > 0) {
-                ((HeaderViewHolder) holder).fromyourfollowedText.setVisibility(View.GONE);
-                ((HeaderViewHolder) holder).followedstoriesmessage.setText(String.valueOf(StoryDataList.size()) + " of your followed stories got updated while you were away");
-
-            }
+            } else if (Integer.valueOf(followUpdateCount) > 0) {
+                    ((HeaderViewHolder) holder).notificationNumberLayout.setVisibility(View.VISIBLE);
+                    ((HeaderViewHolder) holder).fromyourfollowedText.setVisibility(View.GONE);
+                    ((HeaderViewHolder) holder).followedstoriesmessage.setText(followUpdateCount + " of your followed stories got updated " +
+                            "while you were away");
+                    ((HeaderViewHolder) holder).numberfollowingupdates.setText(followUpdateCount);
+            }}
 
 
             ((HeaderViewHolder) holder).followedtext.setText("From Your Followed");
             ((HeaderViewHolder) holder).followedseeall.setText("See All");
 
         } else if (holder instanceof MiddleViewHolder) {
+            ((MiddleViewHolder)holder).Moreforyou.setVisibility(View.VISIBLE);
 
-            ((MiddleViewHolder) holder).Moreforyou.setText("More stories for you");
+            ((MiddleViewHolder) holder).Moreforyou.setText("More Stories For You");
             ((MiddleViewHolder) holder).moreseeAll.setText("See All");
         }
 

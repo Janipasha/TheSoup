@@ -25,12 +25,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import in.thesoupstoriesnews.thesoup.Activities.EndlessRecyclerView;
 import in.thesoupstoriesnews.thesoup.Activities.EndlessRecyclerViewScrollListener;
-import in.thesoupstoriesnews.thesoup.Activities.MainActivity;
 import in.thesoupstoriesnews.thesoup.Activities.NavigationActivity;
 import in.thesoupstoriesnews.thesoup.Adapters.FollowFeedAdapter;
-import in.thesoupstoriesnews.thesoup.Adapters.MyFeedAdapter;
-import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSON.StoryData;
 import in.thesoupstoriesnews.thesoup.GSONclasses.FollowingGSON.StoryDataFollowing;
 import in.thesoupstoriesnews.thesoup.NetworkCalls.NetworkUtilsClick;
 import in.thesoupstoriesnews.thesoup.NetworkCalls.NetworkUtilswithToken;
@@ -57,7 +55,7 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
         private Button gotodiscover;
         private ImageView warningImage;
         private String filter = "";
-        private EndlessRecyclerViewScrollListener scrollListener;
+        private EndlessRecyclerView scrollListener;
         //CVIPUL Analytics
         private FirebaseAnalytics mFirebaseAnalytics;
         private int mLastFirstVisibleItem;
@@ -124,20 +122,21 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
             StoryView.setAdapter(mStoryfeedAdapter);
             StoryView.setHasFixedSize(true);
 
-            scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+            scrollListener = new EndlessRecyclerView(layoutManager) {
 
                 @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                    // Triggered only when new data needs to be appended to the list
-                    // Add whatever code is needed to append new items to the bottom of the list
-                    loadNextDataFromApi(page);
+                public void onLoadMore(int current_page) {
+                    loadNextDataFromApi(current_page);
                 }
+
             };
             StoryView.addOnScrollListener(scrollListener);
 
-            NetworkCallFollowing("latest_update");
+
             swipeRefreshLayout= (SwipeRefreshLayout)RootView.findViewById(R.id.container_discover);
             swipeRefreshLayout.setOnRefreshListener(FollowingFragment.this);
+
+           // NetworkCallFollowing("latest_update");
 
             // CVIPUL Analytics
             // TODO : Verify view MyFeed screen
@@ -155,6 +154,14 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
             params.put("page", "0");
             params.put("sortby",value);
             //  Log.d("auth_token1", pref.getString(SoupContract.AUTH_TOKEN, null));
+            if(swipeRefreshLayout.isRefreshing()){
+                progress.setVisibility(View.GONE);
+
+            }else{
+                progress.setVisibility(View.VISIBLE);
+
+            }
+
 
             progress.setProgress(0);
             NetworkUtilswithTokenFollow networkutilsToken = new NetworkUtilswithTokenFollow(getActivity(), params);
@@ -206,6 +213,8 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
         public void startRefreshAdapter(List<StoryDataFollowing> nStoryData) {
             mStoryData = nStoryData;
             mStoryfeedAdapter.totalRefreshData(nStoryData,value);
+            progress.setProgress(100);
+            progress.setVisibility(View.GONE);
 
             swipeRefreshLayout.setRefreshing(false);
 
@@ -319,6 +328,7 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
                     editor.apply();
 
                     prefUtil.saveTotalRefresh("0");
+                    scrollListener.changeoffset(0);
 
                 }
             }
@@ -329,6 +339,7 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
         @Override
         public void onRefresh () {
             seenStatus = 0;
+            scrollListener.changeoffset(0);
             swipeRefreshLayout.setRefreshing(true);
             NetworkCallFollowing(value);
         }

@@ -21,9 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 
-import in.thesoupstoriesnews.thesoup.Activities.MainActivity;
-import in.thesoupstoriesnews.thesoup.Fragments.DiscoverFragment;
-import in.thesoupstoriesnews.thesoup.Fragments.MyFeedFragment;
 import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSON.StoryData;
 import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSONMain.StoryDataMain;
 import in.thesoupstoriesnews.thesoup.SoupContract;
@@ -92,38 +89,11 @@ public class NetworkUtilswithToken {
 
                             if (networkResponse != null) {
                                 if (networkResponse.statusCode == 404) {
-                                    if (mcontext instanceof MainActivity) {
-                                        if (params.get("page").equals("0")) {
-                                            MainActivity activity = (MainActivity) mcontext;
-
-                                            if (fragmenttag == 1) {
-                                                Fragment f = activity.getFragment(fragmenttag);
-                                                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mcontext);
-                                                if (pref.getString("filter_count", null) != null && !pref.getString("filter_count", null).isEmpty()) {
-                                                    ((MyFeedFragment) f).filterApplied();
-                                                } else {
-                                                    ((MyFeedFragment) f).Nofollowers();
-                                                }
-
-
-                                            }
-                                        } else {
-                                            MainActivity activity = (MainActivity) mcontext;
-                                            if (fragmenttag == 1) {
-                                                Fragment f = activity.getFragment(fragmenttag);
-                                                ((MyFeedFragment) f).stopProgress();
-                                            } else if (fragmenttag == 0) {
-                                                Fragment f = activity.getFragment(fragmenttag);
-                                                ((DiscoverFragment) f).stopProgress();
-                                            }
-
-
-                                        }
                                     }
                                 }
 
                                 Log.d("asdfghj", String.valueOf(networkResponse.statusCode));
-                            }
+
                         }
                     }
                 }) {
@@ -191,40 +161,16 @@ public class NetworkUtilswithToken {
 
                             if (networkResponse != null) {
                                 if (networkResponse.statusCode == 404) {
-                                    if (mcontext instanceof MainActivity) {
                                         if (params.get("page").equals("0")) {
-                                            MainActivity activity = (MainActivity) mcontext;
-
-                                            if (fragmenttag == 1) {
-                                                Fragment f = activity.getFragment(fragmenttag);
-                                                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mcontext);
-                                                if (pref.getString("filter_count", null) != null && !pref.getString("filter_count", null).isEmpty()) {
-                                                    ((MyFeedFragment) f).filterApplied();
-                                                } else {
-                                                    ((MyFeedFragment) f).Nofollowers();
-                                                }
 
 
                                             }
-                                        } else {
-                                            MainActivity activity = (MainActivity) mcontext;
-                                            if (fragmenttag == 1) {
-                                                Fragment f = activity.getFragment(fragmenttag);
-                                                ((MyFeedFragment) f).stopProgress();
-                                            } else if (fragmenttag == 0) {
-                                                Fragment f = activity.getFragment(fragmenttag);
-                                                ((DiscoverFragment) f).stopProgress();
-                                            }
-
-
                                         }
                                     }
                                 }
 
-                                Log.d("asdfghj", String.valueOf(networkResponse.statusCode));
-                            }
-                        }
-                    }
+                             }
+
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -291,30 +237,8 @@ public class NetworkUtilswithToken {
 
                             if (networkResponse != null) {
                                 if (networkResponse.statusCode == 404) {
-                                    if (mcontext instanceof MainActivity) {
-                                        if (params.get("page").equals("0")) {
-                                            MainActivity activity = (MainActivity) mcontext;
-                                            if (fragmenttag == 1) {
-                                                Fragment f = activity.getFragment(fragmenttag);
-                                                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mcontext);
-                                                if (pref.getString("filter_count", null) != null && !pref.getString("filter_count", null).isEmpty()) {
-                                                    ((MyFeedFragment) f).filterApplied();
-                                                } else {
-                                                    ((MyFeedFragment) f).Nofollowers();
-                                                }
-                                            }
-                                        } else {
-                                            MainActivity activity = (MainActivity) mcontext;
-                                            if (fragmenttag == 1) {
-                                                Fragment f = activity.getFragment(fragmenttag);
-                                                ((MyFeedFragment) f).stopProgress();
-                                            } else if (fragmenttag == 0) {
-                                                Fragment f = activity.getFragment(fragmenttag);
-                                                ((DiscoverFragment) f).stopProgress();
-                                            }
-                                        }
                                     }
-                                }
+
                                 Log.d("asdfghj", String.valueOf(networkResponse.statusCode));
                             }
                         }

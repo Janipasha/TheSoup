@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import in.thesoupstoriesnews.thesoup.Activities.EndlessRecyclerView;
 import in.thesoupstoriesnews.thesoup.Activities.EndlessRecyclerViewScrollListener;
 import in.thesoupstoriesnews.thesoup.Adapters.HomeFeedAdapter;
 import in.thesoupstoriesnews.thesoup.Adapters.StoryFeedAdapterMain;
@@ -48,7 +49,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         private HashMap<String, String> params;
         private SharedPreferences pref;
         private Button Discover, MyFeed;
-        private EndlessRecyclerViewScrollListener scrollListener;
+        private EndlessRecyclerView scrollListener;
         private ProgressBar progress;
         private String totalrefresh="0";
         private Context context;
@@ -117,19 +118,20 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             StoryView.setHasFixedSize(true);
 
 
-            scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+            scrollListener = new EndlessRecyclerView(layoutManager) {
                 @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-
-                    loadNextDataFromApi(page);
+                public void onLoadMore(int current_page) {
+                    loadNextDataFromApi(current_page);
                 }
+
             };
 
             StoryView.addOnScrollListener(scrollListener);
             swipeRefreshLayout = (SwipeRefreshLayout)RootView.findViewById(R.id.container_discover);
 
 
-            NetworkCall();
+
+         //   NetworkCall();
 
 
             CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -164,8 +166,14 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             } else {
                 params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
                 params.put("page", "0");
-                params.put("purpose","discover");
-                progress.setVisibility(View.VISIBLE);
+                params.put("purpose","followed");
+                if(swipeRefreshLayout.isRefreshing()){
+                    progress.setVisibility(View.GONE);
+
+                }else{
+                    progress.setVisibility(View.VISIBLE);
+
+                }
                 progress.setProgress(0);
 
                 for (String name : params.keySet()) {
@@ -189,6 +197,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         @Override
         public void onRefresh() {
             totalrefresh = "1";
+            scrollListener.changeoffset(0);
             swipeRefreshLayout.setRefreshing(true);
 
             NetworkCall();
@@ -210,36 +219,43 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
             String Page = String.valueOf(offset);
 
-            if (TextUtils.isEmpty(pref.getString(SoupContract.AUTH_TOKEN, null))) {
+            if(offset==0){
+                NetworkCall();
+            }else {
+                if (TextUtils.isEmpty(pref.getString(SoupContract.AUTH_TOKEN, null))) {
 
-                params.put("page", Page);
-                params.put("purpose","foryou");
+                    params.put("page", Page);
+                    params.put("purpose","foryou");
 
-                NetworkUtilswithTokenMain networkUtilswithTokenMain = new NetworkUtilswithTokenMain(getActivity(),nStoryData,params);
-                networkUtilswithTokenMain.getFeed3(1,totalrefresh);
+                    NetworkUtilswithTokenMain networkUtilswithTokenMain = new NetworkUtilswithTokenMain(getActivity(),nStoryData,params);
+                    networkUtilswithTokenMain.getFeed3(1,totalrefresh);
 
-            } else {
-                params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
-                params.put("page", Page);
-                Log.d(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
-                progress.setVisibility(View.VISIBLE);
-                progress.setProgress(0);
+                } else {
+                    params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
+                    params.put("page", Page);
+                    Log.d(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
+                    progress.setVisibility(View.VISIBLE);
+                    progress.setProgress(0);
 
-                params.put("purpose","foryou");
+                    params.put("purpose","foryou");
 
-                NetworkUtilswithTokenMain networkUtilswithTokenMain = new NetworkUtilswithTokenMain(getActivity(),nStoryData,params);
-                networkUtilswithTokenMain.getFeed3(1,totalrefresh);
+                    NetworkUtilswithTokenMain networkUtilswithTokenMain = new NetworkUtilswithTokenMain(getActivity(),nStoryData,params);
+                    networkUtilswithTokenMain.getFeed3(1,totalrefresh);
+
+                }
 
             }
+
+
 
 
         }
 
 
-        public void startAdapterfirsttime(List<StoryDataMain> mStoryData1,List<StoryDataMain> nStoryData,String followcount) {
+        public void startAdapterfirsttime(List<StoryDataMain> mStoryData1,List<StoryDataMain> nStoryData,String followcount,String followUpdateCount) {
             //StoryView.setAdapter(mStoryfeedAdapter);
             mStoryData = mStoryData1;
-            mStoryfeedAdapter.refreshData(mStoryData,nStoryData,followcount);
+            mStoryfeedAdapter.refreshData(mStoryData,nStoryData,followcount,followUpdateCount);
 
             progress.setProgress(100);
             progress.setVisibility(View.GONE);
@@ -305,23 +321,18 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString(SoupContract.TOTAL_REFRESH, "0");
                     editor.apply();
+                    scrollListener.changeoffset(0);
 
                     //prefUtil.saveTotalRefresh("0");
 
                 }
             }
         }
-
-
-
-
     }
 
         @Override
         public void onResume() {
             super.onResume();
-
-
         }
 
         public void startRefreshAdapter(List<StoryDataMain> mStoryData,List<StoryDataMain> nStoryData ){
@@ -337,10 +348,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         }
 
 
-
         public void demo1(int position, String followstatus) {
-
-            // CVIPUL Analytics
             // TODO : Verify follow/unfollow event
             Bundle mparams = new Bundle();
             mparams.putString("screen_name", "discover_screen"); // "myfeed / discover"

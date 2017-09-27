@@ -1,8 +1,6 @@
 package in.thesoupstoriesnews.thesoup.NetworkCalls;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -20,11 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import in.thesoupstoriesnews.thesoup.Activities.MainActivity;
 import in.thesoupstoriesnews.thesoup.Activities.NavigationActivity;
-import in.thesoupstoriesnews.thesoup.Fragments.DiscoverFragment;
 import in.thesoupstoriesnews.thesoup.Fragments.FollowingFragment;
-import in.thesoupstoriesnews.thesoup.Fragments.MyFeedFragment;
 import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSONMain.StoryDataMain;
 import in.thesoupstoriesnews.thesoup.SoupContract;
 import in.thesoupstoriesnews.thesoup.gsonConversion;

@@ -1,12 +1,10 @@
 package in.thesoupstoriesnews.thesoup.NetworkCalls;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -14,8 +12,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.json.JSONException;
@@ -26,10 +22,7 @@ import java.util.Map;
 
 import in.thesoupstoriesnews.thesoup.Activities.EmailActivity;
 import in.thesoupstoriesnews.thesoup.Activities.LoginActivity;
-import in.thesoupstoriesnews.thesoup.Activities.MainActivity;
 import in.thesoupstoriesnews.thesoup.SoupContract;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by Jani on 18-04-2017.
@@ -246,11 +239,6 @@ public class NetworkUtilsLogin {
 
 
 
-                        MainActivity activity = (MainActivity)mcontext;
-                        activity.googleLogout();
-
-
-                        activity.goLoginActivity();
 
 
                     }

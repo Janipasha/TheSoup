@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
@@ -13,13 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.thesoupstoriesnews.thesoup.Activities.DetailsActivity;
-import in.thesoupstoriesnews.thesoup.Activities.MainActivity;
 import in.thesoupstoriesnews.thesoup.Activities.NavigationActivity;
-import in.thesoupstoriesnews.thesoup.Fragments.DiscoverFragment;
 import in.thesoupstoriesnews.thesoup.Fragments.DiscoverFragmentMain;
 import in.thesoupstoriesnews.thesoup.Fragments.FollowingFragment;
 import in.thesoupstoriesnews.thesoup.Fragments.HomeFragment;
-import in.thesoupstoriesnews.thesoup.Fragments.MyFeedFragment;
 import in.thesoupstoriesnews.thesoup.GSONclasses.AuthVerify.Authverify;
 import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSON.GetStoryFeed;
 import in.thesoupstoriesnews.thesoup.GSONclasses.FeedGSON.StoryData;
@@ -65,9 +61,14 @@ public class gsonConversion {
         GetStoryFeedMain red = gson.fromJson(mJsonObject.toString(),GetStoryFeedMain.class);
 
         String followcount = "";
+        String followUpdateCount= "";
 
         if(red.getDataStoriesMain().getfollowedStoryiesCount()!=null&&!red.getDataStoriesMain().getfollowedStoryiesCount().isEmpty()){
             followcount = red.getDataStoriesMain().getfollowedStoryiesCount();
+        }
+
+        if(red.getDataStoriesMain().getFollowedStoryUpdates()!=null&&!red.getDataStoriesMain().getFollowedStoryUpdates().isEmpty()){
+            followUpdateCount = red.getDataStoriesMain().getFollowedStoryUpdates();
         }
 
 
@@ -76,10 +77,11 @@ public class gsonConversion {
         if(NetworkCallHome.equals("fromfollowed")){
             for (int i = 0; i < red.getDataStoriesMain().getStoryDataList().size(); i++) {
 
-                if(red.getDataStoriesMain().getStoryDataList().get(i).getCategoryName()!=null&&!red.getDataStoriesMain().getStoryDataList().get(i).getCategoryName().isEmpty()){
 
                     nListFromJson.add(red.getDataStoriesMain().getStoryDataList().get(i));
-                }
+
+            }
+
 
 
                 NavigationActivity activity = (NavigationActivity)context;
@@ -88,24 +90,22 @@ public class gsonConversion {
 
                     Fragment f = activity.getFragment(fragmenttag);
 
-                    ((HomeFragment) f).startAdapterfirsttime(nListFromJson,oListFromJson,followcount);
+                    ((HomeFragment) f).startAdapterfirsttime(nListFromJson,oListFromJson,followcount,followUpdateCount);
 
                 }else if(fragmenttag==1&&totalrefresh.equals("1")){
                     Fragment f = activity.getFragment(fragmenttag);
-                    ((HomeFragment)f).startAdapterfirsttime(nListFromJson,oListFromJson,followcount);
+                    ((HomeFragment)f).startAdapterfirsttime(nListFromJson,oListFromJson,followcount,followUpdateCount);
                 }
 
-            }
-
-
-        } else  if(NetworkCallHome.equals("frommoreforyou")){
+            } else  if(NetworkCallHome.equals("frommoreforyou")){
 
             for (int i = 0; i < red.getDataStoriesMain().getStoryDataList().size(); i++) {
 
-                if(red.getDataStoriesMain().getStoryDataList().get(i).getCategoryName()!=null&&!red.getDataStoriesMain().getStoryDataList().get(i).getCategoryName().isEmpty()){
+                if (red.getDataStoriesMain().getStoryDataList().get(i).getCategoryName() != null && !red.getDataStoriesMain().getStoryDataList().get(i).getCategoryName().isEmpty()) {
 
                     oListFromJson.add(red.getDataStoriesMain().getStoryDataList().get(i));
                 }
+            }
 
                 NavigationActivity activity = (NavigationActivity)context;
 
@@ -121,7 +121,7 @@ public class gsonConversion {
             }
         }
 
-    }
+
 
 
     public  void fillUiMain(JSONObject jsonObject,Context context,int fragmenttag,String totalrefresh){
@@ -176,6 +176,8 @@ public class gsonConversion {
             num_read = red.getDataStories().getUnRead().getUnReadValue();
         }
 
+
+
         Log.d("Num_read",num_read);
 
 
@@ -200,16 +202,6 @@ public class gsonConversion {
 
 
 
-        if(fragmenttag==1&&totalrefresh.equals("0")) {
-
-            Fragment f = activity.getFragment(fragmenttag);
-
-            ((DiscoverFragment) f).startAdapter(mListFromJson);
-
-        }else if(fragmenttag==1&&totalrefresh.equals("1")){
-            Fragment f = activity.getFragment(fragmenttag);
-            ((DiscoverFragment)f).startRefreshAdapter(mListFromJson);
-        }
 
 
        /* if(fragmenttag==1&&totalrefresh.equals("0")){
@@ -324,29 +316,6 @@ public class gsonConversion {
 
         }
 
-
-        MainActivity activity = (MainActivity) context;
-
-
-        if(fragmenttag==0&&totalrefresh.equals("0")) {
-
-            Fragment f = activity.getFragment(fragmenttag);
-
-            ((DiscoverFragment) f).startAdapter(mListFromJson);
-
-        }else if(fragmenttag==0&&totalrefresh.equals("1")){
-            Fragment f = activity.getFragment(fragmenttag);
-            ((DiscoverFragment)f).startRefreshAdapter(mListFromJson);
-        }
-
-
-        if(fragmenttag==1&&totalrefresh.equals("0")){
-            Fragment f = activity.getFragment(fragmenttag);
-            ((MyFeedFragment)f).startAdapter(mListFromJson,num_read);
-        }else if(fragmenttag==1&&totalrefresh.equals("1")){
-            Fragment f = activity.getFragment(fragmenttag);
-            ((MyFeedFragment)f).startRefreshAdapter(mListFromJson,num_read);
-        }
 
 
     }

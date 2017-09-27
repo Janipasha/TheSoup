@@ -24,15 +24,6 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
         this.mLayoutManager = layoutManager;
     }
 
-    public EndlessRecyclerViewScrollListener(GridLayoutManager layoutManager) {
-        this.mLayoutManager = layoutManager;
-        visibleThreshold = visibleThreshold * layoutManager.getSpanCount();
-    }
-
-    public EndlessRecyclerViewScrollListener(StaggeredGridLayoutManager layoutManager) {
-        this.mLayoutManager = layoutManager;
-        visibleThreshold = visibleThreshold * layoutManager.getSpanCount();
-    }
 
     public int getLastVisibleItem(int[] lastVisibleItemPositions) {
         int maxSize = 0;
@@ -87,11 +78,14 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
         // the visibleThreshold and need to reload more data.
         // If we do need to reload some more data, we execute onLoadMore to fetch the data.
         // threshold should reflect how many total columns there are too
-        if (!loading && (lastVisibleItemPosition + visibleThreshold) > totalItemCount) {
-            currentPage++;
-            onLoadMore(currentPage, totalItemCount, view);
-            loading = true;
+        if(totalItemCount>1){
+            if (!loading && (lastVisibleItemPosition + visibleThreshold) > totalItemCount) {
+                currentPage= currentPage+1;
+                onLoadMore(currentPage, totalItemCount, view);
+                loading = true;
+            }
         }
+
     }
 
     // Call this method whenever performing new searches
