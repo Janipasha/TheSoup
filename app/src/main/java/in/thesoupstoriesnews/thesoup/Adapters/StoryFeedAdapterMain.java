@@ -96,12 +96,12 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
                 source3, source1time, source2time, source3time, articletitle1, articletitle2, articletitle3,bottomtextshowmore,
         bottomtextnumarticles;
 
-        public ImageView followicon, filterImage, heroimage, shareicon, sourceimage1, sourceimage2, sourceimage3,
+        public ImageView followicon, filterImage, heroimage, sourceimage1, sourceimage2, sourceimage3,
                 circle1, circle2, circle3;
 
         public RelativeLayout secondtopstorylayout, thirdtopstorylayout;
 
-        public LinearLayout firstarticle,secondarticle, thirdarticle,followlayout;
+        public LinearLayout firstarticle,secondarticle, thirdarticle,followlayout, shareicon;
 
         public View sideline1, sideline2, sideline3, sideline4, sideline5, sideline6,bottomline,bottomline1,bottomline2;
 
@@ -135,7 +135,7 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
             followicon = (ImageView) itemView.findViewById(R.id.followicon);
             filterImage = (ImageView) itemView.findViewById(R.id.filter_image);
             heroimage = (ImageView) itemView.findViewById(R.id.hero_image);
-            shareicon = (ImageView) itemView.findViewById(R.id.shareicon);
+            shareicon = (LinearLayout) itemView.findViewById(R.id.shareicon);
             sourceimage1 = (ImageView) itemView.findViewById(R.id.sourceImage1);
             sourceimage2 = (ImageView) itemView.findViewById(R.id.sourceImage2);
             sourceimage3 = (ImageView) itemView.findViewById(R.id.sourceImage3);
@@ -296,6 +296,7 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
                 intent.putExtra("fragmenttag", fragmenttag);
                 intent.putExtra("category", category);
                 intent.putExtra("hex_colour", storyColor);
+                intent.putExtra("position",mposition);
                 context.startActivity(intent);
 
                 if(view==viewfullstory){
@@ -708,7 +709,11 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
 
 
                 }else if(count==1){
-                    categories =filterfirstname;}
+                    categories =filterfirstname;
+                }else if(count == 14){
+                    categories = "All Categories";
+                }
+
 
             }
 
@@ -787,21 +792,21 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
             }
 
             if (source1icon != null && !source1.isEmpty()) {
-                Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).into(holder.sourceimage1);
+                Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).resize(30, 30).centerCrop().into(holder.sourceimage1);
             } else {
                 holder.sourceimage1.setImageResource(R.drawable.background_splash);
             }
 
 
             if (source2icon != null && !source2.isEmpty()) {
-                Picasso.with(context).load(source2icon).placeholder(R.drawable.placeholder).into(holder.sourceimage2);
+                Picasso.with(context).load(source2icon).placeholder(R.drawable.placeholder).resize(30, 30).centerCrop().into(holder.sourceimage2);
             } else {
                 holder.sourceimage2.setImageResource(R.drawable.background_splash);
             }
 
 
             if (source3icon != null && !source1.isEmpty()) {
-                Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).into(holder.sourceimage3);
+                Picasso.with(context).load(source3icon).placeholder(R.drawable.placeholder).resize(30, 30).centerCrop().into(holder.sourceimage3);
             } else {
                 holder.sourceimage3.setImageResource(R.drawable.background_splash);
             }
@@ -851,14 +856,14 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
             holder.bottomtextnumarticles.setVisibility(View.GONE);
 
             if (source1icon != null && !source1.isEmpty()) {
-                Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).into(holder.sourceimage1);
+                Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).resize(30, 30).centerCrop().into(holder.sourceimage1);
             } else {
                 holder.sourceimage1.setImageResource(R.drawable.background_splash);
             }
 
 
             if (source2icon != null && !source2.isEmpty()) {
-                Picasso.with(context).load(source2icon).placeholder(R.drawable.placeholder).into(holder.sourceimage2);
+                Picasso.with(context).load(source2icon).placeholder(R.drawable.placeholder).resize(30, 30).centerCrop().into(holder.sourceimage2);
             } else {
                 holder.sourceimage2.setImageResource(R.drawable.background_splash);
             }
@@ -893,7 +898,7 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
 
 
             if (source1icon != null && !source1.isEmpty()) {
-                Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).into(holder.sourceimage1);
+                Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).resize(30, 30).centerCrop().into(holder.sourceimage1);
             } else {
                 holder.sourceimage1.setImageResource(R.drawable.background_splash);
             }

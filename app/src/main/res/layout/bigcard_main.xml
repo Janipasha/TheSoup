@@ -14,385 +14,392 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="15dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-    <RelativeLayout
-        android:id="@+id/topstory_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="0dp">
-
-        <ImageView
-            android:id="@+id/filter_image"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            fontPath="fonts/montserrat-light.ttf"
-            android:layout_marginTop="1dp"
-            android:src="@drawable/icons8_logout"
-            />
-
         <LinearLayout
-            android:id="@+id/follow_icon_layout"
-            android:layout_width="46dp"
-            android:orientation="vertical"
-            android:layout_alignParentRight="true"
-            android:layout_height="40dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_gravity="end"
-                android:id="@+id/followicon"
-                android:layout_marginTop="-2dp"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/icons8_plus_filled" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="12dp">
+
+                <ImageView
+                    android:id="@+id/filter_image"
+                    fontPath="fonts/montserrat-light.ttf"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginTop="1dp"
+                    android:src="@drawable/icons8_logout" />
+
+                <LinearLayout
+                    android:id="@+id/follow_icon_layout"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/followicon"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="-2dp"
+                        android:src="@drawable/icons8_plus_filled" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/topstory_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toLeftOf="@id/follow_icon_layout"
+                    android:layout_toRightOf="@id/filter_image"
+                    android:paddingBottom="12dp">
+
+                    <TextView
+                        android:id="@+id/story_name"
+                        fontPath="fonts/montserrat-regular.otf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="1dp"
+                        android:layout_marginRight="10dp"
+                        android:lineSpacingExtra="1sp"
+                        android:text="India - China Relations"
+                        android:textColor="#757575"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/view_full_story"
+                        fontPath="fonts/montserrat-regular.otf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@id/story_name"
+                        android:layout_below="@id/story_name"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:lineSpacingExtra="1sp"
+                        android:text="VIEW FULL STORY"
+                        android:textColor="#757575"
+                        android:textSize="9sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bottom_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_alignLeft="@id/topstory_layout"
+                    android:layout_below="@id/topstory_layout"
+                    android:layout_marginBottom="0dp"
+                    android:background="@color/black" />
+
+                <View
+                    android:id="@+id/sideline1"
+                    android:layout_width="2dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/bottom_line"
+                    android:layout_below="@id/filter_image"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/black" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/second_topstory_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="0dp">
+
+                <View
+                    android:id="@+id/sideline2"
+                    android:layout_width="2dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/black" />
+
+                <ImageView
+                    android:id="@+id/circle1"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_below="@id/sideline2"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="17dp"
+                    android:src="@drawable/ic_radio_button_unchecked_black_24dp" />
+
+
+                <TextView
+                    android:id="@+id/update1"
+                    fontPath="fonts/montserrat-medium.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_toRightOf="@id/circle1"
+                    android:lineSpacingExtra="0sp"
+                    android:text="Update 31"
+                    android:textColor="#757575"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/time1"
+                    fontPath="fonts/montserrat-light.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/circle1"
+                    android:layout_marginBottom="5dp"
+                    android:layout_toEndOf="@+id/circle1"
+                    android:layout_toRightOf="@+id/circle1"
+                    android:lineSpacingExtra="1sp"
+                    android:text="12 hour ago"
+                    android:textColor="#757575"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/substory_title1"
+                    fontPath="fonts/montserrat-regular.otf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/update1"
+                    android:layout_below="@id/time1"
+                    android:letterSpacing="-0.03"
+                    android:lineSpacingExtra="3sp"
+                    android:text="Presidential election | Modi-Shah ace: Who can object to a Dalit rights crusader Ram Nath…"
+                    android:textColor="#757575"
+                    android:textSize="12sp" />
+
+                <View
+                    android:id="@+id/bottom_line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_alignLeft="@id/update1"
+                    android:layout_below="@id/substory_title1"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/black" />
+
+                <View
+                    android:id="@+id/sideline3"
+                    android:layout_width="2dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/bottom_line1"
+                    android:layout_below="@id/circle1"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/black" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/third_topstory_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="0dp">
+
+                <View
+                    android:id="@+id/sideline4"
+                    android:layout_width="2dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/black" />
+
+                <ImageView
+                    android:id="@+id/circle2"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_below="@id/sideline4"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="17dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_radio_button_unchecked_black_24dp" />
+
+
+                <TextView
+                    android:id="@+id/update2"
+                    fontPath="fonts/montserrat-medium.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_toRightOf="@id/circle2"
+                    android:lineSpacingExtra="0sp"
+                    android:text="Update 31"
+                    android:textColor="#757575"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/time2"
+                    fontPath="fonts/montserrat-light.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/update2"
+                    android:layout_below="@id/update2"
+                    android:layout_marginBottom="5dp"
+                    android:lineSpacingExtra="1sp"
+                    android:text="12 hour ago"
+                    android:textColor="#757575"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/substory_title2"
+                    fontPath="fonts/montserrat-regular.otf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/update2"
+                    android:layout_below="@id/time2"
+                    android:letterSpacing="-0.03"
+                    android:lineSpacingExtra="3sp"
+                    android:text="Presidential election | Modi-Shah ace: Who can object to a Dalit rights crusader Ram Nath…"
+                    android:textColor="#757575"
+                    android:textSize="12sp" />
+
+                <View
+                    android:id="@+id/bottom_line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_alignLeft="@id/update2"
+                    android:layout_below="@id/substory_title2"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/black" />
+
+                <View
+                    android:id="@+id/sideline5"
+                    android:layout_width="2dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/bottom_line2"
+                    android:layout_below="@id/circle2"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/black" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/final_story_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <View
+                    android:id="@+id/sideline6"
+                    android:layout_width="2dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/black" />
+
+                <ImageView
+                    android:id="@+id/circle3"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_below="@id/sideline6"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="17dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_radio_button_unchecked_black_24dp" />
+
+
+                <TextView
+                    android:id="@+id/update3"
+                    fontPath="fonts/montserrat-medium.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_toRightOf="@id/circle3"
+                    android:lineSpacingExtra="0sp"
+                    android:text="Update 31"
+                    android:textColor="#757575"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/time3"
+                    fontPath="fonts/montserrat-light.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/update3"
+                    android:layout_below="@id/update3"
+                    android:layout_marginBottom="10dp"
+                    android:lineSpacingExtra="1sp"
+                    android:text="12 hour ago"
+                    android:textColor="#757575"
+                    android:textSize="11sp" />
+
+                <LinearLayout
+                    android:id="@+id/shareicon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="10dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="14dp"
+                        android:src="@drawable/icons8_share" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/hero_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/update3"
+                    android:layout_below="@id/time3"
+                    android:adjustViewBounds="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/icons8_journey_filled" />
+
+                <LinearLayout
+                    android:id="@+id/article_list_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/hero_image"
+                    android:layout_below="@id/hero_image"
+                    android:layout_marginBottom="18dp">
+
+                    <include layout="@layout/article_bigcard_main" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/bottomtext_showall"
+                    fontPath="fonts/montserrat-regular.otf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/article_list_main"
+                    android:layout_marginLeft="3dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:lineSpacingExtra="1sp"
+                    android:paddingBottom="18dp"
+                    android:text="SHOW ALL"
+                    android:textColor="#757575"
+                    android:textSize="9sp" />
+
+                <TextView
+                    android:id="@+id/bottomtext_numarticles"
+                    fontPath="fonts/montserrat-regular.otf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/bottomtext_showall"
+                    android:layout_toLeftOf="@id/bottomtext_showall"
+                    android:lineSpacingExtra="1sp"
+                    android:textColor="#757575"
+                    android:textSize="11sp"
+                    tools:text="7 More Articles In This Update." />
+
+
+            </RelativeLayout>
+
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/story_name"
-            android:layout_toRightOf="@id/filter_image"
-            android:layout_marginLeft="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/follow_icon_layout"
-            android:textSize="11sp"
-            android:textColor="#757575"
-            fontPath="fonts/montserrat-regular.otf"
-            android:layout_marginBottom="1dp"
-            android:lineSpacingExtra="1sp"
-            android:text="India - China Relations"
-            />
-        <TextView
-            android:id="@+id/view_full_story"
-            android:layout_below="@id/story_name"
-            android:layout_alignLeft="@id/story_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="VIEW FULL STORY"
-            android:textSize="11sp"
-            fontPath="fonts/montserrat-regular.otf"
-            android:textColor="#757575"
-            android:lineSpacingExtra="1sp"/>
-
-        <View
-            android:id="@+id/bottom_line"
-            android:layout_alignLeft="@id/story_name"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginTop="12dp"
-            android:layout_below="@id/view_full_story"
-            android:layout_marginBottom="0dp"
-            android:background="@color/black"/>
-
-        <View
-            android:layout_below="@id/filter_image"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/sideline1"
-            android:layout_width="2dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/bottom_line"
-            android:background="@color/black"/>
-
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/second_topstory_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="0dp">
-
-        <View
-            android:id="@+id/sideline2"
-            android:layout_width="2dp"
-            android:layout_height="15dp"
-            android:layout_marginLeft="10dp"
-            android:layout_alignParentTop="true"
-            android:background="@color/black"/>
-
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_below="@id/sideline2"
-            android:id="@+id/circle1"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginLeft="2.5dp"
-            android:layout_marginRight="17dp"
-            app:srcCompat="@drawable/ic_radio_button_unchecked_black_24dp"/>
-
-
-        <TextView
-            android:layout_toRightOf="@id/circle1"
-            android:id="@+id/update1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10sp"
-            fontPath="fonts/montserrat-medium.ttf"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="1dp"
-            android:textColor="#757575"
-            android:lineSpacingExtra="0sp"
-            android:text="Update 31"/>
-        
-        <TextView
-            android:id="@+id/time1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            fontPath="fonts/montserrat-light.ttf"
-            android:textColor="#757575"
-            android:lineSpacingExtra="1sp"
-            android:text="12 hour ago"
-            android:layout_marginBottom="5dp"
-            android:layout_below="@+id/circle1"
-            android:layout_toRightOf="@+id/circle1"
-            android:layout_toEndOf="@+id/circle1" />
-
-        <TextView
-            android:id="@+id/substory_title1"
-            android:layout_below="@id/time1"
-            android:layout_alignLeft="@id/update1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fontPath="fonts/montserrat-regular.otf"
-            android:textSize="12sp"
-            android:textColor="#757575"
-            android:letterSpacing="-0.03"
-            android:lineSpacingExtra="3sp"
-            android:text="Presidential election | Modi-Shah ace: Who can object to a Dalit rights crusader Ram Nath…"
-        />
-
-        <View
-            android:id="@+id/bottom_line1"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_alignLeft="@id/update1"
-            android:layout_marginTop="10dp"
-            android:background="@color/black"
-            android:layout_below="@id/substory_title1"/>
-
-        <View
-            android:id="@+id/sideline3"
-            android:layout_width="2dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/circle1"
-            android:layout_marginLeft="10dp"
-            android:layout_alignBottom="@id/bottom_line1"
-            android:background="@color/black"/>
-
-
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/third_topstory_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="0dp">
-
-        <View
-            android:id="@+id/sideline4"
-            android:layout_width="2dp"
-            android:layout_height="15dp"
-            android:layout_marginLeft="10dp"
-            android:layout_alignParentTop="true"
-            android:background="@color/black"/>
-
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_below="@id/sideline4"
-            android:id="@+id/circle2"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginLeft="2.5dp"
-            android:layout_marginRight="17dp"
-            android:adjustViewBounds="true"
-            app:srcCompat="@drawable/ic_radio_button_unchecked_black_24dp"/>
-
-
-        <TextView
-            android:layout_toRightOf="@id/circle2"
-            android:id="@+id/update2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="1dp"
-            android:textColor="#757575"
-            fontPath="fonts/montserrat-medium.ttf"
-            android:lineSpacingExtra="0sp"
-            android:text="Update 31"/>
-
-        <TextView
-            android:layout_below="@id/update2"
-            android:id="@+id/time2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            fontPath="fonts/montserrat-light.ttf"
-            android:layout_alignLeft="@id/update2"
-            android:layout_marginBottom="5dp"
-            android:textColor="#757575"
-            android:lineSpacingExtra="1sp"
-            android:text="12 hour ago"
-            />
-
-        <TextView
-            android:id="@+id/substory_title2"
-            android:layout_below="@id/time2"
-            android:layout_alignLeft="@id/update2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fontPath="fonts/montserrat-regular.otf"
-            android:textSize="12sp"
-            android:textColor="#757575"
-            android:letterSpacing="-0.03"
-            android:lineSpacingExtra="3sp"
-            android:text="Presidential election | Modi-Shah ace: Who can object to a Dalit rights crusader Ram Nath…"
-            />
-
-        <View
-            android:id="@+id/bottom_line2"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_alignLeft="@id/update2"
-            android:layout_marginTop="10dp"
-            android:background="@color/black"
-            android:layout_below="@id/substory_title2"/>
-
-        <View
-            android:id="@+id/sideline5"
-            android:layout_width="2dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/circle2"
-            android:layout_marginLeft="10dp"
-            android:layout_alignBottom="@id/bottom_line2"
-            android:background="@color/black"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/final_story_layout"
-        android:layout_width="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_height="wrap_content">
-
-        <View
-            android:id="@+id/sideline6"
-            android:layout_width="2dp"
-            android:layout_height="15dp"
-            android:layout_marginLeft="10dp"
-            android:layout_alignParentTop="true"
-            android:background="@color/black"/>
-
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_below="@id/sideline6"
-            android:id="@+id/circle3"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginLeft="2.5dp"
-            android:layout_marginRight="17dp"
-            android:adjustViewBounds="true"
-            app:srcCompat="@drawable/ic_radio_button_unchecked_black_24dp"/>
-
-
-        <TextView
-            android:layout_toRightOf="@id/circle3"
-            android:id="@+id/update3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10sp"
-            fontPath="fonts/montserrat-medium.ttf"
-            android:layout_marginTop="14dp"
-            android:textColor="#757575"
-            android:lineSpacingExtra="0sp"
-            android:text="Update 31"/>
-
-        <TextView
-            android:layout_below="@id/update3"
-            android:id="@+id/time3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            fontPath="fonts/montserrat-light.ttf"
-            android:layout_alignLeft="@id/update3"
-            android:layout_marginBottom="10dp"
-            android:textColor="#757575"
-            android:lineSpacingExtra="1sp"
-            android:text="12 hour ago"
-            />
-        
-        <ImageView
-            android:id="@+id/shareicon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="14dp"
-            android:src="@drawable/icons8_share"/>
-        
-        <ImageView
-            android:id="@+id/hero_image"
-            android:layout_below="@id/time3"
-            android:layout_alignLeft="@id/update3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src= "@drawable/icons8_journey_filled"/>
-
-        <LinearLayout
-            android:id="@+id/article_list_main"
-            android:layout_alignLeft="@id/hero_image"
-            android:layout_below="@id/hero_image"
-            android:layout_marginBottom="18dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        <include layout="@layout/article_bigcard_main" />
-
-        </LinearLayout>
-
-        <TextView
-            android:paddingBottom="18dp"
-            android:layout_marginLeft="3dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/bottomtext_showall"
-            android:layout_below="@id/article_list_main"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:textSize="11sp"
-            android:textColor="#757575"
-            fontPath="fonts/montserrat-regular.otf"
-            android:lineSpacingExtra="1sp"
-            android:text="SHOW ALL"/>
-
-        <TextView
-            android:layout_alignBaseline="@id/bottomtext_showall"
-            android:id="@+id/bottomtext_numarticles"
-            android:layout_toLeftOf="@id/bottomtext_showall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:textColor="#757575"
-            fontPath="fonts/montserrat-regular.otf"
-            android:lineSpacingExtra="1sp"
-            tools:text="7 More Articles In This Update."/>
-
-        
-    </RelativeLayout>
-
-    </LinearLayout>
 
     </android.support.v7.widget.CardView>
 

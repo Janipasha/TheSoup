@@ -1,5 +1,6 @@
 package in.thesoupstoriesnews.thesoup.Fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -195,16 +196,15 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
             gotodiscover.setVisibility(View.VISIBLE);
             progress.setProgress(100);
             progress.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
 
         }
 
-        public void startAdapter(List<StoryDataFollowing> mStoryData) {
+        public void startAdapter(List<StoryDataFollowing> nStoryData) {
 
-            mStoryfeedAdapter.refreshData(mStoryData,value);
+            mStoryfeedAdapter.refreshData(nStoryData,value);
             progress.setProgress(100);
             progress.setVisibility(View.GONE);
-
-
             swipeRefreshLayout.setRefreshing(false);
 
             Log.d("mStoryData startAdapter", String.valueOf(mStoryData.size()));
@@ -335,13 +335,53 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        @Override
+        if(requestCode==36){
+              if(resultCode==1){
+                  int position = 39897;
+                  String storyId = data.getStringExtra("storyId");
+                  for(int i=0;i<mStoryData.size();i++){
+                    if(mStoryData.get(i).getStoryId().equals(storyId)){
+                        position = i;
+                    }
+                  }
+                  if(position!=39897){
+                      mStoryData.remove(position);
+                      if(mStoryData.size()==0){
+
+                          StoryView.setVisibility(View.GONE);
+                          mTextView.setVisibility(View.VISIBLE);
+                          // warningImage.setVisibility(View.VISIBLE);
+                          gotodiscover.setVisibility(View.VISIBLE);
+                          progress.setProgress(100);
+                          progress.setVisibility(View.GONE);
+                          swipeRefreshLayout.setRefreshing(false);
+
+                      }
+                      startRefreshAdapter(mStoryData);
+
+                  }
+              }
+        }
+    }
+
+    @Override
         public void onRefresh () {
             seenStatus = 0;
             scrollListener.changeoffset(0);
             swipeRefreshLayout.setRefreshing(true);
+        StoryView.setVisibility(View.VISIBLE);
+        mTextView.setVisibility(View.GONE);
+        // warningImage.setVisibility(View.VISIBLE);
+        gotodiscover.setVisibility(View.GONE);
+        progress.setProgress(100);
+        progress.setVisibility(View.GONE);
             NetworkCallFollowing(value);
+
+
         }
 
         public interface Badgeonfilter {

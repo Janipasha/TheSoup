@@ -376,7 +376,7 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
 
 
             if (source3icon != null && !source1.isEmpty()) {
-                Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).into(holder.sourceimage3);
+                Picasso.with(context).load(source3icon).placeholder(R.drawable.placeholder).into(holder.sourceimage3);
             } else {
                 holder.sourceimage3.setImageResource(R.drawable.background_splash);
             }

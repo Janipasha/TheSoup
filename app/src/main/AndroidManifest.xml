@@ -46,7 +46,6 @@
 
         <activity android:name="in.thesoupstoriesnews.thesoup.Activities.DetailsActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName="in.thesoupstoriesnews.thesoup.Activities.MainActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter>
             <action android:name="DETAILS_ACTIVITY" />

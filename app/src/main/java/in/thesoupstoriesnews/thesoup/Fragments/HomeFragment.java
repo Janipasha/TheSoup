@@ -257,8 +257,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             mStoryData = mStoryData1;
             mStoryfeedAdapter.refreshData(mStoryData,nStoryData,followcount,followUpdateCount);
 
-            progress.setProgress(100);
-            progress.setVisibility(View.GONE);
+
             swipeRefreshLayout.setRefreshing(false);
 
             params.put("purpose","foryou");
@@ -393,7 +392,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             mStoryfeedAdapter.refreshfollowstatus(mStoryData,nStoryData);
 
             if(followstatus.equals("1")){
-                Toast.makeText(getActivity(), "sucessfully followed the story", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Now following the Story", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -406,8 +405,8 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
 
     public void startAdaptersecondcall(List<StoryDataMain> oListFromJson) {
-        nStoryData = oListFromJson;
-        mStoryfeedAdapter.totalRefreshData(mStoryData,nStoryData);
+        nStoryData= oListFromJson;
+        mStoryfeedAdapter.totalRefreshData(mStoryData,oListFromJson);
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
@@ -415,8 +414,8 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     public void startAdapterAfterPagination(List<StoryDataMain> oListFromJson){
-        nStoryData = oListFromJson;
-        mStoryfeedAdapter.RefreshDataPagination(mStoryData,nStoryData);
+        nStoryData.addAll(oListFromJson);
+        mStoryfeedAdapter.RefreshDataPagination(mStoryData,oListFromJson);
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);

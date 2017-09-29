@@ -56,8 +56,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:letterSpacing="-0.03"
+            android:lineSpacingExtra="1sp"
             android:text="LET'S"
-            android:layout_marginBottom="-6dp"
             android:textColor="#222222"
             android:textSize="29sp"
             android:minHeight="0dp"
@@ -73,12 +73,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="-13dp"
             android:letterSpacing="-0.03"
-            android:lineSpacingExtra="-1sp"
+            android:lineSpacingExtra="0sp"
+            android:padding="0dp"
             android:textColor="#222222"
             android:textSize="36sp"
             android:text="BEGIN"
-            android:layout_marginTop="-3dp"
             android:layout_marginBottom="18dp"/>
 
 

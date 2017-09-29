@@ -3,9 +3,14 @@ package in.thesoupstoriesnews.thesoup.Adapters;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,7 +138,7 @@ public class FilterAdapterVersion extends RecyclerView.Adapter <RecyclerView.Vie
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView userName,discoverfilter;
+        public TextView userName,discoverfilter,filtertoptext;
         public LinearLayout filterheadernormal;
 
         public HeaderViewHolder(View itemView) {
@@ -142,6 +147,7 @@ public class FilterAdapterVersion extends RecyclerView.Adapter <RecyclerView.Vie
            userName= (TextView)itemView.findViewById(R.id.filter_heading);
             discoverfilter= (TextView)itemView.findViewById(R.id.discoverfilter);
             filterheadernormal = (LinearLayout)itemView.findViewById(R.id.filterheadernormal);
+            filtertoptext = (TextView)itemView.findViewById(R.id.filtertoptext);
 
         }}
 
@@ -204,8 +210,16 @@ public class FilterAdapterVersion extends RecyclerView.Adapter <RecyclerView.Vie
 
         } else if(holder instanceof HeaderViewHolder){
 
+            String toptext = mcontext.getString(R.string.categories_count);
+            SpannableString ss1 = new SpannableString(toptext);
+            ss1.setSpan(new StyleSpan(Typeface.BOLD),7,16,0);
+
+            ss1.setSpan(new RelativeSizeSpan(1.1f),7,16,0);
+
+
             ((HeaderViewHolder)holder).filterheadernormal.setVisibility(View.VISIBLE);
             ((HeaderViewHolder)holder).discoverfilter.setVisibility(View.GONE);
+            ((HeaderViewHolder)holder).filtertoptext.setText(ss1);
 
             if(resetfilter.equals("0")||resetfilter.isEmpty()){
                 ((HeaderViewHolder)holder).filterheadernormal.setVisibility(View.VISIBLE);

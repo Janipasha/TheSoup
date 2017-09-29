@@ -23,6 +23,7 @@
     <TextView
         android:visibility="invisible"
         android:id="@+id/manage_home"
+        android:padding="10dp"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -93,6 +94,7 @@
     </LinearLayout>
 
     <TextView
+        android:padding="10dp"
         android:visibility="invisible"
         android:id="@+id/followedseeall"
         android:layout_width="wrap_content"
@@ -116,7 +118,6 @@
         android:textSize="12sp"
         android:layout_below="@id/followedtext"
         android:layout_alignLeft="@id/followedtext"
-        android:layout_marginBottom="35dp"
         android:textColor="#222222"
         fontPath="fonts/montserrat-light.ttf"
         android:text="Nice! You are up to date with your followed stories.

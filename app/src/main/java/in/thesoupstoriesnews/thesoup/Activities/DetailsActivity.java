@@ -36,6 +36,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -56,6 +57,8 @@ import in.thesoupstoriesnews.thesoup.SoupContract;
 import me.toptas.fancyshowcase.FancyShowCaseView;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+import static android.R.attr.data;
 
 
 /**
@@ -123,7 +126,7 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
             Window window = this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.parseColor("#"+storyColour));
+            window.setStatusBarColor(Color.parseColor("#" + storyColour));
         }
 
         progress = (ProgressBar) findViewById(R.id.progressbarstory);
@@ -131,6 +134,7 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
         filtericon = (ImageView) findViewById(R.id.filtericon);
         relativeLayout = (RelativeLayout) findViewById(R.id.head);
         relativeLayouttick = (RelativeLayout) findViewById(R.id.detailslayout);
+
         tickfollow = (ImageButton) findViewById(R.id.tickmark_follow);
         mheading = (TextView) findViewById(R.id.story_title_header1);
         followbutton = (Button) findViewById(R.id.followbutton_header1);
@@ -182,53 +186,66 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         SingleStoryView.setLayoutManager(layoutManager);
 
+
+        mparams = new HashMap<>();
+        nSingleStoryAdapter = new DetailsmainAdapter(this, mSubstories, storyColour);
+        SingleStoryView.setAdapter(nSingleStoryAdapter);
+
+
         scrollListener = new EndlessRecyclerView(layoutManager) {
             @Override
             public void onLoadMore(int current_page) {
+
                 loadNextDataFromApi(current_page);
             }
 
         };
 
         SingleStoryView.addOnScrollListener(scrollListener);
-        mparams = new HashMap<>();
-        mparams.put("page", "0");
-        mparams.put("story_id", StoryId);
-
-        nSingleStoryAdapter = new DetailsmainAdapter(this, mSubstories, storyColour);
-        SingleStoryView.setAdapter(nSingleStoryAdapter);
-
-        //NetworkCallDetails();
-
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_details);
         swipeRefreshLayout.setOnRefreshListener(this);
 
 
+        NetworkCallDetails();
+
         expandedCount = new HashMap<>();
+
+        relativeLayouttick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                follow();
+            }
+        });
 
     }
 
     private void NetworkCallDetails() {
 
-        if (pref.getString(SoupContract.AUTH_TOKEN, null)!=null&&!pref.getString(SoupContract.AUTH_TOKEN, null).isEmpty()) {
+        if (pref.getString(SoupContract.AUTH_TOKEN, null) != null && !pref.getString(SoupContract.AUTH_TOKEN, null).isEmpty()) {
             mparams.put("page", "0");
             mparams.put("story_id", StoryId);
             mparams.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
-            progress.setVisibility(View.VISIBLE);
-            progress.setProgress(0);
-            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, mparams,totalRefresh);
+
+            if (swipeRefreshLayout.isRefreshing()) {
+                progress.setVisibility(View.GONE);
+            } else {
+                progress.setVisibility(View.VISIBLE);
+                progress.setProgress(0);
+            }
+
+            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, mparams, totalRefresh);
             try {
                 networkutils.getSingleStory();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             mparams.put("page", "0");
             mparams.put("story_id", StoryId);
             progress.setVisibility(View.VISIBLE);
             progress.setProgress(0);
-            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, mparams,totalRefresh);
+            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, mparams, totalRefresh);
             try {
                 networkutils.getSingleStory();
             } catch (JSONException e) {
@@ -240,6 +257,8 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
     private void followButtonStatus() {
 
         if (followStatus.equals("1")) {
+
+
             followbutton.setBackgroundColor(Color.parseColor("#000000"));
             followbutton.setTextColor(Color.parseColor("#B3ffffff"));
             followbutton.setText("FOLLOWING");
@@ -268,18 +287,19 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
 
     private void loadNextDataFromApi(int offset) {
 
-        totalRefresh="0";
+        totalRefresh = "0";
 
         String page = String.valueOf(offset);
 
-        if (pref.getString(SoupContract.AUTH_TOKEN, null)!=null&&!pref.getString(SoupContract.AUTH_TOKEN, null).isEmpty()) {
+
+        if (pref.getString(SoupContract.AUTH_TOKEN, null) != null && !pref.getString(SoupContract.AUTH_TOKEN, null).isEmpty()) {
 
             progress.setVisibility(View.VISIBLE);
             progress.setProgress(0);
             mparams.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
-            mparams.put("page", String.valueOf(offset));
+            mparams.put("page", page);
             mparams.put("story_id", StoryId);
-            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, mparams,totalRefresh);
+            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, mparams, totalRefresh);
 
             try {
                 networkutils.getSingleStory();
@@ -287,13 +307,13 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
                 e.printStackTrace();
             }
 
-        } else{
+        } else {
 
-            mparams.put("page",String.valueOf(offset));
+            mparams.put("page", page);
             mparams.put("story_id", StoryId);
             progress.setVisibility(View.VISIBLE);
             progress.setProgress(0);
-            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, mparams,totalRefresh);
+            NetworkUtilsStory networkutils = new NetworkUtilsStory(DetailsActivity.this, mparams, totalRefresh);
 
             try {
                 networkutils.getSingleStory();
@@ -301,38 +321,38 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
                 e.printStackTrace();
             }
 
-        }
 
         }
+
+
+    }
 
     @Override
     public void onRefresh() {
-        totalRefresh="1";
+        totalRefresh = "1";
         scrollListener.changeoffset(0);
         swipeRefreshLayout.setRefreshing(true);
         NetworkCallDetails();
     }
 
-    public void startRefreshAdapter(List<Substories> mSubstories, String storyTitle,String StoryId) {
+    public void startRefreshAdapter(List<Substories> mSubstories, String StoryId) {
 
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
         // nSingleStoryAdapter.refreshData(mSubstories,StoryTitle);
 
-        nSingleStoryAdapter.totalRefreshData((mSubstories),StoryId);
+        nSingleStoryAdapter.totalRefreshData((mSubstories), StoryId);
         swipeRefreshLayout.setRefreshing(false);
     }
 
 
-
-
-    public void startAdapter(List<Substories> mSubstories, String StoryTitle,String StoryId) {
+    public void startAdapter(List<Substories> mSubstories, String StoryTitle, String StoryId) {
 
         progress.setProgress(100);
         progress.setVisibility(View.GONE);
         // nSingleStoryAdapter.refreshData(mSubstories,StoryTitle);
 
-        nSingleStoryAdapter.refreshData((mSubstories),StoryId);
+        nSingleStoryAdapter.refreshData((mSubstories), StoryId);
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -347,17 +367,25 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
 
             if (restartactivitystatus == 1) {
 
-                Intent intent = new Intent(DetailsActivity.this, NavigationActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent();
+                intent.putExtra("storyId", StoryId);
+                setResult(1,intent);
                 finish();
+
 
                 return true;
             } else {
                 return super.onKeyDown(keyCode, event);
+
             }
+
         }
-        return super.onKeyDown(keyCode, event);
+            return super.onKeyDown(keyCode, event);
+
+
     }
+
+
 
 
     @Override
@@ -372,6 +400,10 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
     public void DetailsActivitydemo(String mfollowStatus) {
+
+     if(mfollowStatus.equals("1")){
+         Toast.makeText(this, "Now following the Story", Toast.LENGTH_SHORT).show();
+     }
 
         if (!(followStatus.equals(mfollowStatus))) {
             followStatus = mfollowStatus;
@@ -398,35 +430,40 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
 
     public void onClick(View v) {
 
-        int i = 0; //constant value
+
 
         if (v == followbutton || v == tickfollow || v == relativeLayouttick) {
             // TODO : Verify follow event, add collection location if possible
-            Bundle params = new Bundle();
-            params.putString("screen_name", "collection_screen"); // "myfeed / discover"
-            params.putString("collection_id", StoryId);
-            params.putString("collection_name", StoryTitle);
-            params.putString("category", "tap");
-
-            if (followStatus.equals("") || followStatus.equals("0")) {
-                mFirebaseAnalytics.logEvent("tap_add", params);
-                HashMap<String, String> mparams = new HashMap<>();
-                mparams.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
-                mparams.put("story_id", StoryId);
-                NetworkUtilsFollowUnFollow followrequest = new NetworkUtilsFollowUnFollow(this, mparams);
-                followrequest.followRequest(i, fragmenttag);
-            } else if (followStatus.equals("1")) {
-
-                mFirebaseAnalytics.logEvent("tap_remove", params);
-                HashMap<String, String> mparams = new HashMap<>();
-                mparams.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
-                mparams.put("story_id", StoryId);
-                NetworkUtilsFollowUnFollow unFollowrequest = new NetworkUtilsFollowUnFollow(this, mparams);
-                unFollowrequest.unFollowRequest(i, fragmenttag);
-            }
+          follow();
         }
 
 
+    }
+
+    public void follow(){
+        int i = 0; //constant value
+        Bundle params = new Bundle();
+        params.putString("screen_name", "collection_screen"); // "myfeed / discover"
+        params.putString("collection_id", StoryId);
+        params.putString("collection_name", StoryTitle);
+        params.putString("category", "tap");
+
+        if (followStatus.equals("") || followStatus.equals("0")) {
+            mFirebaseAnalytics.logEvent("tap_add", params);
+            HashMap<String, String> mparams = new HashMap<>();
+            mparams.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
+            mparams.put("story_id", StoryId);
+            NetworkUtilsFollowUnFollow followrequest = new NetworkUtilsFollowUnFollow(this, mparams);
+            followrequest.followRequest(i, fragmenttag);
+        } else if (followStatus.equals("1")) {
+
+            mFirebaseAnalytics.logEvent("tap_remove", params);
+            HashMap<String, String> mparams = new HashMap<>();
+            mparams.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
+            mparams.put("story_id", StoryId);
+            NetworkUtilsFollowUnFollow unFollowrequest = new NetworkUtilsFollowUnFollow(this, mparams);
+            unFollowrequest.unFollowRequest(i, fragmenttag);
+        }
     }
 
     public int getDrawable(String filter) {

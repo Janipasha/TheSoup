@@ -186,7 +186,7 @@ public class FilterActivity extends AppCompatActivity {
 
             if (IDmap.get(getFilters.get(n).getId()) != null && !IDmap.get(getFilters.get(n).getId()).isEmpty()) {
                 //prefUtilFilter.IDstatus(String.valueOf(n), IDmap.get(String.valueOf(n)));
-                if (resetfilter.equals("0")) {
+                if (resetfilter.equals("0")||resetfilter.isEmpty()) {
                     prefUtilFilterManage.SaveIDstatus(getFilters, n, IDmap.get(getFilters.get(n).getId()));
                 } else if (resetfilter.equals("1")) {
                     prefUtilFilter.SaveIDstatus(getFilters, n, IDmap.get(getFilters.get(n).getId()));

@@ -20,10 +20,10 @@
     <string name="onboarding_heading1">DISCOVER</string>
     <string name="onboarding_heading11">STORIES</string>
     <string name="onboarding_content1">Everything has a Story</string>
-    <string name="onboarding_content11">We\'ll Help You Discover Them</string>
+    <string name="onboarding_content11">We\'ll help you Discover them</string>
     <string name="onboarding_heading2">GET</string>
     <string name="onboarding_heading22">UPDATES</string>
-    <string name="onboarding_content2">Real World Stories Take Time To Unfold</string>
+    <string name="onboarding_content2">Real world Stories take time to unfold</string>
     <string name="onboarding_content22">Follow them as they happen</string>
     <string name="onboarding_heading3">BINGE</string>
     <string name="onboarding_heading33">SMART</string>
@@ -33,4 +33,5 @@
     <string name="followingtexthome">Want us to give you different stories? \nTap Manage Home &amp; control your Home Screen.</string>
     <string name="followingtextstatus">Nice! You are up to date with your followed stories.\n
                                 \nWe have gathered More Stories For You below.\nOr check out other stories in Discover.</string>
+    <string name="browsetext">Browse through the stories &amp; tap the <b>Plus Button</b> to follow the story</string>
 </resources>

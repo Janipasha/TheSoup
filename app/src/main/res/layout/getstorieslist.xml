@@ -174,7 +174,9 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:theme="@style/AppTheme.WhiteAccent"
-        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="200dp"
         />
         <!--android:layout_above="@id/toolbar"-->
 

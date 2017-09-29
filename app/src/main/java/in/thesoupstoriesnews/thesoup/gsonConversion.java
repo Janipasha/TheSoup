@@ -278,7 +278,7 @@ public class gsonConversion {
 
             activity.startAdapter(mSubstories, StoryTitle,StoryId);
         }else if (totalRefresh.equals("1")){
-            activity.startRefreshAdapter(mSubstories,StoryTitle,StoryId);
+            activity.startRefreshAdapter(mSubstories,StoryId);
         }
 
         activity.sendFirebaseExpandEvent(mSubstories);

@@ -1,5 +1,6 @@
 package in.thesoupstoriesnews.thesoup.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -45,6 +46,7 @@ import in.thesoupstoriesnews.thesoup.R;
 import in.thesoupstoriesnews.thesoup.SoupContract;
 
 import static android.R.attr.category;
+import static android.R.attr.targetActivity;
 
 
 /**
@@ -149,7 +151,12 @@ public class FollowFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 intent.putExtra("fragmenttag", fragmenttag);
                 intent.putExtra("category", category);
                 intent.putExtra("hex_colour", storyColor);
-                context.startActivity(intent);
+
+
+
+                NavigationActivity activity = (NavigationActivity)context;
+                FollowingFragment fragment = (FollowingFragment) activity.getFragment(2);
+                fragment.startActivityForResult(intent,36);
 
 
                 //TODO: Tap_add new updates to this event

@@ -4,12 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -119,12 +125,12 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public TextView storyTitle, viewfullstory, update1, time1, substoryTitle1, update2, time2, substoryTitle2, update3, time3, source1, source2,
                 source3, source1time, source2time, source3time, articletitle1, articletitle2, articletitle3, bottomtextshowmore,
                 bottomtextnumarticles;
-        public ImageView followicon, filterImage, heroimage, shareicon, sourceimage1, sourceimage2, sourceimage3,
+        public ImageView followicon, filterImage, heroimage, sourceimage1, sourceimage2, sourceimage3,
                 circle1, circle2, circle3;
 
         public RelativeLayout secondtopstorylayout, thirdtopstorylayout,topstorylayout;
 
-        public LinearLayout firstarticle, secondarticle, thirdarticle, followlayout;
+        public LinearLayout firstarticle, secondarticle, thirdarticle, followlayout,shareicon;
 
         public View sideline1, sideline2, sideline3, sideline4, sideline5, sideline6, bottomline, bottomline1, bottomline2;
 
@@ -158,7 +164,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             followicon = (ImageView) itemView.findViewById(R.id.followicon);
             filterImage = (ImageView) itemView.findViewById(R.id.filter_image);
             heroimage = (ImageView) itemView.findViewById(R.id.hero_image);
-            shareicon = (ImageView) itemView.findViewById(R.id.shareicon);
+            shareicon = (LinearLayout) itemView.findViewById(R.id.shareicon);
             sourceimage1 = (ImageView) itemView.findViewById(R.id.sourceImage1);
             sourceimage2 = (ImageView) itemView.findViewById(R.id.sourceImage2);
             sourceimage3 = (ImageView) itemView.findViewById(R.id.sourceImage3);
@@ -666,59 +672,64 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (mStoryData.getSubstories().size() == 3) {
 
             List<ArticlesMain> mArticles = mStoryData.getSubstories().get(2).getArticlesMain();
+            Intent intent = new Intent(context, ArticlesActivity.class);
+            intent.putExtra("ARTICLELIST", (Serializable) mArticles);
+            intent.putExtra("StoryTitle", storyTitle);
+            intent.putExtra("story_id", StoryId);
+            intent.putExtra("story_color", storyColor);
+            context.startActivity(intent);
 
             if(mArticles.size()>3){
-                Intent intent = new Intent(context, ArticlesActivity.class);
-                intent.putExtra("ARTICLELIST", (Serializable) mArticles);
-                intent.putExtra("StoryTitle", storyTitle);
-                intent.putExtra("story_id", StoryId);
-                intent.putExtra("story_color", storyColor);
-                context.startActivity(intent);
 
-            }else{
+
+            }/*else{
                 Intent intent = new Intent(context,ArticleWebViewActivity.class);
                 intent.putExtra("ArticleURL", mArticles.get(0).getUrl());
                 intent.putExtra("substory_id", mStoryData.getSubstories().get(2).getSubstory_id());
                 intent.putExtra("storycolor", storyColor);
                 context.startActivity(intent);
-            }
+            }*/
             } else if (mStoryData.getSubstories().size() == 2) {
 
             List<ArticlesMain> mArticles = mStoryData.getSubstories().get(1).getArticlesMain();
+            Intent intent = new Intent(context, ArticlesActivity.class);
+            intent.putExtra("ARTICLELIST", (Serializable) mArticles);
+            intent.putExtra("StoryTitle", storyTitle);
+            intent.putExtra("story_id", StoryId);
+            intent.putExtra("story_color", storyColor);
+            context.startActivity(intent);
 
             if(mArticles.size()>3){
-                Intent intent = new Intent(context, ArticlesActivity.class);
-                intent.putExtra("ARTICLELIST", (Serializable) mArticles);
-                intent.putExtra("StoryTitle", storyTitle);
-                intent.putExtra("story_id", StoryId);
-                intent.putExtra("story_color", storyColor);
-                context.startActivity(intent);
 
-            }else{
+
+            }
+
+            /*else{
                 Intent intent = new Intent(context,ArticleWebViewActivity.class);
                 intent.putExtra("ArticleURL", mArticles.get(0).getUrl());
                 intent.putExtra("substory_id", mStoryData.getSubstories().get(1).getSubstory_id());
                 intent.putExtra("storycolor", storyColor);
                 context.startActivity(intent);
-            }
+            }*/
         } else if (mStoryData.getSubstories().size() == 1) {
             List<ArticlesMain> mArticles = mStoryData.getSubstories().get(0).getArticlesMain();
+            Intent intent = new Intent(context, ArticlesActivity.class);
+            intent.putExtra("ARTICLELIST", (Serializable) mArticles);
+            intent.putExtra("StoryTitle", storyTitle);
+            intent.putExtra("story_id", StoryId);
+            intent.putExtra("story_color", storyColor);
+            context.startActivity(intent);
 
             if(mArticles.size()>3){
-                Intent intent = new Intent(context, ArticlesActivity.class);
-                intent.putExtra("ARTICLELIST", (Serializable) mArticles);
-                intent.putExtra("StoryTitle", storyTitle);
-                intent.putExtra("story_id", StoryId);
-                intent.putExtra("story_color", storyColor);
-                context.startActivity(intent);
 
-            }else{
+
+            }/*else{
                 Intent intent = new Intent(context,ArticleWebViewActivity.class);
                 intent.putExtra("ArticleURL", mArticles.get(0).getUrl());
                 intent.putExtra("substory_id", mStoryData.getSubstories().get(0).getSubstory_id());
                 intent.putExtra("storycolor", storyColor);
                 context.startActivity(intent);
-            }
+            }*/
         }
     }
 
@@ -833,6 +844,8 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
+        Log.e("Position",String.valueOf(position));
+
 
         if (holder instanceof StoryDataViewHolder) {
 
@@ -896,8 +909,12 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                     if (followUpdateCount.equals("0") && followcount.equals("0")) {
                         ((HeaderViewHolder) holder).notificationNumberLayout.setVisibility(View.GONE);
-                        ((HeaderViewHolder) holder).followedstoriesmessage.setText("Browse through the stories & tap the Plus " +
-                                "Button to follow the story");
+
+                        String browsetext = context.getString(R.string.browsetext);
+                        Spannable ss1 = new SpannableString(browsetext);
+                        ss1.setSpan(new RelativeSizeSpan(1.1f),37,48,0);
+                        ss1.setSpan(new StyleSpan(Typeface.BOLD),37,48,0);
+                        ((HeaderViewHolder) holder).followedstoriesmessage.setText(ss1);
                         ((HeaderViewHolder)holder).followedseeall.setVisibility(View.GONE);
                         ((HeaderViewHolder) holder).fromyourfollowedText.setText("You are not following any story");
                         ((HeaderViewHolder) holder).fromyourfollowedText.setVisibility(View.VISIBLE);
@@ -920,7 +937,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             } else if(followUpdateCount!=null&&!followUpdateCount.isEmpty()){
                 if(followUpdateCount.equals("0")) {
-                ((HeaderViewHolder) holder).followedstoriesmessage.setText("Browse through the stories & tap the Plus Button to follow the story");
+                ((HeaderViewHolder) holder).followedstoriesmessage.setText(R.string.browsetext);
                     ((HeaderViewHolder) holder).notificationNumberLayout.setVisibility(View.GONE);
                     ((HeaderViewHolder) holder).fromyourfollowedText.setText("You are not following any story");
                     ((HeaderViewHolder) holder).fromyourfollowedText.setVisibility(View.VISIBLE);
@@ -999,9 +1016,9 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             //holder.categoryname.setTextColor(Color.parseColor("#" + mStoryData.getCategoryColour()));
             ((StoryDataViewHolder) holder).viewfullstory.setTextColor(Color.parseColor("#" + color));
             ((StoryDataViewHolder) holder).followicon.setColorFilter(Color.parseColor("#" + color));
-            ((StoryDataViewHolder) holder).bottomline.setBackgroundColor(Color.parseColor("#" + color));
-            ((StoryDataViewHolder) holder).bottomline1.setBackgroundColor(Color.parseColor("#" + color));
-            ((StoryDataViewHolder) holder).bottomline2.setBackgroundColor(Color.parseColor("#" + color));
+            ((StoryDataViewHolder) holder).bottomline.setBackgroundColor(Color.parseColor("#33" + color));
+            ((StoryDataViewHolder) holder).bottomline1.setBackgroundColor(Color.parseColor("#33" + color));
+            ((StoryDataViewHolder) holder).bottomline2.setBackgroundColor(Color.parseColor("#33" + color));
             ((StoryDataViewHolder) holder).bottomtextshowmore.setTextColor(Color.parseColor("#" + color));
         }
 
@@ -1175,7 +1192,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
             if (source3icon != null && !source1.isEmpty()) {
-                Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).into(holder.sourceimage3);
+                Picasso.with(context).load(source3icon).placeholder(R.drawable.placeholder).into(holder.sourceimage3);
             } else {
                 holder.sourceimage3.setImageResource(R.drawable.background_splash);
             }

@@ -208,36 +208,41 @@ public class DiscoverFragmentMain extends Fragment implements SwipeRefreshLayout
 
         String Page = String.valueOf(offset);
 
-        if (TextUtils.isEmpty(pref.getString(SoupContract.AUTH_TOKEN, null))) {
+
+            if (TextUtils.isEmpty(pref.getString(SoupContract.AUTH_TOKEN, null))) {
 
 
-            params.put("page", Page);
-            params.put("purpose", "discover");
+                params.put("page", Page);
+                params.put("purpose", "discover");
 
 
-            NetworkUtilswithTokenDiscover networkutilsToken = new NetworkUtilswithTokenDiscover(getActivity(), mStoryData, params);
+                NetworkUtilswithTokenDiscover networkutilsToken = new NetworkUtilswithTokenDiscover(getActivity(), mStoryData, params);
 
 
-            networkutilsToken.getFeed(0, totalrefresh);
+                networkutilsToken.getFeed(0, totalrefresh);
 
-        } else {
+            } else {
 
-            params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
-            params.put("page", Page);
-            params.put("purpose", "discover");
-            params.put("categories", filter);
+                params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
+                params.put("page", Page);
+                params.put("purpose", "discover");
+                params.put("categories", filter);
 
-            Log.d(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
-            progress.setVisibility(View.VISIBLE);
-            progress.setProgress(0);
-
-
-            NetworkUtilswithTokenDiscover networkutilsToken = new NetworkUtilswithTokenDiscover(getActivity(), mStoryData, params);
+                Log.d(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
+                progress.setVisibility(View.VISIBLE);
+                progress.setProgress(0);
 
 
-            networkutilsToken.getFeed(0, totalrefresh);
+                NetworkUtilswithTokenDiscover networkutilsToken = new NetworkUtilswithTokenDiscover(getActivity(), mStoryData, params);
 
-        }
+
+                networkutilsToken.getFeed(0, totalrefresh);
+
+            }
+
+
+
+
 
 
     }

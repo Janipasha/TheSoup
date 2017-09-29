@@ -7,6 +7,7 @@
     
     <LinearLayout
         android:id="@+id/firstarticle"
+        android:background="?android:attr/selectableItemBackground"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -32,7 +33,6 @@
                 android:textSize="9sp"
                 fontPath="fonts/montserrat-regular.otf"
                 android:textColor="#757575"
-                android:letterSpacing="-0.04"
                 android:text="NDTV"
                  />
             
@@ -75,6 +75,7 @@
         android:id="@+id/secondarticle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -96,7 +97,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/sourceImage2"
-                android:letterSpacing="-0.04"
                 android:text="NDTV"
                 android:textColor="#757575"
                 android:textSize="9sp" />
@@ -138,6 +138,7 @@
     <LinearLayout
         android:id="@+id/thirdarticle"
         android:orientation="vertical"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -162,7 +163,6 @@
                 android:textSize="9sp"
                 fontPath="fonts/montserrat-regular.otf"
                 android:textColor="#757575"
-                android:letterSpacing="-0.04"
                 android:text="NDTV"/>
 
             <TextView
