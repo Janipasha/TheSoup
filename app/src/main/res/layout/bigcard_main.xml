@@ -345,16 +345,48 @@
                         android:src="@drawable/icons8_share" />
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/hero_image"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@id/update3"
                     android:layout_below="@id/time3"
+                    android:id="@+id/hero_image">
+                 <ImageView
+                    android:id="@+id/heroimage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:background="?android:attr/selectableItemBackground"
                     android:scaleType="fitXY"
                     android:src="@drawable/icons8_journey_filled" />
+
+                    <ImageView
+                        android:id="@+id/readstatus_story"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/readblur"
+                        android:contentDescription="@string/contentdescimage"
+                        android:elevation="6dp"
+                        android:scaleType="fitXY"
+                        />
+
+                    <TextView
+                        android:id="@+id/readstatus_text_story"
+                        fontPath="fonts/montserrat-bold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:letterSpacing="0.03"
+                        android:text="SEEN"
+                        android:elevation="6dp"
+                        android:textColor="#000000" />
+
+
+                </FrameLayout>
+
 
                 <LinearLayout
                     android:id="@+id/article_list_main"

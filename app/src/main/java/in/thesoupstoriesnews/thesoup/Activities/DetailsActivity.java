@@ -185,12 +185,10 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
         SingleStoryView = (RecyclerView) findViewById(R.id.lvExp);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         SingleStoryView.setLayoutManager(layoutManager);
-
-
         mparams = new HashMap<>();
         nSingleStoryAdapter = new DetailsmainAdapter(this, mSubstories, storyColour);
         SingleStoryView.setAdapter(nSingleStoryAdapter);
-
+        SingleStoryView.setHasFixedSize(true);
 
         scrollListener = new EndlessRecyclerView(layoutManager) {
             @Override
@@ -207,7 +205,7 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
         swipeRefreshLayout.setOnRefreshListener(this);
 
 
-        NetworkCallDetails();
+       NetworkCallDetails();
 
         expandedCount = new HashMap<>();
 
@@ -289,7 +287,7 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
 
         totalRefresh = "0";
 
-        String page = String.valueOf(offset);
+        String page = String.valueOf(offset+1);
 
 
         if (pref.getString(SoupContract.AUTH_TOKEN, null) != null && !pref.getString(SoupContract.AUTH_TOKEN, null).isEmpty()) {

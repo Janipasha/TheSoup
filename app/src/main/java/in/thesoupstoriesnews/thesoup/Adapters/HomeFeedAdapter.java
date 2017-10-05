@@ -124,9 +124,9 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         public TextView storyTitle, viewfullstory, update1, time1, substoryTitle1, update2, time2, substoryTitle2, update3, time3, source1, source2,
                 source3, source1time, source2time, source3time, articletitle1, articletitle2, articletitle3, bottomtextshowmore,
-                bottomtextnumarticles;
+                bottomtextnumarticles,readstatus;
         public ImageView followicon, filterImage, heroimage, sourceimage1, sourceimage2, sourceimage3,
-                circle1, circle2, circle3;
+                circle1, circle2, circle3,seenImage;
 
         public RelativeLayout secondtopstorylayout, thirdtopstorylayout,topstorylayout;
 
@@ -160,10 +160,12 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             articletitle3 = (TextView) itemView.findViewById(R.id.article_title3);
             bottomtextshowmore = (TextView) itemView.findViewById(R.id.bottomtext_showall);
             bottomtextnumarticles = (TextView) itemView.findViewById(R.id.bottomtext_numarticles);
+            readstatus = (TextView) itemView.findViewById(R.id.readstatus_text_story);
 
             followicon = (ImageView) itemView.findViewById(R.id.followicon);
             filterImage = (ImageView) itemView.findViewById(R.id.filter_image);
-            heroimage = (ImageView) itemView.findViewById(R.id.hero_image);
+            heroimage = (ImageView) itemView.findViewById(R.id.heroimage);
+            seenImage = (ImageView)itemView.findViewById(R.id.readstatus_story);
             shareicon = (LinearLayout) itemView.findViewById(R.id.shareicon);
             sourceimage1 = (ImageView) itemView.findViewById(R.id.sourceImage1);
             sourceimage2 = (ImageView) itemView.findViewById(R.id.sourceImage2);
@@ -205,6 +207,8 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             viewfullstory.setOnClickListener(this);
 
             followlayout.setOnClickListener(this);
+            readstatus.setOnClickListener(this);
+            seenImage.setOnClickListener(this);
 
             heroimage.setOnClickListener(this);
 
@@ -222,7 +226,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             int mposition = getAdapterPosition() - 1;
 
-            if (view == bottomtextnumarticles || view == bottomtextshowmore || view == heroimage) {
+            if (view == bottomtextnumarticles || view == bottomtextshowmore || view == heroimage||view==seenImage||view==readstatus) {
 
                 if (mposition < StoryDataList.size()) {
                     StoryDataMain mStoryData = StoryDataList.get(mposition);
@@ -675,7 +679,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Intent intent = new Intent(context, ArticlesActivity.class);
             intent.putExtra("ARTICLELIST", (Serializable) mArticles);
             intent.putExtra("StoryTitle", storyTitle);
-            intent.putExtra("story_id", StoryId);
+            intent.putExtra("substory_id", mStoryData.getSubstoryId());
             intent.putExtra("story_color", storyColor);
             context.startActivity(intent);
 
@@ -695,7 +699,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Intent intent = new Intent(context, ArticlesActivity.class);
             intent.putExtra("ARTICLELIST", (Serializable) mArticles);
             intent.putExtra("StoryTitle", storyTitle);
-            intent.putExtra("story_id", StoryId);
+            intent.putExtra("substory_id", mStoryData.getSubstoryId());
             intent.putExtra("story_color", storyColor);
             context.startActivity(intent);
 
@@ -716,7 +720,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Intent intent = new Intent(context, ArticlesActivity.class);
             intent.putExtra("ARTICLELIST", (Serializable) mArticles);
             intent.putExtra("StoryTitle", storyTitle);
-            intent.putExtra("story_id", StoryId);
+            intent.putExtra("substory_id", mStoryData.getSubstoryId());
             intent.putExtra("story_color", storyColor);
             context.startActivity(intent);
 
@@ -848,6 +852,8 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
         if (holder instanceof StoryDataViewHolder) {
+            ((StoryDataViewHolder)holder).seenImage.setVisibility(View.GONE);
+            ((StoryDataViewHolder)holder).readstatus.setVisibility(View.GONE);
 
             ((StoryDataViewHolder) holder).secondtopstorylayout.setVisibility(View.VISIBLE);
             ((StoryDataViewHolder) holder).thirdtopstorylayout.setVisibility(View.VISIBLE);
@@ -978,6 +984,15 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private void fillUI(StoryDataViewHolder holder, int position, StoryDataMain mStoryData) {
         String storytitle = mStoryData.getStoryNameMain();
+
+        if(mStoryData.getReadStatus()!=null&&!mStoryData.getReadStatus().isEmpty()){
+
+            ((StoryDataViewHolder)holder).readstatus.setVisibility(View.VISIBLE);
+            ((StoryDataViewHolder)holder).seenImage.setVisibility(View.VISIBLE);
+
+        }
+
+
 
         ((StoryDataViewHolder) holder).storyTitle.setText(storytitle);
 

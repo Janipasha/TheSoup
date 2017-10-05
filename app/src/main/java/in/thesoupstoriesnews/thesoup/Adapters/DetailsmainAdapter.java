@@ -81,9 +81,9 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
         public class StoryDataViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             public TextView  update3, time3, source1, source2, source3, source1time, source2time, source3time, articletitle1, articletitle2, articletitle3,bottomtextshowmore,
-                    bottomtextnumarticles;
+                    bottomtextnumarticles,readstatus;
 
-            public ImageView heroimage, shareicon, sourceimage1, sourceimage2, sourceimage3, circle3;
+            public ImageView heroimage, shareicon, sourceimage1, sourceimage2, sourceimage3, circle3,seenImage;
 
 
             public LinearLayout firstarticle,secondarticle, thirdarticle, articlelistmain;
@@ -109,9 +109,10 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
                 articletitle3 = (TextView) itemView.findViewById(R.id.article_title3);
                 bottomtextshowmore = (TextView)itemView.findViewById(R.id.bottomtext_showall) ;
                 bottomtextnumarticles =(TextView)itemView.findViewById(R.id.bottomtext_numarticles);
+                readstatus = (TextView)itemView.findViewById(R.id.readstatus_text_story);
 
-
-                heroimage = (ImageView) itemView.findViewById(R.id.hero_image);
+                heroimage = (ImageView) itemView.findViewById(R.id.heroimage);
+                seenImage = (ImageView)itemView.findViewById(R.id.readstatus_story);
                 shareicon = (ImageView) itemView.findViewById(R.id.shareicon);
                 sourceimage1 = (ImageView) itemView.findViewById(R.id.sourceImage1);
                 sourceimage2 = (ImageView) itemView.findViewById(R.id.sourceImage2);
@@ -138,6 +139,8 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
                 shareicon.setOnClickListener(this);
 
                 heroimage.setOnClickListener(this);
+                seenImage.setOnClickListener(this);
+                readstatus.setOnClickListener(this);
 
 
 
@@ -151,16 +154,18 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
                 int mposition = getAdapterPosition();
                 String storyColor = storyColour;
 
-                if(view ==bottomtextnumarticles||view==bottomtextshowmore||view==heroimage){
+                if(view ==bottomtextnumarticles||view==bottomtextshowmore||view==heroimage||view==seenImage||view==readstatus){
 
 
                         List<Articles> mArticles = StoryDataList.get(getAdapterPosition()).getArticles();
                         Intent intent = new Intent(context, ArticlesActivity.class);
                         intent.putExtra("LISTARTICLES",(Serializable)mArticles);
+                         intent.putExtra("substory_id",StoryDataList.get(getAdapterPosition()).getSubstoryId());
                         intent.putExtra("story_color",storyColor);
                         context.startActivity(intent);
 
-                    if(view==heroimage){
+
+                    if(view==heroimage||view==seenImage||view==readstatus){
                         Bundle nparams = new Bundle();
                         nparams.putString("screen_name", "collection_screen");
                         nparams.putString("category", "tap");
@@ -184,6 +189,7 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
                     String articleUrl = StoryDataList.get(mposition).getArticles().get(0).getUrl();
                     Intent intent = new Intent(context, ArticleWebViewActivity.class);
                     intent.putExtra("ArticleURL", articleUrl);
+                    intent.putExtra("substory_id",StoryId);
                     intent.putExtra("storycolor", storyColor);
                     context.startActivity(intent);
 
@@ -198,6 +204,7 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
                 if(view == secondarticle){
                     String articleUrl = StoryDataList.get(mposition).getArticles().get(1).getUrl();
                     Intent intent = new Intent(context, ArticleWebViewActivity.class);
+                    intent.putExtra("substory_id",StoryId);
                     intent.putExtra("ArticleURL", articleUrl);
                     intent.putExtra("storycolor", storyColor);
                     context.startActivity(intent);
@@ -216,6 +223,7 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
                     Intent intent = new Intent(context, ArticleWebViewActivity.class);
                     intent.putExtra("ArticleURL", articleUrl);
                     intent.putExtra("storycolor", storyColor);
+                    intent.putExtra("substory_id",StoryId);
                     context.startActivity(intent);
 
                     Bundle nparams = new Bundle();
@@ -267,11 +275,20 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
         @Override
         public void onBindViewHolder(DetailsmainAdapter.StoryDataViewHolder holder, int position) {
 
+                holder.seenImage.setVisibility(View.GONE);
+                holder.readstatus.setVisibility(View.GONE);
                 holder.firstarticle.setVisibility(View.VISIBLE);
                 holder.secondarticle.setVisibility(View.VISIBLE);
                 holder.thirdarticle.setVisibility(View.VISIBLE);
                 holder.bottomtextshowmore.setVisibility(View.VISIBLE);
                 holder.bottomtextnumarticles.setVisibility(View.VISIBLE);
+
+            String readstatus = StoryDataList.get(position).getReadStatus();
+
+            if(StoryDataList.get(position).getReadStatus()!=null&&!StoryDataList.get(position).getReadStatus().isEmpty()){
+                holder.seenImage.setVisibility(View.VISIBLE);
+                holder.readstatus.setVisibility(View.VISIBLE);
+            }
 
             if (storyColour != null && !storyColour.isEmpty()) {
                 holder.bottomtextshowmore.setTextColor(Color.parseColor("#"+storyColour));

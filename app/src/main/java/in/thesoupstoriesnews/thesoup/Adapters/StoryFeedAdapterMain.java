@@ -42,6 +42,8 @@ import in.thesoupstoriesnews.thesoup.PreferencesFbAuth.PrefUtilFilter;
 import in.thesoupstoriesnews.thesoup.R;
 import in.thesoupstoriesnews.thesoup.SoupContract;
 
+import static android.view.View.GONE;
+
 /**
  * Created by Jani on 05-09-2017.
  */
@@ -94,10 +96,10 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
 
         public TextView storyTitle1, viewfullstory, update1, time1, substoryTitle1, update2, time2, substoryTitle2, update3, time3, source1, source2,
                 source3, source1time, source2time, source3time, articletitle1, articletitle2, articletitle3,bottomtextshowmore,
-        bottomtextnumarticles;
+        bottomtextnumarticles,readstatus;
 
         public ImageView followicon, filterImage, heroimage, sourceimage1, sourceimage2, sourceimage3,
-                circle1, circle2, circle3;
+                circle1, circle2, circle3,seenImage;
 
         public RelativeLayout secondtopstorylayout, thirdtopstorylayout;
 
@@ -131,14 +133,16 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
             articletitle3 = (TextView) itemView.findViewById(R.id.article_title3);
             bottomtextshowmore = (TextView)itemView.findViewById(R.id.bottomtext_showall) ;
             bottomtextnumarticles =(TextView)itemView.findViewById(R.id.bottomtext_numarticles);
+            readstatus = (TextView)itemView.findViewById(R.id.readstatus_text_story);
 
             followicon = (ImageView) itemView.findViewById(R.id.followicon);
             filterImage = (ImageView) itemView.findViewById(R.id.filter_image);
-            heroimage = (ImageView) itemView.findViewById(R.id.hero_image);
+            heroimage = (ImageView) itemView.findViewById(R.id.heroimage);
             shareicon = (LinearLayout) itemView.findViewById(R.id.shareicon);
             sourceimage1 = (ImageView) itemView.findViewById(R.id.sourceImage1);
             sourceimage2 = (ImageView) itemView.findViewById(R.id.sourceImage2);
             sourceimage3 = (ImageView) itemView.findViewById(R.id.sourceImage3);
+            seenImage = (ImageView) itemView.findViewById(R.id.readstatus_story);
             circle1 = (ImageView) itemView.findViewById(R.id.circle1);
             circle2 = (ImageView) itemView.findViewById(R.id.circle2);
             circle3 = (ImageView) itemView.findViewById(R.id.circle3);
@@ -179,6 +183,8 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
             storyTitle1.setOnClickListener(this);
 
             heroimage.setOnClickListener(this);
+            seenImage.setOnClickListener(this);
+            readstatus.setOnClickListener(this);
 
             secondtopstorylayout.setOnClickListener(this);
             thirdtopstorylayout.setOnClickListener(this);
@@ -201,15 +207,14 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
 
 
 
-            if(view ==bottomtextnumarticles||view==bottomtextshowmore||view == heroimage){
+            if(view ==bottomtextnumarticles||view==bottomtextshowmore||view == heroimage||view==readstatus||view==seenImage){
 
-                if(view ==heroimage){
+                if(view ==heroimage||view==seenImage||view == readstatus){
                     Bundle nparams = new Bundle();
                     nparams.putString("screen_name", "discover_screen");
                     nparams.putString("category", "tap"); //(only if possible)
                     nparams.putString("position_card_collection",String.valueOf(mposition));
                     mFirebaseAnalytics.logEvent("tap_card_cover", nparams);
-
                 }
 
                 if(view == bottomtextnumarticles||view == bottomtextshowmore){
@@ -218,17 +223,15 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
                     nparams.putString("category", "tap"); //(only if possible)
                     nparams.putString("position_card_collection",String.valueOf(mposition));
                     mFirebaseAnalytics.logEvent("tap_showall", nparams);
-
                 }
 
 
                 if(mStoryData.getSubstories().size()==3){
-
                     List<ArticlesMain> mArticles = mStoryData.getSubstories().get(2).getArticlesMain();
                     Intent intent = new Intent(context, ArticlesActivity.class);
                     intent.putExtra("ARTICLELIST",(Serializable)mArticles);
                     intent.putExtra("StoryTitle",storyTitle);
-                    intent.putExtra("story_id",StoryId);
+                    intent.putExtra("substory_id", mStoryData.getSubstoryId());
                     intent.putExtra("story_color",storyColor);
                     context.startActivity(intent);
                 } else if (mStoryData.getSubstories().size()==2){
@@ -237,7 +240,7 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
                     Intent intent = new Intent(context, ArticlesActivity.class);
                     intent.putExtra("ARTICLELIST",(Serializable)mArticles);
                     intent.putExtra("StoryTitle",storyTitle);
-                    intent.putExtra("story_id",StoryId);
+                    intent.putExtra("substory_id", mStoryData.getSubstoryId());
                     intent.putExtra("story_color",storyColor);
                     context.startActivity(intent);
 
@@ -246,7 +249,7 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
                     Intent intent = new Intent(context, ArticlesActivity.class);
                     intent.putExtra("ARTICLELIST",(Serializable)mArticles);
                     intent.putExtra("StoryTitle",storyTitle);
-                    intent.putExtra("story_id",StoryId);
+                    intent.putExtra("substory_id", mStoryData.getSubstoryId());
                     intent.putExtra("story_color",storyColor);
                     context.startActivity(intent);
                 }
@@ -518,6 +521,8 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
 
 
         if(holder instanceof StoryDataViewHolder){
+            ((StoryDataViewHolder)holder).seenImage.setVisibility(GONE);
+            ((StoryDataViewHolder)holder).readstatus.setVisibility(GONE);
 
            ((StoryDataViewHolder) holder).secondtopstorylayout.setVisibility(View.VISIBLE);
             ((StoryDataViewHolder) holder).thirdtopstorylayout.setVisibility(View.VISIBLE);
@@ -532,6 +537,11 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
             position = position-1;
             final StoryDataMain mStoryData = StoryDataList.get(position);
              String followstatus = StoryDataList.get(position).getFollowstatus();
+
+            if(mStoryData.getReadStatus()!=null&&!mStoryData.getReadStatus().isEmpty()){
+                ((StoryDataViewHolder)holder).seenImage.setVisibility(View.VISIBLE);
+                ((StoryDataViewHolder)holder).readstatus.setVisibility(View.VISIBLE);
+            }
 
             if(followstatus!=null&&!followstatus.isEmpty()){
                 if(followstatus.equals("1")){
@@ -633,7 +643,7 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
 
             if (StoryDataList.get(position).getSubstories().size() == 2) {
 
-                ((StoryDataViewHolder)holder).secondtopstorylayout.setVisibility(View.GONE);
+                ((StoryDataViewHolder)holder).secondtopstorylayout.setVisibility(GONE);
 
                 List<SubstoriesMain> Substories = StoryDataList.get(position).getSubstories();
 
@@ -665,8 +675,8 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
 
             if (StoryDataList.get(position).getSubstories().size() == 1) {
 
-                ((StoryDataViewHolder)holder).secondtopstorylayout.setVisibility(View.GONE);
-                ((StoryDataViewHolder)holder).thirdtopstorylayout.setVisibility(View.GONE);
+                ((StoryDataViewHolder)holder).secondtopstorylayout.setVisibility(GONE);
+                ((StoryDataViewHolder)holder).thirdtopstorylayout.setVisibility(GONE);
 
                 List<SubstoriesMain> Substories = StoryDataList.get(position).getSubstories();
 
@@ -813,8 +823,8 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
 
 
             if(StoryDataList.get(position).getSubstories().get(i).getArticlesMain().size()== 3){
-                holder.bottomtextshowmore.setVisibility(View.GONE);
-                holder.bottomtextnumarticles.setVisibility(View.GONE);
+                holder.bottomtextshowmore.setVisibility(GONE);
+                holder.bottomtextnumarticles.setVisibility(GONE);
             }
 
 
@@ -852,8 +862,8 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
             holder.articletitle1.setText(articleTitle1);
             holder.articletitle2.setText(articleTitle2);
 
-            holder.bottomtextshowmore.setVisibility(View.GONE);
-            holder.bottomtextnumarticles.setVisibility(View.GONE);
+            holder.bottomtextshowmore.setVisibility(GONE);
+            holder.bottomtextnumarticles.setVisibility(GONE);
 
             if (source1icon != null && !source1.isEmpty()) {
                 Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).resize(30, 30).centerCrop().into(holder.sourceimage1);
@@ -868,7 +878,7 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
                 holder.sourceimage2.setImageResource(R.drawable.background_splash);
             }
 
-            holder.thirdarticle.setVisibility(View.GONE);
+            holder.thirdarticle.setVisibility(GONE);
 
         } else if (StoryDataList.get(position).getSubstories().get(i).getArticlesMain().size() == 1) {
 
@@ -892,8 +902,8 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
 
 
 
-            holder.bottomtextshowmore.setVisibility(View.GONE);
-            holder.bottomtextnumarticles.setVisibility(View.GONE);
+            holder.bottomtextshowmore.setVisibility(GONE);
+            holder.bottomtextnumarticles.setVisibility(GONE);
 
 
 
@@ -903,8 +913,8 @@ public class StoryFeedAdapterMain extends RecyclerView.Adapter<RecyclerView.View
                 holder.sourceimage1.setImageResource(R.drawable.background_splash);
             }
 
-            holder.thirdarticle.setVisibility(View.GONE);
-            holder.secondarticle.setVisibility(View.GONE);
+            holder.thirdarticle.setVisibility(GONE);
+            holder.secondarticle.setVisibility(GONE);
         }
     }
 

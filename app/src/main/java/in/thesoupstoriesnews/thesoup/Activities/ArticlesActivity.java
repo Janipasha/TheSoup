@@ -40,7 +40,7 @@ public class ArticlesActivity extends AppCompatActivity {
     private RecyclerView ArticlesView;
     private ArticlesAdapter mArticlesAdapter;
     private SharedPreferences pref;
-    private String StoryTitle,StoryId,storyColor;
+    private String StoryTitle,SubstoryID,storyColor;
     private FirebaseAnalytics mFirebaseAnalytics;
 
 
@@ -105,7 +105,7 @@ public class ArticlesActivity extends AppCompatActivity {
 
 
         Bundle extras = getIntent().getExtras();
-        //StoryId = extras.getString("story_id");
+        SubstoryID = extras.getString("substory_id");
        // StoryTitle = extras.getString("StoryTitle");
         storyColor = extras.getString("story_color");
 
@@ -122,7 +122,7 @@ public class ArticlesActivity extends AppCompatActivity {
 
         ArticlesView.setHasFixedSize(true);
 
-        mArticlesAdapter = new ArticlesAdapter(mArticles,nArticles,storyColor,this);
+        mArticlesAdapter = new ArticlesAdapter(mArticles,nArticles,storyColor,SubstoryID,this);
 
         ArticlesView.setAdapter(mArticlesAdapter);
 

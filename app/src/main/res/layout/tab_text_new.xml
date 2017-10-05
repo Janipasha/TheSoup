@@ -46,8 +46,8 @@
                 android:visibility="gone"
                 android:src="@drawable/notification_circle"
                 android:layout_alignRight="@id/notificationbell"
-                android:layout_marginTop="6dp"
-                android:layout_marginLeft="-5dp"/>
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="-2dp"/>
 
         </RelativeLayout>
 

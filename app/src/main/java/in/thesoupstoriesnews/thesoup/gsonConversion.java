@@ -222,31 +222,29 @@ public class gsonConversion {
         pListFromJson = new ArrayList<>();
         mJsonObject = jsonObject;
 
+        String followunseen = "" ;
+
         Gson gson = new Gson();
         GetStoryFeedFollowing red = gson.fromJson(jsonObject.toString(),GetStoryFeedFollowing.class);
 
+        if(red.getDataStories().getUnseen()!=null||!red.getDataStories().getUnseen().isEmpty()){
+            followunseen = red.getDataStories().getUnseen();
+        }
+
 
         for (int i = 0; i < red.getDataStories().getStoryDataList().size(); i++) {
-
-
                 pListFromJson.add(red.getDataStories().getStoryDataList().get(i));
-
 
         }
 
         NavigationActivity activity = (NavigationActivity)context;
-
         if(fragmenttag==2&&totalrefresh.equals("0")) {
-
             Fragment f = activity.getFragment(fragmenttag);
-
-            ((FollowingFragment) f).startAdapter(pListFromJson);
-
+            ((FollowingFragment) f).startAdapter(pListFromJson,followunseen);
         }else if(fragmenttag==2&&totalrefresh.equals("1")){
             Fragment f = activity.getFragment(fragmenttag);
-            ((FollowingFragment)f).startRefreshAdapter(pListFromJson);
+            ((FollowingFragment)f).startRefreshAdapter(pListFromJson,followunseen);
         }
-
     }
 
 

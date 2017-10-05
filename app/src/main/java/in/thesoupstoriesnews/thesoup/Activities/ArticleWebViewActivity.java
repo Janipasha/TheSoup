@@ -77,7 +77,7 @@ public class ArticleWebViewActivity extends AppCompatActivity {
         mExtras = getIntent().getExtras();
 
         URL = mExtras.getString("ArticleURL");
-       // SubstoryId = mExtras.getString("substory_id");
+       SubstoryId = mExtras.getString("substory_id");
         storyColor = mExtras.getString("storycolor");
 
 

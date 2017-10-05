@@ -36,7 +36,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by Jani on 02-09-2017.
  */
 
-public class NavigationActivity extends FragmentActivity {
+public class NavigationActivity extends FragmentActivity implements FollowingFragment.Badgeonfilter {
 
     private CustomViewPager viewPager;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -244,6 +244,17 @@ public class NavigationActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    @Override
+    public void NumberofUnread(String num_unread) {
+        if(num_unread!=null&&!num_unread.isEmpty()){
+            View view = tabLayout.getTabAt(2).getCustomView();
+            ImageView imageView= (ImageView) view.findViewById(R.id.notificationcircle);
+
+            imageView.setVisibility(View.VISIBLE);
+                    }
 
     }
 }

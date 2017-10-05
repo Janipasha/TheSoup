@@ -64,6 +64,7 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
         private String unread = "";
         private SwipeRefreshLayout swipeRefreshLayout;
         private int seenStatus = 0;
+        private  String followunseen = "";
         // Analytics end
 
 
@@ -200,23 +201,30 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
 
         }
 
-        public void startAdapter(List<StoryDataFollowing> nStoryData) {
+        public void startAdapter(List<StoryDataFollowing> nStoryData,String followunseen) {
+
+            this.followunseen = followunseen;
 
             mStoryfeedAdapter.refreshData(nStoryData,value);
             progress.setProgress(100);
             progress.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
 
+            ((NavigationActivity)getActivity()).NumberofUnread(followunseen);
+
             Log.d("mStoryData startAdapter", String.valueOf(mStoryData.size()));
         }
 
-        public void startRefreshAdapter(List<StoryDataFollowing> nStoryData) {
+        public void startRefreshAdapter(List<StoryDataFollowing> nStoryData,String followunseen) {
+            this.followunseen = followunseen;
             mStoryData = nStoryData;
             mStoryfeedAdapter.totalRefreshData(nStoryData,value);
             progress.setProgress(100);
             progress.setVisibility(View.GONE);
 
             swipeRefreshLayout.setRefreshing(false);
+
+            ((NavigationActivity)getActivity()).NumberofUnread(followunseen);
 
             Log.d("mStoryData refresh", String.valueOf(nStoryData.size()));
         }
@@ -361,7 +369,7 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
                           swipeRefreshLayout.setRefreshing(false);
 
                       }
-                      startRefreshAdapter(mStoryData);
+                      startRefreshAdapter(mStoryData,followunseen);
 
                   }
               }

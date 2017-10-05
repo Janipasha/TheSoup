@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    tools:ignore="MissingPrefix"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -57,15 +58,50 @@
             android:layout_marginTop="14dp"
             android:src="@drawable/icons8_share"/>
 
-        <ImageView
-            android:id="@+id/hero_image"
-            android:layout_below="@id/time3"
-            android:layout_alignLeft="@id/time3"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src= "@drawable/icons8_journey_filled"/>
+            android:layout_alignLeft="@id/time3"
+            android:layout_below="@id/time3"
+            android:id="@+id/hero_image">
+
+            <ImageView
+                android:id="@+id/heroimage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:scaleType="fitXY"
+                android:src="@drawable/icons8_journey_filled" />
+
+            <ImageView
+                android:id="@+id/readstatus_story"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@drawable/readblur"
+                android:contentDescription="@string/contentdescimage"
+                android:elevation="6dp"
+                android:scaleType="fitXY"
+                />
+
+            <TextView
+                android:id="@+id/readstatus_text_story"
+                fontPath="fonts/montserrat-bold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:letterSpacing="0.03"
+                android:text="SEEN"
+                android:elevation="6dp"
+                android:textColor="#000000"
+               />
+
+
+        </FrameLayout>
+
 
         <LinearLayout
             android:id="@+id/article_list_main"
@@ -91,7 +127,8 @@
             android:id="@+id/bottomtext_showall"
             android:layout_below="@id/article_list_main"
             android:layout_alignParentRight="true"
-            android:textSize="11sp"
+            android:textSize="9sp"
+            fontPath="fonts/montserrat-regular.otf"
             android:textColor="#757575"
             android:lineSpacingExtra="1sp"
             android:text="SHOW ALL"/>
@@ -102,6 +139,7 @@
             android:layout_toLeftOf="@id/bottomtext_showall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            fontPath="fonts/montserrat-regular.otf"
             android:textSize="11sp"
             android:textColor="#757575"
             android:lineSpacingExtra="1sp"

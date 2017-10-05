@@ -39,12 +39,13 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
         private List<ArticlesMain> articles;
     private List<Articles> nArticles;
         private Context mcontext;
-    private String StoryTitle , storyId,storyColor;
+    private String StoryTitle , SubstoryId,storyColor;
 
         private SharedPreferences pref;
 
 
-        public ArticlesAdapter(List<ArticlesMain> articles,List<Articles> nArticles,String storyColor, Context mcontext) {
+        public ArticlesAdapter(List<ArticlesMain> articles,List<Articles> nArticles,String storyColor,String SubstoryId, Context mcontext) {
+            this.SubstoryId = SubstoryId;
             this.articles = articles;
             this.nArticles = nArticles;
             this.storyColor = storyColor;
@@ -164,6 +165,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
 
 
                 Intent intent = new Intent(mcontext, ArticleWebViewActivity.class);
+                intent.putExtra("substory_id",SubstoryId);
                 intent.putExtra("ArticleURL",ArticleURL);
                 intent.putExtra("storycolor",storyColor);
                 mcontext.startActivity(intent);
