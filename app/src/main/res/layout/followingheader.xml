@@ -38,6 +38,9 @@
             android:text="Sort By"/>
 
         <TextView
+            android:paddingLeft="4dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             fontPath="fonts/montserrat-bold.ttf"
@@ -45,19 +48,22 @@
             android:id="@+id/newlyfollowed"
             android:textColor="#222222"
             android:layout_marginRight="20dp"
+            android:background="?android:attr/selectableItemBackground"
             android:layout_below="@id/Sortby"
             android:text="Newly Followed"/>
 
         <TextView
+            android:paddingTop="4dp"
             android:id="@+id/seperator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/newlyfollowed"
             android:text="|"
-            android:layout_below="@id/Sortby"
-            android:layout_marginRight="2dp"/>
+            android:layout_below="@id/Sortby" />
 
         <TextView
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="4dp"
             fontPath="fonts/montserrat-bold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

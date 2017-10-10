@@ -62,10 +62,11 @@
         android:textColor="#222222"
         android:id="@+id/followedtext"
         android:lineSpacingExtra="0sp"
-        tools:text="From Your Followed"
+        tools:text="New in Followed"
         />
 
     <LinearLayout
+        android:layout_marginBottom="4dp"
         android:visibility="invisible"
         android:layout_alignBottom="@id/followedtext"
         android:layout_toRightOf="@id/followedtext"
@@ -73,7 +74,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginRight="20dp"
-        android:padding="3dp"
+        android:padding="1dp"
+        android:minWidth="27dp"
         android:id="@+id/notificationNumber"
         android:background="#222222"
         >

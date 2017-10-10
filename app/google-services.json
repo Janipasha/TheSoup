@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "703334613722",
-    "firebase_url": "https://soup-news.firebaseio.com",
-    "project_id": "soup-news",
-    "storage_bucket": "soup-news.appspot.com"
+    "project_number": "74623239865",
+    "firebase_url": "https://production-app-182318.firebaseio.com",
+    "project_id": "production-app-182318",
+    "storage_bucket": "production-app-182318.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:703334613722:android:6f40ecaf76100a07",
+        "mobilesdk_app_id": "1:74623239865:android:aaf9ef4897b7fa3b",
         "android_client_info": {
-          "package_name": "in.thesoupstoriesnews.thesoup"
+          "package_name": "in.thesoup.thesoupstoriesnews"
         }
       },
       "oauth_client": [
         {
-          "client_id": "703334613722-sulr1aiib1upmgkm6q60ddlfufetaibd.apps.googleusercontent.com",
+          "client_id": "74623239865-hjek9p25p31etvun2kj9nsvjdipb6lbp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "in.thesoupstoriesnews.thesoup",
-            "certificate_hash": "844dc78658bf011c099e241c2ee5b6565bb5b1da"
+            "package_name": "in.thesoup.thesoupstoriesnews",
+            "certificate_hash": "0db2a2fc0a4ce7fe67d8c05f6725dda05cdb89c7"
           }
         },
         {
-          "client_id": "703334613722-m7fcrkadju384iktdt4s01tdi23eu4lk.apps.googleusercontent.com",
+          "client_id": "74623239865-9vb7df8kt6advg424tu00uroftuogo44.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB8m8NU0UjquabVKgvSwrxYRoqrOGoHGFA"
+          "current_key": "AIzaSyCzwV4qNNXUOFGYVG-XXAY7GlDRD1UYAKc"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "703334613722-m7fcrkadju384iktdt4s01tdi23eu4lk.apps.googleusercontent.com",
+              "client_id": "74623239865-9vb7df8kt6advg424tu00uroftuogo44.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

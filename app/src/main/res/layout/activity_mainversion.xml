@@ -21,7 +21,7 @@
 
 
 
-    <in.thesoupstoriesnews.thesoup.Activities.CustomViewPager
+    <in.thesoup.thesoupstoriesnews.Activities.CustomViewPager
         android:layout_above="@id/sliding_tabs"
         android:id="@+id/viewpager_main"
         android:layout_width="match_parent"

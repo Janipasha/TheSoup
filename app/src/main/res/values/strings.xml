@@ -3,8 +3,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="facebook_app_id">1909173329108872</string>
-    <string name="fb_login_protocol_scheme">fb1395828720479763</string>
+    <string name="facebook_app_id">743248305861412</string>
+    <string name="fb_login_protocol_scheme">fb743248305861412</string>
     <string name="contentdescimage">mainimage</string>
 
     <string name="action_settings">Settings</string>
@@ -13,7 +13,8 @@
     <!-- Button text -->
     <string name="btn_logout_from_google">Logout from Google</string>
     <string name="btn_revoke_access">Revoke Access</string>
-    <string name="server_client_id">703334613722-m7fcrkadju384iktdt4s01tdi23eu4lk.apps.googleusercontent.com</string>
+    <string name="server_client_id">74623239865-9vb7df8kt6advg424tu00uroftuogo44.apps.googleusercontent.com</string>
+
     <string name="title_activity_on_boarding">PagerActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="test_string">Welcome To TheSoup&lt;sup&gt;&lt;small&gt;BETA&lt;/small&gt;&lt;/sup&gt;</string>

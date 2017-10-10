@@ -27,6 +27,8 @@
             
             <TextView
                 android:id="@+id/source1"
+                android:layout_marginTop="-1.5dp"
+                android:layout_alignParentTop="true"
                 android:layout_toRightOf="@id/sourceImage1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,11 +95,13 @@
 
             <TextView
                 android:id="@+id/source2"
+                android:layout_alignParentTop="true"
                 fontPath="fonts/montserrat-regular.otf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/sourceImage2"
                 android:text="NDTV"
+                android:layout_marginTop="-1.5dp"
                 android:textColor="#757575"
                 android:textSize="9sp" />
 
@@ -156,6 +160,8 @@
                 android:src = "@drawable/background_splash"/>
 
             <TextView
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="-1.5dp"
                 android:id="@+id/source3"
                 android:layout_toRightOf="@id/sourceImage3"
                 android:layout_width="wrap_content"

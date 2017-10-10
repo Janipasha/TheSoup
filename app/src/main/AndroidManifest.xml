@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="in.thesoupstoriesnews.thesoup">
+    package="in.thesoup.thesoupstoriesnews">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -28,7 +28,7 @@
 
 
         <activity
-            android:name="in.thesoupstoriesnews.thesoup.Activities.SplashActivity"
+            android:name="in.thesoup.thesoupstoriesnews.Activities.SplashActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"
             android:theme="@style/SplashTheme">
@@ -39,12 +39,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activities.ArticlesActivity"
+        <activity android:name="in.thesoup.thesoupstoriesnews.Activities.ArticlesActivity"
             android:theme="@style/translucent"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"/>
 
-        <activity android:name="in.thesoupstoriesnews.thesoup.Activities.DetailsActivity"
+        <activity android:name="in.thesoup.thesoupstoriesnews.Activities.DetailsActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize">
             <intent-filter>
@@ -52,22 +52,26 @@
             <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="in.thesoupstoriesnews.thesoup.Activities.FilterActivity"
+        <activity android:name="in.thesoup.thesoupstoriesnews.Activities.FilterActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"/>
-        <activity android:name="in.thesoupstoriesnews.thesoup.Activities.ArticleWebViewActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize"/>
-
-        <activity android:name="in.thesoupstoriesnews.thesoup.Activities.EmailActivity"
+        <activity android:name="in.thesoup.thesoupstoriesnews.Activities.ArticleWebViewActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"/>
 
-        <activity android:name="in.thesoupstoriesnews.thesoup.Activities.NavigationActivity"
+        <activity android:name="in.thesoup.thesoupstoriesnews.Activities.EmailActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"/>
 
-        <activity android:name="in.thesoupstoriesnews.thesoup.Activities.LoginActivity"
+        <activity android:name="in.thesoup.thesoupstoriesnews.Activities.NavigationActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize">
+        <intent-filter>
+            <action android:name="NAVIGATION_ACTIVITY" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter></activity>
+
+        <activity android:name="in.thesoup.thesoupstoriesnews.Activities.LoginActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"/>
         <activity
@@ -87,20 +91,20 @@
         </activity>
 
         <service
-            android:name="in.thesoupstoriesnews.thesoup.Service.MyFirebaseInstanceIdService"
+            android:name="in.thesoup.thesoupstoriesnews.Service.MyFirebaseInstanceIdService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name="in.thesoupstoriesnews.thesoup.Service.MyFirebaseMessagingService">
+        <service android:name="in.thesoup.thesoupstoriesnews.Service.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <activity
-            android:name="in.thesoupstoriesnews.thesoup.Activities.PagerActivity"
+            android:name="in.thesoup.thesoupstoriesnews.Activities.PagerActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_on_boarding"

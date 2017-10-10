@@ -32,7 +32,7 @@
                     fontPath="fonts/montserrat-light.ttf"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginTop="4dp"
                     android:src="@drawable/icons8_logout" />
 
                 <LinearLayout
@@ -154,6 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/circle1"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginTop="-3dp"
                     android:layout_toEndOf="@+id/circle1"
                     android:layout_toRightOf="@+id/circle1"
                     android:lineSpacingExtra="1sp"
@@ -237,6 +238,7 @@
 
                 <TextView
                     android:id="@+id/time2"
+                    android:layout_marginTop="-3dp"
                     fontPath="fonts/montserrat-light.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -329,19 +331,21 @@
                     android:lineSpacingExtra="1sp"
                     android:text="12 hour ago"
                     android:textColor="#757575"
+                    android:layout_marginTop="-3dp"
                     android:textSize="11sp" />
 
                 <LinearLayout
                     android:id="@+id/shareicon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/update3"
                     android:layout_alignParentRight="true"
-                    android:paddingLeft="10dp">
+                    android:padding="4dp">
 
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:layout_marginTop="14dp"
+                        android:layout_gravity="center"
                         android:src="@drawable/icons8_share" />
                 </LinearLayout>
 

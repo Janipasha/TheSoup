@@ -116,9 +116,6 @@
         </LinearLayout>
 
 
-        
-
-
         <TextView
             android:paddingBottom="18dp"
             android:layout_marginLeft="3dp"
@@ -145,20 +142,22 @@
             android:lineSpacingExtra="1sp"
             tools:text="7 More Articles In This Update."/>
 
+
         <LinearLayout
-            android:id="@+id/bottomlinelayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_alignLeft="@id/hero_image"
-            android:layout_alignParentBottom="true"
-            android:gravity="bottom"
-            android:layout_marginRight="20dp">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:id="@+id/bottommostline"
-            android:background="@color/black"
-         />
+            android:layout_alignRight="@+id/hero_image"
+            android:layout_below="@id/article_list_main"
+            android:layout_width="wrap_content"
+            android:id="@+id/bottommostlinelayout"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/bottommostline"
+                android:layout_width="match_parent"
+                android:layout_marginTop="36dp"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                />
 
         </LinearLayout>
 
@@ -167,9 +166,10 @@
             android:layout_width="2dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/circle3"
-            android:layout_alignBottom="@id/bottomtext_showall"
+            android:layout_alignBottom="@id/bottommostlinelayout"
             android:layout_marginLeft="10dp"
             android:background="@color/black"/>
+
 
 
 
