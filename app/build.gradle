@@ -10,7 +10,7 @@ android {
         versionName '1.1.1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        versionCode 2
+        versionCode 6
     }
     buildTypes {
         release {
@@ -56,7 +56,6 @@ dependencies {
     compile 'com.google.apis:google-api-services-people:v1-rev124-1.22.0'
     compile 'com.google.firebase:firebase-core:10.2.6'
     testCompile 'junit:junit:4.12'
-    compile 'com.github.faruktoptas:FancyShowCaseView:0.1.1'
     compile 'org.jsoup:jsoup:1.10.3'
     compile 'com.uxcam:uxcam:2.6.0@aar'
 

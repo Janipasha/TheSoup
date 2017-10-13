@@ -256,6 +256,10 @@ public class NavigationActivity extends FragmentActivity implements FollowingFra
 
             if (num_unread.equals("0")) {
 
+                View view = tabLayout.getTabAt(2).getCustomView();
+                TextView textview = (TextView) view.findViewById(R.id.badge);
+                textview.setVisibility(View.GONE);
+
             } else {
 
                 View view = tabLayout.getTabAt(2).getCustomView();

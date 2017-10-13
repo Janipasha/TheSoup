@@ -37,6 +37,8 @@ import in.thesoup.thesoupstoriesnews.gsonConversion;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static android.R.id.edit;
+
 
 public class FilterActivity extends AppCompatActivity {
 
@@ -209,12 +211,8 @@ public class FilterActivity extends AppCompatActivity {
         }
         // End Analytics
 
-        if (v == apply||v==next) {
 
-            SharedPreferences.Editor edit = pref.edit();
-            edit.putString("filters", filters);
-            edit.putString("filter_count", String.valueOf(presentFilterCount));
-            edit.apply();
+        if (v == apply||v==next) {
 
             // CVIPUL Analytics
             // TODO : Verify Tap to Remove on Filters screen
@@ -231,6 +229,11 @@ public class FilterActivity extends AppCompatActivity {
                 if (presentFilterCount < 3) {
                     Toast.makeText(this, "Please select atleast 3 categories", Toast.LENGTH_SHORT).show();
                 } else {
+
+                    SharedPreferences.Editor edit = pref.edit();
+                    edit.putString("filters", filters);
+                    edit.putString("filter_count", String.valueOf(presentFilterCount));
+                    edit.apply();
 
                     HashMap<String, String> nparams = new HashMap<>();
                     nparams.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
@@ -257,6 +260,11 @@ public class FilterActivity extends AppCompatActivity {
                 if (presentFilterCount < 1) {
                     Toast.makeText(this, "Please select atleast 1 category", Toast.LENGTH_SHORT).show();
                 } else {
+
+                    SharedPreferences.Editor edit = pref.edit();
+                    edit.putString("filtersdiscover", filters);
+                    edit.putString("filter_count", String.valueOf(presentFilterCount));
+                    edit.apply();
                     //TODO: add filters and open discoverfragment
 
                     Intent intent = new Intent(FilterActivity.this, NavigationActivity.class);

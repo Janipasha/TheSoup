@@ -77,8 +77,7 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
 
             public ImageView heroimage, shareicon, sourceimage1, sourceimage2, sourceimage3, circle3,seenImage;
 
-
-            public LinearLayout firstarticle,secondarticle, thirdarticle, articlelistmain;
+            public LinearLayout firstarticle,secondarticle, thirdarticle, articlelistmain,bottommostlinelayout;
 
             public View sideline6,bottommostline,sideline;
 
@@ -120,6 +119,7 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
                 secondarticle = (LinearLayout)itemView.findViewById(R.id.secondarticle);
                 thirdarticle = (LinearLayout)itemView.findViewById(R.id.thirdarticle);
                 articlelistmain = (LinearLayout)itemView.findViewById(R.id.article_list_main);
+                bottommostlinelayout = (LinearLayout)itemView.findViewById(R.id.bottommostlinelayout);
                 bottommostline =(View)itemView.findViewById(R.id.bottommostline);
 
                 firstarticle.setOnClickListener(this);
@@ -283,6 +283,7 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
 
 
             Log.e("story_Id details",StoryDataList.get(position).getSubstoryId());
+            holder.sideline.setVisibility(View.VISIBLE);
                 holder.seenImage.setVisibility(View.GONE);
                 holder.readstatus.setVisibility(View.GONE);
                 holder.firstarticle.setVisibility(View.VISIBLE);
@@ -336,7 +337,17 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
 
     public void fillarticles(StoryDataViewHolder holder, int position) {
 
+
         if (StoryDataList.get(position).getArticles().size() >= 3) {
+
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) holder.bottommostline.getLayoutParams();
+            lp.setMargins(0,65,0,0);
+            holder.bottommostline.setLayoutParams(lp);
+
+            RelativeLayout.LayoutParams Rp = (RelativeLayout.LayoutParams)holder.sideline.getLayoutParams();
+            Rp.addRule(RelativeLayout.ALIGN_BOTTOM,holder.bottommostlinelayout.getId());
+            holder.sideline.setLayoutParams(Rp);
+
 
             List<Articles> Articles = StoryDataList.get(position).getArticles();
 
@@ -377,6 +388,9 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
             holder.articletitle2.setText(articleTitle2);
             holder.articletitle3.setText(articleTitle3);
 
+            holder.bottomtextshowmore.setVisibility(View.GONE);
+            holder.bottomtextnumarticles.setVisibility(View.GONE);
+
             int numberofArticles = StoryDataList.get(position).getArticles().size();
             numberofArticles = numberofArticles -3;
             if(numberofArticles!=0){
@@ -406,16 +420,12 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
                 holder.sourceimage3.setImageResource(R.drawable.background_splash);
             }
 
-            if (StoryDataList.get(position).getArticles().size() >= 3) {
+            if (StoryDataList.get(position).getArticles().size() > 3) {
 
                 holder.bottomtextshowmore.setVisibility(View.VISIBLE);
                 holder.bottomtextnumarticles.setVisibility(View.VISIBLE);
 
             }
-
-
-
-
 
         } else if (StoryDataList.get(position).getArticles().size() == 2) {
 
@@ -457,6 +467,11 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
            lp.setMargins(0,0,0,0);
 
             holder.bottommostline.setLayoutParams(lp);
+
+            RelativeLayout.LayoutParams Rp = (RelativeLayout.LayoutParams)holder.sideline.getLayoutParams();
+            Rp.addRule(RelativeLayout.ALIGN_BOTTOM,holder.bottommostlinelayout.getId());
+            holder.sideline.setLayoutParams(Rp);
+
 
             if (source1icon != null && !source1icon.isEmpty()) {
                 Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).into(holder.sourceimage1);
@@ -504,6 +519,9 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
 
             holder.bottommostline.setLayoutParams(lp);
 
+            RelativeLayout.LayoutParams Rp = (RelativeLayout.LayoutParams)holder.sideline.getLayoutParams();
+            Rp.addRule(RelativeLayout.ALIGN_BOTTOM,holder.bottommostlinelayout.getId());
+            holder.sideline.setLayoutParams(Rp);
 
 
 

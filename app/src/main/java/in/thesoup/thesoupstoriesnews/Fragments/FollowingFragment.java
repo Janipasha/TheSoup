@@ -147,6 +147,7 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
             totalrefresh = "1";
             params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
             params.put("myfeed", "1"); // 1 is the value required for getting myfeed
+            params.put("sortby",value);
             params.put("page", "0");
 
 

@@ -72,10 +72,10 @@ public class DiscoverFragmentMain extends Fragment implements SwipeRefreshLayout
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
 
 
-        if (pref.getString("filters", null) != null && !pref.getString("filters", null).isEmpty()) {
-            filter = pref.getString("filters", null);
+        if (pref.getString("filtersdiscover", null) != null && !pref.getString("filtersdiscover", null).isEmpty()) {
+            filter = pref.getString("filtersdiscover", null);
 
-            Log.d("filters", " :" + filter);
+            Log.d("filters discover", " :" + filter);
         }
 
 
@@ -175,8 +175,8 @@ public class DiscoverFragmentMain extends Fragment implements SwipeRefreshLayout
         totalrefresh = "1";
 
 
-        if (pref.getString("filters", null) != null && !pref.getString("filters", null).isEmpty()) {
-            filter = pref.getString("filters", null);
+        if (pref.getString("filtersdiscover", null) != null && !pref.getString("filtersdiscover", null).isEmpty()) {
+            filter = pref.getString("filtersdiscover", null);
 
             Log.d("filters", " :" + filter);
         }
@@ -367,7 +367,7 @@ public class DiscoverFragmentMain extends Fragment implements SwipeRefreshLayout
 
 
         if (followstatus.equals("1")) {
-            Toast.makeText(getActivity(), "sucessfully followed the story", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Now following the Story", Toast.LENGTH_SHORT).show();
         }
     }
 

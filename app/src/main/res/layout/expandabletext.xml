@@ -47,7 +47,7 @@
             <ImageView
                 android:layout_gravity="center_vertical"
                 android:id="@+id/filtericon"
-                android:layout_marginLeft="14dp"
+                android:layout_marginLeft="13dp"
                 android:layout_marginRight="9dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -62,7 +62,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
-                android:textColor="#b3ffffff"
+                android:textColor="#ffffff"
                 fontPath="fonts/montserrat-medium.ttf"
                 android:letterSpacing="-0.03"
                 android:lineSpacingExtra="2sp"

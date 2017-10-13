@@ -222,6 +222,8 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             int mposition = getAdapterPosition() - 1;
 
+            pref = PreferenceManager.getDefaultSharedPreferences(context);
+
             if (view == bottomtextnumarticles || view == bottomtextshowmore || view == heroimage || view == seenImage || view == readstatus) {
 
                 if (mposition < StoryDataList.size()) {
@@ -233,6 +235,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     HashMap<String, String> params = new HashMap<>();
                     params.put("id", mStoryData.getStoryIdMain());
                     params.put("type", "stories");
+                    params.put(SoupContract.AUTH_TOKEN,pref.getString(SoupContract.AUTH_TOKEN,null));
                     NetworkUtilsClick performClick = new NetworkUtilsClick(context, params);
                     try {
                         performClick.sendClick();
@@ -312,6 +315,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     HashMap<String, String> params = new HashMap<>();
                     params.put("id", mStoryData.getStoryIdMain());
                     params.put("type", "stories");
+                    params.put(SoupContract.AUTH_TOKEN,pref.getString(SoupContract.AUTH_TOKEN,null));
                     NetworkUtilsClick performClick = new NetworkUtilsClick(context, params);
                     try {
                         performClick.sendClick();
@@ -358,6 +362,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     HashMap<String, String> params = new HashMap<>();
                     params.put("id", mStoryData.getStoryIdMain());
                     params.put("type", "stories");
+                    params.put(SoupContract.AUTH_TOKEN,pref.getString(SoupContract.AUTH_TOKEN,null));
                     NetworkUtilsClick performClick = new NetworkUtilsClick(context, params);
                     try {
                         performClick.sendClick();
@@ -403,6 +408,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     HashMap<String, String> params = new HashMap<>();
                     params.put("id", mStoryData.getStoryIdMain());
                     params.put("type", "stories");
+                    params.put(SoupContract.AUTH_TOKEN,pref.getString(SoupContract.AUTH_TOKEN,null));
                     NetworkUtilsClick performClick = new NetworkUtilsClick(context, params);
                     try {
                         performClick.sendClick();
@@ -450,6 +456,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     HashMap<String, String> params = new HashMap<>();
                     params.put("id", mStoryData.getStoryIdMain());
                     params.put("type", "stories");
+                    params.put(SoupContract.AUTH_TOKEN,pref.getString(SoupContract.AUTH_TOKEN,null));
                     NetworkUtilsClick performClick = new NetworkUtilsClick(context, params);
                     try {
                         performClick.sendClick();
@@ -995,7 +1002,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         ((HeaderViewHolder) holder).notificationNumberLayout.setVisibility(View.VISIBLE);
                         ((HeaderViewHolder) holder).fromyourfollowedText.setVisibility(View.GONE);
                         ((HeaderViewHolder) holder).followedstoriesmessage.setText(followUpdateCount + " of your followed stories got updated " +
-                                "while you were away");
+                                "today");
 
                         if (Integer.valueOf(followUpdateCount) < 10) {
                             ((HeaderViewHolder) holder).numberfollowingupdates.setText("0" + followUpdateCount);
@@ -1024,7 +1031,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     ((HeaderViewHolder) holder).notificationNumberLayout.setVisibility(View.VISIBLE);
                     ((HeaderViewHolder) holder).fromyourfollowedText.setVisibility(View.GONE);
                     ((HeaderViewHolder) holder).followedstoriesmessage.setText(followUpdateCount + " of your followed stories got updated " +
-                            "while you were away");
+                            "today");
                     if (Integer.valueOf(followUpdateCount) < 10) {
                         ((HeaderViewHolder) holder).numberfollowingupdates.setText("0" + followUpdateCount);
                     } else {
@@ -1069,7 +1076,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((StoryDataViewHolder) holder).seenImage.setVisibility(View.VISIBLE);
 
         }
-
+           storytitle = gethtmlString(storytitle);
 
         ((StoryDataViewHolder) holder).storyTitle.setText(storytitle);
 

@@ -67,7 +67,7 @@ public class NetworkUtilswithTokenFollow {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.i("akunamatata", response.toString());
+                        Log.i("akunamatata follow", response.toString());
                         gsonConversion mpopulateUI = new gsonConversion();
                         mpopulateUI.fillUiFollow(response, mcontext, fragmenttag, totalrefresh);
                     }

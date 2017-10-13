@@ -140,7 +140,7 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
         if (categoryId != null && !categoryId.isEmpty()) {
             int filter = getDrawable(categoryId);
             filtericon.setImageResource(filter);
-            filtericon.setColorFilter(Color.parseColor("#cbffffff"));
+            filtericon.setColorFilter(Color.parseColor("#ffffff"));
         }
 
         mheading.setText(StoryTitle);
@@ -259,7 +259,7 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
 
 
             followbutton.setBackgroundColor(Color.parseColor("#000000"));
-            followbutton.setTextColor(Color.parseColor("#B3ffffff"));
+            followbutton.setTextColor(Color.parseColor("#ffffff"));
             followbutton.setText("FOLLOWING");
             followbutton.setVisibility(View.GONE);
             relativeLayouttick.setVisibility(View.VISIBLE);
