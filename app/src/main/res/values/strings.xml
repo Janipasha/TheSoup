@@ -6,6 +6,9 @@
     <string name="facebook_app_id">743248305861412</string>
     <string name="fb_login_protocol_scheme">fb743248305861412</string>
     <string name="contentdescimage">mainimage</string>
+    <string name="uxcam_id">6cf5e58d6dc6dd6</string>
+    <string name= "clevertap_account_id">R5K-RZW-9W5Z</string>
+    <string name="clevertap_account_token">012-352</string>
 
     <string name="action_settings">Settings</string>
     <string name="categories_count">Select <b>atleast 3</b> categories you want on your Home</string>

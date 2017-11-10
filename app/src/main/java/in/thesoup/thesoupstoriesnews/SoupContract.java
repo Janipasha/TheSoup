@@ -6,22 +6,22 @@ package in.thesoup.thesoupstoriesnews;
 
 public class SoupContract {
 
-    //public static final String URL = "http://192.168.1.130/newsapp/api/get_story_feed";
-    public static final String LOGOUT_URL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/logout";
-    public static final String FOLLOWURL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/follow";
-    public static final String UNFOLLOWURL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/unfollow";
-    public static final String LOGINURL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/login_android";
-    public static final String STORYURL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_story";
-   public static final String URL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_story_feed";
-   public static final String FILTERURL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_categories";
-   public static final String READURL = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/mark_as_read";
-   public static final String FILTERURL2 = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_categories_android";
-    public static final String AUTHVERIFY = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/auth";
-    public static final String GETNOTIFICATIONS ="http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_notifications";
-    public static final String MARKCLICK = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/mark_as_clicked";
-    public static final String SETCATEGORIES = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/set_interested_categories";
-    public static final String GETFEED = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_feed";
-    public static final String GETFOLLOWING = "http://ec2-35-154-209-88.ap-south-1.compute.amazonaws.com/newsapp/api/get_following";
+    public static final String VERSIONVERIFY ="http://thesoup.in/api/version_check";
+    public static final String LOGOUT_URL = "http://thesoup.in/api/logout";
+    public static final String FOLLOWURL = "http://thesoup.in/api/follow";
+    public static final String UNFOLLOWURL = "http://thesoup.in/api/unfollow";
+    public static final String LOGINURL = "http://thesoup.in/api/login_android";
+    public static final String STORYURL = "http://thesoup.in/api/get_story";
+   public static final String URL = "http://thesoup.in/api/get_story_feed";
+   public static final String FILTERURL = "http://thesoup.in/api/get_categories";
+   public static final String READURL = "http://thesoup.in/api/mark_as_read";
+   public static final String FILTERURL2 = "http://thesoup.in/api/get_categories_android";
+    public static final String AUTHVERIFY = "http://thesoup.in/api/auth";
+    public static final String GETNOTIFICATIONS ="http://thesoup.in/api/get_notifications";
+    public static final String MARKCLICK = "http://thesoup.in/api/mark_as_clicked";
+    public static final String SETCATEGORIES = "http://thesoup.in/api/set_interested_categories";
+    public static final String GETFEED = "http://thesoup.in/api/get_feed";
+    public static final String GETFOLLOWING = "http://thesoup.in/api/get_following";
     //analytics events
     public static final String TOTAL_REFRESH = "totalrefresh";
     public static final String PAGE_VIEW = "page_view";

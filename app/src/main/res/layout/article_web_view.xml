@@ -39,7 +39,7 @@
                     android:textSize="14sp"
                    android:layout_centerVertical="true"
                     android:textColor="#ffffff"
-                    android:text="GO BACK TO STORY"
+                    android:text="Go back to the Story"
                     fontPath= "fonts/montserrat-bold.ttf"
 
                     />

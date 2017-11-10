@@ -2,22 +2,26 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "in.thesoup.thesoupstoriesnews"
         minSdkVersion 15
         targetSdkVersion 25
-        versionName '1.1.1'
+        versionName '1.1.5'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        versionCode 6
+        multiDexEnabled true
+        versionCode 10
     }
     buildTypes {
         release {
             minifyEnabled false
+            manifestPlaceholders = [analytics_deactivated: "false"]
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
 
-
+        debug {
+            manifestPlaceholders = [analytics_deactivated: "true"]
         }
     }
     configurations.all {
@@ -25,6 +29,7 @@ android {
         exclude group: "org.apache.httpcomponents", module: "httpclient"
 
     }
+
     productFlavors {
     }
 }
@@ -40,8 +45,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.google.android.gms:play-services-auth:10.2.6'
-    compile 'com.google.android.gms:play-services-plus:10.2.6'
+    compile 'com.google.android.gms:play-services-auth:11.4.0'
+    compile 'com.google.android.gms:play-services-plus:11.4.0'
+    compile 'com.google.firebase:firebase-crash:11.4.0'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.google.code.gson:gson:2.8.0'
@@ -52,14 +58,14 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.google.firebase:firebase-messaging:10.2.6'
+    compile 'com.google.firebase:firebase-messaging:11.4.0'
     compile 'com.google.apis:google-api-services-people:v1-rev124-1.22.0'
-    compile 'com.google.firebase:firebase-core:10.2.6'
+    compile 'com.google.firebase:firebase-core:11.4.0'
     testCompile 'junit:junit:4.12'
     compile 'org.jsoup:jsoup:1.10.3'
     compile 'com.uxcam:uxcam:2.6.0@aar'
-
-
+    compile 'com.clevertap.android:clevertap-android-sdk:3.1.7'
+    compile 'com.google.android.gms:play-services-base:11.4.0'
 
 }
 

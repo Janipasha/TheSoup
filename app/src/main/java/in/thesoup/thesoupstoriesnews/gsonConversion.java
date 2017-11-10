@@ -11,25 +11,25 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.thesoup.thesoupstoriesnews.Activities.DetailsActivity;
-import in.thesoup.thesoupstoriesnews.Activities.NavigationActivity;
-import in.thesoup.thesoupstoriesnews.Fragments.DiscoverFragmentMain;
-import in.thesoup.thesoupstoriesnews.Fragments.FollowingFragment;
-import in.thesoup.thesoupstoriesnews.Fragments.HomeFragment;
-import in.thesoup.thesoupstoriesnews.GSONclasses.AuthVerify.Authverify;
-import in.thesoup.thesoupstoriesnews.GSONclasses.FeedGSON.GetStoryFeed;
-import in.thesoup.thesoupstoriesnews.GSONclasses.FeedGSON.StoryData;
-import in.thesoup.thesoupstoriesnews.GSONclasses.FeedGSONMain.GetStoryFeedMain;
-import in.thesoup.thesoupstoriesnews.GSONclasses.FeedGSONMain.StoryDataMain;
-import in.thesoup.thesoupstoriesnews.GSONclasses.FollowingGSON.GetStoryFeedFollowing;
-import in.thesoup.thesoupstoriesnews.GSONclasses.FollowingGSON.StoryDataFollowing;
-import in.thesoup.thesoupstoriesnews.GSONclasses.SinglestoryGSON.GetSingleStory;
-import in.thesoup.thesoupstoriesnews.GSONclasses.SinglestoryGSON.Substories;
-import in.thesoup.thesoupstoriesnews.GSONclasses.SinglestoryGSON.Substoryjsondata;
-import in.thesoup.thesoupstoriesnews.GSONclasses.filters.Filterdata;
-import in.thesoup.thesoupstoriesnews.GSONclasses.filters.GetFilters;
-import in.thesoup.thesoupstoriesnews.GSONclasses.filters1.FilterAPIJson;
-import in.thesoup.thesoupstoriesnews.GSONclasses.filters1.Filters;
+import in.thesoup.thesoupstoriesnews.activities.DetailsActivity;
+import in.thesoup.thesoupstoriesnews.activities.NavigationActivity;
+import in.thesoup.thesoupstoriesnews.fragments.DiscoverFragmentMain;
+import in.thesoup.thesoupstoriesnews.fragments.FollowingFragment;
+import in.thesoup.thesoupstoriesnews.fragments.HomeFragment;
+import in.thesoup.thesoupstoriesnews.gsonclasses.AuthVerify.Authverify;
+import in.thesoup.thesoupstoriesnews.gsonclasses.FeedGSON.GetStoryFeed;
+import in.thesoup.thesoupstoriesnews.gsonclasses.FeedGSON.StoryData;
+import in.thesoup.thesoupstoriesnews.gsonclasses.FeedGSONMain.GetStoryFeedMain;
+import in.thesoup.thesoupstoriesnews.gsonclasses.FeedGSONMain.StoryDataMain;
+import in.thesoup.thesoupstoriesnews.gsonclasses.FollowingGSON.GetStoryFeedFollowing;
+import in.thesoup.thesoupstoriesnews.gsonclasses.FollowingGSON.StoryDataFollowing;
+import in.thesoup.thesoupstoriesnews.gsonclasses.SinglestoryGSON.GetSingleStory;
+import in.thesoup.thesoupstoriesnews.gsonclasses.SinglestoryGSON.Substories;
+import in.thesoup.thesoupstoriesnews.gsonclasses.SinglestoryGSON.Substoryjsondata;
+import in.thesoup.thesoupstoriesnews.gsonclasses.filters.Filterdata;
+import in.thesoup.thesoupstoriesnews.gsonclasses.filters.GetFilters;
+import in.thesoup.thesoupstoriesnews.gsonclasses.filters1.FilterAPIJson;
+import in.thesoup.thesoupstoriesnews.gsonclasses.filters1.Filters;
 
 /**
  * Created by Jani on 07-04-2017.
@@ -108,7 +108,7 @@ public class gsonConversion {
             }
 
                 NavigationActivity activity = (NavigationActivity)context;
-
+            if(activity!=null){
                 if(fragmenttag==1&&totalrefresh.equals("0")) {
                     Fragment f = activity.getFragment(fragmenttag);
                     ((HomeFragment) f).startAdapterAfterPagination(oListFromJson);
@@ -117,6 +117,7 @@ public class gsonConversion {
                     ((HomeFragment)f).startAdaptersecondcall(oListFromJson);
                 }
 
+            }
 
             }
         }
@@ -143,18 +144,19 @@ public class gsonConversion {
 
         NavigationActivity activity = (NavigationActivity)context;
 
-        if(fragmenttag==0&&totalrefresh.equals("0")) {
+        if(activity!=null){
 
-            Fragment f = activity.getFragment(fragmenttag);
+            if(fragmenttag==0&&totalrefresh.equals("0")) {
 
-            ((DiscoverFragmentMain) f).startAdapter(nListFromJson);
+                Fragment f = activity.getFragment(fragmenttag);
 
-        }else if(fragmenttag==0&&totalrefresh.equals("1")){
-            Fragment f = activity.getFragment(fragmenttag);
-            ((DiscoverFragmentMain)f).startRefreshAdapter(nListFromJson);
+                ((DiscoverFragmentMain) f).startAdapter(nListFromJson);
+
+            }else if(fragmenttag==0&&totalrefresh.equals("1")){
+                Fragment f = activity.getFragment(fragmenttag);
+                ((DiscoverFragmentMain)f).startRefreshAdapter(nListFromJson);
+            }
         }
-
-
 
     }
 
@@ -201,9 +203,6 @@ public class gsonConversion {
         NavigationActivity activity = (NavigationActivity)context;
 
 
-
-
-
        /* if(fragmenttag==1&&totalrefresh.equals("0")){
             Fragment f = activity.getFragment(fragmenttag);
             ((MyFeedFragment)f).startAdapter(mListFromJson,num_read);
@@ -239,12 +238,15 @@ public class gsonConversion {
 
         NavigationActivity activity = (NavigationActivity)context;
         if(fragmenttag==2&&totalrefresh.equals("0")) {
-            Fragment f = activity.getFragment(fragmenttag);
-            ((FollowingFragment) f).startAdapter(pListFromJson,followunseen);
+            if(activity!=null){
+                Fragment f = activity.getFragment(fragmenttag);
+                ((FollowingFragment) f).startAdapter(pListFromJson,followunseen);}
         }else if(fragmenttag==2&&totalrefresh.equals("1")){
-            Fragment f = activity.getFragment(fragmenttag);
-            ((FollowingFragment)f).startRefreshAdapter(pListFromJson,followunseen);
-        }
+            if(activity!=null){
+                Fragment f = activity.getFragment(fragmenttag);
+                ((FollowingFragment)f).startRefreshAdapter(pListFromJson,followunseen);
+            }
+             }
     }
 
 
@@ -272,14 +274,19 @@ public class gsonConversion {
 
         DetailsActivity activity = (DetailsActivity) context;
 
-        if(totalRefresh.equals("0")) {
+        if(activity!=null){
 
-            activity.startAdapter(mSubstories, StoryTitle,StoryId);
-        }else if (totalRefresh.equals("1")){
-            activity.startRefreshAdapter(mSubstories,StoryId);
+            if(totalRefresh.equals("0")) {
+
+                activity.startAdapter(mSubstories, StoryTitle,StoryId);
+            }else if (totalRefresh.equals("1")){
+                activity.startRefreshAdapter(mSubstories,StoryId);
+            }
+
+            activity.sendFirebaseExpandEvent(mSubstories);
+
         }
 
-        activity.sendFirebaseExpandEvent(mSubstories);
 
     }
 

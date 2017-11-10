@@ -28,15 +28,16 @@
             android:lineSpacingExtra="0sp"
             tools:text="Governance"
             android:layout_marginLeft="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginTop="24dp"
             fontPath= "fonts/montserrat-bold.otf"
             />
 
 
         <RelativeLayout
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
             android:background="?android:attr/selectableItemBackground"
-            android:layout_marginBottom="14dp"
             android:id="@+id/filterlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
