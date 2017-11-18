@@ -87,19 +87,29 @@ public class NetworkUtilswithTokenFollow {
                                         if (params.get("page").equals("0")) {
                                             NavigationActivity activity = (NavigationActivity) mcontext;
 
-                                            if (fragmenttag == 2) {
+                                            if (fragmenttag == 1) {
                                                 Fragment f = activity.getFragment(fragmenttag);
                                                 ((FollowingFragment) f).Nofollowers();
+                                                activity.NumberofUnread("0");
 
                                             }
                                         } else {
                                            NavigationActivity activity = (NavigationActivity) mcontext;
-                                            if (fragmenttag == 2) {
+                                            if (fragmenttag == 1) {
                                                 Fragment f = activity.getFragment(fragmenttag);
                                                 ((FollowingFragment) f).stopProgress();
                                             }
 
                                         }
+                                    }
+                                }else{
+                                    if(mcontext instanceof NavigationActivity){
+                                        NavigationActivity activity = (NavigationActivity) mcontext;
+                                        if (fragmenttag == 1) {
+                                            Fragment f = activity.getFragment(fragmenttag);
+                                            ((FollowingFragment) f).stopProgress();
+                                        }
+
                                     }
                                 }
 

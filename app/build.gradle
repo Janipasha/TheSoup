@@ -5,13 +5,13 @@ android {
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "in.thesoup.thesoupstoriesnews"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
-        versionName '1.1.5'
+        versionName '1.1.7'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
-        versionCode 10
+        versionCode 12
     }
     buildTypes {
         release {
@@ -47,7 +47,6 @@ dependencies {
     })
     compile 'com.google.android.gms:play-services-auth:11.4.0'
     compile 'com.google.android.gms:play-services-plus:11.4.0'
-    compile 'com.google.firebase:firebase-crash:11.4.0'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.google.code.gson:gson:2.8.0'
@@ -66,6 +65,10 @@ dependencies {
     compile 'com.uxcam:uxcam:2.6.0@aar'
     compile 'com.clevertap.android:clevertap-android-sdk:3.1.7'
     compile 'com.google.android.gms:play-services-base:11.4.0'
+    compile 'com.google.firebase:firebase-crash:11.4.0'
+    compile 'com.android.support:customtabs:25.2.0'
+
+
 
 }
 

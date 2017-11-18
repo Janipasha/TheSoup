@@ -104,6 +104,11 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
+            android:name="in.thesoup.thesoupstoriesnews.activities.CategoryActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name="in.thesoup.thesoupstoriesnews.activities.ArticleWebViewActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />

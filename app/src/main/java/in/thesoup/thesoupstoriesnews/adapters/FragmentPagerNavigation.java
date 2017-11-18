@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import in.thesoup.thesoupstoriesnews.fragments.DiscoverFragmentMain;
 import in.thesoup.thesoupstoriesnews.fragments.FollowingFragment;
 import in.thesoup.thesoupstoriesnews.fragments.HomeFragment;
+import in.thesoup.thesoupstoriesnews.fragments.HomeFragment1;
 
 /**
  * Created by Jani on 07-09-2017.
@@ -29,11 +30,10 @@ public class FragmentPagerNavigation extends FragmentStatePagerAdapter {
 
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
-                    return new DiscoverFragmentMain();
+                    return new HomeFragment1();
                 case 1: // Fragment # 0 - This will show FirstFragment different title
-                    return new HomeFragment();
-                case 2:
                     return new FollowingFragment();
+
                 default:
                     return null;
             }}
@@ -47,15 +47,12 @@ public class FragmentPagerNavigation extends FragmentStatePagerAdapter {
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             if (position == 0) {
-                return "Discover";
-
-            } else if (position == 1){
                 return "Home";
             } else {
                 return "Following";

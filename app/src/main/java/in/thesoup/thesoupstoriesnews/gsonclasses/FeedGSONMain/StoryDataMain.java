@@ -23,6 +23,7 @@ public class StoryDataMain {
     String unread_count;
    List< SubstoriesMain> substories;
     String follow_status;
+    String substory_read;
 
 
     public String getStoryIdMain(){

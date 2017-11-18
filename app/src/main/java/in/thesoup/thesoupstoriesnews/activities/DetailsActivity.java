@@ -211,15 +211,15 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
         }
 
         Bundle params = new Bundle();
-        params.putString("screen_name", "collection_screen");
+        params.putString("screen_name", "story_screen");
         params.putString("category", "screen_view");
         params.putString("collection_id", StoryId);
         params.putString("follow_status", followStatus);
         params.putString("collection_name", StoryTitle);
-        mFirebaseAnalytics.logEvent("viewed_screen_collection", params);
+        mFirebaseAnalytics.logEvent("viewed_screen_story", params);
 
         HashMap<String,Object> nparams = new HashMap<>();
-        nparams.put("screen_name", "collection_screen");
+        nparams.put("screen_name", "story_screen");
         nparams.put("category", "screen_view");
         nparams.put("collection_id", StoryId);
         if(followStatus!=null&&!followStatus.isEmpty()){
@@ -228,7 +228,7 @@ public class DetailsActivity extends AppCompatActivity implements SwipeRefreshLa
             nparams.put("follow_status","0");
         }
         nparams.put("collection_name", StoryTitle);
-        cleverTap.event.push("viewed_screen_collection", nparams);
+        cleverTap.event.push("viewed_screen_story", nparams);
 
 
 

@@ -153,7 +153,7 @@ public class FilterActivity extends AppCompatActivity {
         Bundle params = new Bundle();
         params.putString("screen_name", "filters_screen");
         params.putString("category", "screen_view");
-        mFirebaseAnalytics.logEvent("viewed_screen_filters", params);
+        mFirebaseAnalytics.logEvent("viewed_screen_managehome", params);
 
         HashMap<String,Object> nparams = new HashMap<>();
         nparams.put("screen_name", "filters_screen");
@@ -165,7 +165,7 @@ public class FilterActivity extends AppCompatActivity {
         }else if(resetfilter.equals("1")){
             nparams.put("from","discover");
         }
-        cleverTap.event.push("viewed_screen_filters", nparams);
+        cleverTap.event.push("viewed_screen_managehome", nparams);
 
         // End Analytics
 
@@ -248,7 +248,12 @@ public class FilterActivity extends AppCompatActivity {
             oparams.put("category", "tap");
             oparams.put("count_filters_selected", String.valueOf(presentFilterCount));
 
-            cleverTap.event.push("tap_filters_accept", oparams);
+            if(v==apply){
+                cleverTap.event.push("tap_filters_apply", oparams);
+            }else if(v==next){
+                cleverTap.event.push("tap_filters_next", oparams);
+            }
+
 
 
             // End Analytics

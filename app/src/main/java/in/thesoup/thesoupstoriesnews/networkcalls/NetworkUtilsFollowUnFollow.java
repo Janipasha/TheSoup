@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import in.thesoup.thesoupstoriesnews.activities.CategoryActivity;
 import in.thesoup.thesoupstoriesnews.activities.DetailsActivity;
 //import in.thesoup.thesoup.Activities.LoginActivity;
 //import in.thesoup.thesoup.Activities.feedActivity;
@@ -28,6 +29,7 @@ import in.thesoup.thesoupstoriesnews.activities.NavigationActivity;
 import in.thesoup.thesoupstoriesnews.fragments.DiscoverFragmentMain;
 import in.thesoup.thesoupstoriesnews.fragments.HomeFragment;
 import in.thesoup.thesoupstoriesnews.SoupContract;
+import in.thesoup.thesoupstoriesnews.fragments.HomeFragment1;
 
 /**
  * Created by Jani on 17-04-2017.
@@ -87,6 +89,7 @@ public class NetworkUtilsFollowUnFollow {
                            NavigationActivity activity = (NavigationActivity) mcontext;
 
 
+
                             if (fragmenttag == 0) {
 
                                 Fragment f = activity.getFragment(fragmenttag);
@@ -100,32 +103,36 @@ public class NetworkUtilsFollowUnFollow {
 
                                     // application.sendEventCollectionUser(mTracker, SoupContract.CONVERSION, SoupContract.FOLLOW, SoupContract.HOME_PAGE_DISCOVE, Storytitle, String.valueOf(Story_id), pref.getString(SoupContract.FB_ID, null), pref.getString(SoupContract.FIRSTNAME, null) + pref.getString(SoupContract.LASTNAME, null));
 
-                                    ((DiscoverFragmentMain) f).demo1(position, "1");
+                                    ((HomeFragment1) f).demo1(position, "1");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    ((DiscoverFragmentMain) f).demo1(position, "0");
-                                }
-                            } else if (fragmenttag == 1) {
-
-                                Fragment f = activity.getFragment(fragmenttag);
-
-
-                                try {
-                                    Story_id = response.getJSONObject("data").getString("story_id");
-                                    String Storytitle = "";
-
-                                    //analytics
-
-                                    // application.sendEventCollectionUser(mTracker, SoupContract.CONVERSION, SoupContract.FOLLOW, SoupContract.HOME_PAGE_DISCOVE, Storytitle, String.valueOf(Story_id), pref.getString(SoupContract.FB_ID, null), pref.getString(SoupContract.FIRSTNAME, null) + pref.getString(SoupContract.LASTNAME, null));
-
-                                    ((HomeFragment) f).demo1(position, "1");
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                    ((HomeFragment) f).demo1(position, "0");
+                                    ((HomeFragment1) f).demo1(position, "0");
                                 }
 
                             }
                         }
+
+
+                        if(mcontext instanceof CategoryActivity){
+                            CategoryActivity activity =(CategoryActivity)mcontext;
+
+                            try {
+                                Story_id = response.getJSONObject("data").getString("story_id");
+
+                                String Storytitle = "";
+
+                                //analytics
+
+                                //application.sendEventCollectionUser(mTracker, SoupContract.CONVERSION, SoupContract.FOLLOW, SoupContract.COLLECTION_PAG, Storytitle, String.valueOf(Story_id), pref.getString(SoupContract.FB_ID, null),pref.getString(SoupContract.FIRSTNAME, null) + pref.getString(SoupContract.LASTNAME, null));
+
+                                activity.demo(position,"1");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                activity.demo(position,"0");
+                            }
+
+                        }
+
 
                         if (mcontext instanceof DetailsActivity) {
 
@@ -147,28 +154,6 @@ public class NetworkUtilsFollowUnFollow {
                             }
 
                         }
-
-
-                       /* if (mcontext instanceof feedActivity) {
-
-                            feedActivity activity = (feedActivity) mcontext;
-
-                            try {
-                                Story_id = response.getJSONObject("data").getString("story_id");
-                                String Storytitle = "";
-
-                                //analytics
-
-                               // application.sendEventCollectionUser(mTracker, SoupContract.CONVERSION, SoupContract.FOLLOW, SoupContract.HOME_PAGE_MYFEED, Storytitle, String.valueOf(Story_id), pref.getString(SoupContract.FB_ID, null), pref.getString(SoupContract.FIRSTNAME, null) + pref.getString(SoupContract.LASTNAME, null));
-
-
-                                activity.demo1(position, "1");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                activity.demo1(position, "0");
-                            }
-
-                        }*/
 
 
                     }
@@ -227,19 +212,7 @@ public class NetworkUtilsFollowUnFollow {
                             NavigationActivity activity = (NavigationActivity) mcontext;
 
                             if(activity!=null){
-                                if (fragmenttag == 0) {
-                                    Fragment f = activity.getFragment(fragmenttag);
-                                    try {
-                                        Story_id = response.getJSONObject("data").getString("story_id");
-                                        String Storytitle = "";
-                                        //analytics
-                                        //application.sendEventCollectionUser(mTracker, SoupContract.CONVERSION, SoupContract.UNFOLLOW, SoupContract.HOME_PAGE_DISCOVER, Storytitle, String.valueOf(Story_id), pref.getString(SoupContract.FB_ID, null),pref.getString(SoupContract.FIRSTNAME, null) + pref.getString(SoupContract.LASTNAME, null));
-                                        ((DiscoverFragmentMain) f).demo1(position, "0");
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                        ((DiscoverFragmentMain) f).demo1(position, "1");
-                                    }
-                                } else if (fragmenttag == 1) {
+                                 if (fragmenttag == 0) {
                                     Fragment f = activity.getFragment(fragmenttag);
                                     try {
                                         Story_id = response.getJSONObject("data").getString("story_id");
@@ -247,10 +220,10 @@ public class NetworkUtilsFollowUnFollow {
                                         //analytics
                                         // application.sendEventCollectionUser(mTracker, SoupContract.CONVERSION, SoupContract.FOLLOW, SoupContract.HOME_PAGE_DISCOVE, Storytitle, String.valueOf(Story_id), pref.getString(SoupContract.FB_ID, null), pref.getString(SoupContract.FIRSTNAME, null) + pref.getString(SoupContract.LASTNAME, null));
                                         Log.d("position", String.valueOf(position));
-                                        ((HomeFragment) f).demo1(position, "0");
+                                        ((HomeFragment1) f).demo1(position, "0");
                                     } catch (JSONException e) {
                                         e.printStackTrace();
-                                        ((HomeFragment) f).demo1(position, "1");
+                                        ((HomeFragment1) f).demo1(position, "1");
                                     }
                                 }
                             }
@@ -270,19 +243,25 @@ public class NetworkUtilsFollowUnFollow {
                                 }
                             }
                             }
-                            /* else if (mcontext instanceof feedActivity) {
-                            feedActivity activity = (feedActivity) mcontext;
+
+
+                        if(mcontext instanceof CategoryActivity){
+                            CategoryActivity activity =(CategoryActivity)mcontext;
+
                             try {
                                 Story_id = response.getJSONObject("data").getString("story_id");
+
                                 String Storytitle = "";
-                                //analytics
-                                //application.sendEventCollectionUser(mTracker, SoupContract.CONVERSION, SoupContract.UNFOLLOW, SoupContract.HOME_PAGE_MYFEED, Storytitle, String.valueOf(Story_id), pref.getString(SoupContract.FB_ID, null), pref.getString(SoupContract.FIRSTNAME, null) + pref.getString(SoupContract.LASTNAME, null));
-                                activity.demo1(position, "0");
+
+
+                                activity.demo(position,"0");
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                activity.demo1(position, "1");
+                                activity.demo(position,"1");
                             }
-                        }*/
+
+                        }
+
                     }
                 }, new Response.ErrorListener() {
 

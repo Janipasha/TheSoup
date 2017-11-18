@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f2f2f2"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+
+
+                <TextView
+                    android:id="@+id/num_articles"
+                    fontPath="fonts/montserrat-medium.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="15dp"
+                    android:lineSpacingExtra="0sp"
+                    android:textColor="@color/com_facebook_blue"
+                    android:textSize="10sp"
+                    tools:text="7 Articles -" />
+
+                <TextView
+                    android:id="@+id/following_card_time"
+                    fontPath="fonts/montserrat-light.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/num_articles"
+                    android:layout_toRightOf="@id/num_articles"
+                    android:lineSpacingExtra="0sp"
+                    android:textColor="#757575"
+                    android:textSize="10sp"
+                    tools:text="12 hours ago " />
+
+                <TextView
+                    android:id="@+id/sharetext"
+                    fontPath="fonts/montserrat-medium.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/num_articles"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:lineSpacingExtra="1sp"
+                    android:paddingTop="10dp"
+                    android:textColor="@color/com_facebook_blue"
+                    android:textSize="9sp"
+                    tools:text="SHARE" />
+
+                <ImageView
+                    android:id="@+id/share_icon"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignTop="@id/num_articles"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_toLeftOf="@id/sharetext"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/icons8_share" />
+
+                <RelativeLayout
+                    android:id="@+id/text_article_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/num_articles"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="15dp"
+                    android:background="?android:attr/selectableItemBackground">
+
+
+                    <FrameLayout
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="155dp"
+                        android:layout_height="116dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:id="@+id/image">
+
+                        <ImageView
+                            android:id="@+id/article_image"
+                            android:layout_width="155dp"
+                            android:layout_height="116dp"
+                            android:adjustViewBounds="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/icons8_journey_filled" />
+
+                        <ImageView
+                            android:id="@+id/readstatus_story_bottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/readblur"
+                            android:contentDescription="@string/contentdescimage"
+                            android:elevation="6dp"
+                            android:scaleType="fitXY"
+                            />
+
+                        <TextView
+                            android:id="@+id/readstatus_text_story_bottom"
+                            fontPath="fonts/montserrat-bold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:textSize="11dp"
+                            android:letterSpacing="0.03"
+                            android:text="SEEN"
+                            android:elevation="6dp"
+                            android:textColor="#000000"
+                            />
+
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_alignParentLeft="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@id/image"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/article_text"
+                            fontPath="fonts/montserrat-regular.otf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="-0.02"
+                            android:lineSpacingExtra="2sp"
+                            android:textColor="#222222"
+                            android:textSize="14sp"
+                            tools:text="Presidential election | Modi-Shah ace: Who can object to a Dalit rights crusader Ram Nath Kovind" />
+
+                        <TextView
+                            android:id="@+id/follow_card_source"
+                            fontPath="fonts/montserrat-light.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:lineSpacingExtra="0sp"
+                            android:textColor="#757575"
+                            android:textSize="10sp"
+                            tools:text="The Times Of India" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+                <View
+                    android:id="@+id/bottom_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/text_article_layout"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/black" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="0dp">
+
+                <ImageView
+                    android:id="@+id/filter_image"
+                    fontPath="fonts/montserrat-light.ttf"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/icons8_logout" />
+
+                <RelativeLayout
+                    android:id="@+id/follow_icon_layout"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp">
+
+                    <ImageView
+                        android:id="@+id/followicon"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="-2dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:src="@drawable/icons8_plus_filled" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/topstory_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toLeftOf="@id/follow_icon_layout"
+                    android:layout_toRightOf="@id/filter_image"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:id="@+id/story_name"
+                        fontPath="fonts/montserrat-regular.otf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="1dp"
+                        android:layout_marginRight="12dp"
+                        android:lineSpacingExtra="0sp"
+                        android:text="India - China Relations"
+                        android:textColor="#757575"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/view_full_story"
+                        fontPath="fonts/montserrat-regular.otf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/story_name"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="1dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginTop="-3dp"
+                        android:lineSpacingExtra="1sp"
+                        android:text="VIEW FULL STORY"
+                        android:textColor="#757575"
+                        android:textSize="9sp" />
+
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

@@ -9,6 +9,7 @@
     <LinearLayout
         android:id="@+id/firstarticle"
         android:orientation="vertical"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

@@ -9,7 +9,6 @@
     tools:ignore="MissingPrefix">
 
     <TextView
-        android:visibility="invisible"
         android:id="@+id/hello_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,10 +17,11 @@
         android:textColor="#222222"
         android:lineSpacingExtra="0sp"
         tools:text="Hello Aditya"
-       />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
-        android:visibility="invisible"
         android:id="@+id/manage_home"
         android:padding="10dp"
         android:layout_alignParentRight="true"
@@ -36,7 +36,6 @@
         tools:text="Manage Home" />
 
     <TextView
-        android:visibility="invisible"
         android:layout_marginTop="15dp"
         android:layout_below="@id/hello_user"
         android:id="@+id/follwedstories_message"
@@ -50,13 +49,11 @@
 
 
     <TextView
-        android:visibility="invisible"
         android:layout_marginBottom="15dp"
         android:layout_below="@id/follwedstories_message"
         android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
         fontPath="fonts/montserrat-bold.ttf"
         android:textSize="20sp"
         android:textColor="#222222"

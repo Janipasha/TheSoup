@@ -43,13 +43,13 @@ import in.thesoup.thesoupstoriesnews.R;
 public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.StoryDataViewHolder> {
 
 
-        private List<Substories> StoryDataList;
-        private Context context;
-        private int clickposition, fragmenttag;
-        private SharedPreferences pref;
-        private String storyColour,StoryId;
-        private FirebaseAnalytics mFirebaseAnalytics;
-        private CleverTapAPI clevertap;
+    private List<Substories> StoryDataList;
+    private Context context;
+    private int clickposition, fragmenttag;
+    private SharedPreferences pref;
+    private String storyColour, StoryId;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private CleverTapAPI clevertap;
 
 
     public DetailsmainAdapter(Context context, List<Substories> listDataHeader, String storyColour) {
@@ -66,345 +66,336 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
         }
     }
 
-    public void refreshData(List<Substories> substories,String StoryId) {
+    public void refreshData(List<Substories> substories, String StoryId) {
         StoryDataList.addAll(substories);
         this.StoryId = StoryId;
         notifyDataSetChanged();
     }
 
-    public void totalRefreshData(List<Substories> substories,String StoryId){
+    public void totalRefreshData(List<Substories> substories, String StoryId) {
         this.StoryDataList = substories;
         this.StoryId = StoryId;
         notifyDataSetChanged();
     }
 
-        public class StoryDataViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class StoryDataViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-            public TextView  update3, time3, source1, source2, source3, source1time, source2time, source3time, articletitle1, articletitle2, articletitle3,bottomtextshowmore,
-                    bottomtextnumarticles,readstatus;
+        public TextView update3, time3, source1, source2, source3, source1time, source2time, source3time, articletitle1, articletitle2, articletitle3, bottomtextshowmore,
+                bottomtextnumarticles, readstatus;
 
-            public ImageView heroimage, shareicon, sourceimage1, sourceimage2, sourceimage3, circle3,seenImage;
+        public ImageView heroimage, shareicon, sourceimage1, sourceimage2, sourceimage3, circle3, seenImage;
 
-            public LinearLayout firstarticle,secondarticle, thirdarticle, articlelistmain,bottommostlinelayout;
+        public LinearLayout firstarticle, secondarticle, thirdarticle, articlelistmain, bottommostlinelayout;
 
-            public View sideline6,bottommostline,sideline;
+        public View sideline6, bottommostline, sideline;
 
-            public StoryDataViewHolder(View itemView) {
-                super(itemView);
-
-
+        public StoryDataViewHolder(View itemView) {
+            super(itemView);
 
 
-                update3 = (TextView) itemView.findViewById(R.id.update3);
-                time3 = (TextView) itemView.findViewById(R.id.time3);
-                source1 = (TextView) itemView.findViewById(R.id.source1);
-                source2 = (TextView) itemView.findViewById(R.id.source2);
-                source3 = (TextView) itemView.findViewById(R.id.source3);
-                source1time = (TextView) itemView.findViewById(R.id.source1_time);
-                source2time = (TextView) itemView.findViewById(R.id.source2_time);
-                source3time = (TextView) itemView.findViewById(R.id.source3_time);
-                articletitle1 = (TextView) itemView.findViewById(R.id.article_title1);
-                articletitle2 = (TextView) itemView.findViewById(R.id.article_title2);
-                articletitle3 = (TextView) itemView.findViewById(R.id.article_title3);
-                bottomtextshowmore = (TextView)itemView.findViewById(R.id.bottomtext_showall) ;
-                bottomtextnumarticles =(TextView)itemView.findViewById(R.id.bottomtext_numarticles);
-                readstatus = (TextView)itemView.findViewById(R.id.readstatus_text_story);
+            update3 = (TextView) itemView.findViewById(R.id.update3);
+            time3 = (TextView) itemView.findViewById(R.id.time3);
+            source1 = (TextView) itemView.findViewById(R.id.source1);
+            source2 = (TextView) itemView.findViewById(R.id.source2);
+            source3 = (TextView) itemView.findViewById(R.id.source3);
+            source1time = (TextView) itemView.findViewById(R.id.source1_time);
+            source2time = (TextView) itemView.findViewById(R.id.source2_time);
+            source3time = (TextView) itemView.findViewById(R.id.source3_time);
+            articletitle1 = (TextView) itemView.findViewById(R.id.article_title1);
+            articletitle2 = (TextView) itemView.findViewById(R.id.article_title2);
+            articletitle3 = (TextView) itemView.findViewById(R.id.article_title3);
+            bottomtextshowmore = (TextView) itemView.findViewById(R.id.bottomtext_showall);
+            bottomtextnumarticles = (TextView) itemView.findViewById(R.id.bottomtext_numarticles);
+            readstatus = (TextView) itemView.findViewById(R.id.readstatus_text_story);
 
-                heroimage = (ImageView) itemView.findViewById(R.id.heroimage);
-                seenImage = (ImageView)itemView.findViewById(R.id.readstatus_story);
-                shareicon = (ImageView) itemView.findViewById(R.id.shareicon);
-                sourceimage1 = (ImageView) itemView.findViewById(R.id.sourceImage1);
-                sourceimage2 = (ImageView) itemView.findViewById(R.id.sourceImage2);
-                sourceimage3 = (ImageView) itemView.findViewById(R.id.sourceImage3);
-                circle3 = (ImageView) itemView.findViewById(R.id.circle3);
-
-
-                sideline6 = (View)itemView.findViewById(R.id.sideline6);
-                sideline = (View)itemView.findViewById(R.id.sideline);
+            heroimage = (ImageView) itemView.findViewById(R.id.heroimage);
+            seenImage = (ImageView) itemView.findViewById(R.id.readstatus_story);
+            shareicon = (ImageView) itemView.findViewById(R.id.shareicon);
+            sourceimage1 = (ImageView) itemView.findViewById(R.id.sourceImage1);
+            sourceimage2 = (ImageView) itemView.findViewById(R.id.sourceImage2);
+            sourceimage3 = (ImageView) itemView.findViewById(R.id.sourceImage3);
+            circle3 = (ImageView) itemView.findViewById(R.id.circle3);
 
 
-                firstarticle = (LinearLayout)itemView.findViewById(R.id.firstarticle);
-                secondarticle = (LinearLayout)itemView.findViewById(R.id.secondarticle);
-                thirdarticle = (LinearLayout)itemView.findViewById(R.id.thirdarticle);
-                articlelistmain = (LinearLayout)itemView.findViewById(R.id.article_list_main);
-                bottommostlinelayout = (LinearLayout)itemView.findViewById(R.id.bottommostlinelayout);
-                bottommostline =(View)itemView.findViewById(R.id.bottommostline);
-
-                firstarticle.setOnClickListener(this);
-                secondarticle.setOnClickListener(this);
-                thirdarticle.setOnClickListener(this);
-
-                bottomtextnumarticles.setOnClickListener(this);
-                bottomtextshowmore.setOnClickListener(this);
-                shareicon.setOnClickListener(this);
-
-                heroimage.setOnClickListener(this);
-                seenImage.setOnClickListener(this);
-                readstatus.setOnClickListener(this);
+            sideline6 = (View) itemView.findViewById(R.id.sideline6);
+            sideline = (View) itemView.findViewById(R.id.sideline);
 
 
+            firstarticle = (LinearLayout) itemView.findViewById(R.id.firstarticle);
+            secondarticle = (LinearLayout) itemView.findViewById(R.id.secondarticle);
+            thirdarticle = (LinearLayout) itemView.findViewById(R.id.thirdarticle);
+            articlelistmain = (LinearLayout) itemView.findViewById(R.id.article_list_main);
+            bottommostlinelayout = (LinearLayout) itemView.findViewById(R.id.bottommostlinelayout);
+            bottommostline = (View) itemView.findViewById(R.id.bottommostline);
 
-                itemView.setOnClickListener(this);
+            firstarticle.setOnClickListener(this);
+            secondarticle.setOnClickListener(this);
+            thirdarticle.setOnClickListener(this);
 
+            bottomtextnumarticles.setOnClickListener(this);
+            bottomtextshowmore.setOnClickListener(this);
+            shareicon.setOnClickListener(this);
 
-            }
-
-            @Override
-            public void onClick(View view) {
-                int mposition = getAdapterPosition();
-                String storyColor = storyColour;
-                String substoryId = StoryDataList.get(mposition).getSubstoryId();
-                String substoryname = StoryDataList.get(mposition).getSubstoryName();
-
-                if(view ==bottomtextnumarticles||view==bottomtextshowmore||view==heroimage||view==seenImage||view==readstatus){
-
-
-                        List<Articles> mArticles = StoryDataList.get(getAdapterPosition()).getArticles();
-                        Intent intent = new Intent(context, ArticlesActivity.class);
-                        intent.putExtra("LISTARTICLES",(Serializable)mArticles);
-                         intent.putExtra("substory_id",substoryId);
-                        intent.putExtra("story_color",storyColor);
-                        context.startActivity(intent);
+            heroimage.setOnClickListener(this);
+            seenImage.setOnClickListener(this);
+            readstatus.setOnClickListener(this);
 
 
-                    if(view==heroimage||view==seenImage||view==readstatus){
-                        Bundle nparams = new Bundle();
-                        nparams.putString("screen_name", "collection_screen");
-                        nparams.putString("category", "tap");
-                        nparams.putString("position_card_collection",String.valueOf(mposition));
-                        nparams.putString("substory_id",substoryId);
-                        mFirebaseAnalytics.logEvent("tap_card_cover", nparams);
+            itemView.setOnClickListener(this);
 
-
-                        HashMap<String,Object> aparams = new HashMap<>();
-                        aparams.put("screen_name", "collection_screen");
-                        aparams.put("category", "tap");
-                        aparams.put("position_card_collection",String.valueOf(mposition));
-                        aparams.put("substory_id",substoryId);
-                        aparams.put("substory_name",substoryname);
-                        clevertap.event.push("tap_card_cover",aparams);
-                    }
-
-                    if(view==bottomtextshowmore||view==bottomtextnumarticles){
-                        Bundle nparams = new Bundle();
-                        nparams.putString("screen_name", "collection_screen");
-                        nparams.putString("category", "tap");
-                        nparams.putString("substory_id",substoryId);
-                        nparams.putString("position_card_collection",String.valueOf(mposition));
-                        mFirebaseAnalytics.logEvent("tap_showall", nparams);
-
-                        HashMap<String,Object> aparams = new HashMap<>();
-                        aparams.put("screen_name", "collection_screen");
-                        aparams.put("category", "tap");
-                        aparams.put("position_card_collection",String.valueOf(mposition));
-                        aparams.put("substory_id",substoryId);
-                        aparams.put("substory_name",substoryname);
-                        clevertap.event.push("tap_showall",aparams);
-
-                    }
-                  }
-
-
-                if (view ==firstarticle){
-
-                    String articleUrl = StoryDataList.get(mposition).getArticles().get(0).getUrl();
-                    String articleTitle = StoryDataList.get(mposition).getArticles().get(0).getArticleTitle();
-                    String articleSource = StoryDataList.get(mposition).getArticles().get(0).getSourceName();
-                    Intent intent = new Intent(context, ArticleWebViewActivity.class);
-                    intent.putExtra("ArticleURL", articleUrl);
-                    intent.putExtra("substory_id",substoryId);
-                    intent.putExtra("storycolor", storyColor);
-                    context.startActivity(intent);
-
-                    Bundle nparams = new Bundle();
-                    nparams.putString("screen_name", "collection_screen");
-                    nparams.putString("category", "tap"); //(only if possible)
-                    nparams.putString("position_card_collection",String.valueOf(mposition));
-                    nparams.putString("position_card_entity",String.valueOf(1));
-                    nparams.putString("article_title",articleTitle);
-                    nparams.putString("substory_id",substoryId);
-                    mFirebaseAnalytics.logEvent("tap_entity", nparams);
-
-                    HashMap<String,Object> aparams = new HashMap<>();
-                    aparams.put("screen_name", "collection_screen");
-                    aparams.put("category", "tap"); //(only if possible)
-                    aparams.put("position_card_collection",String.valueOf(mposition));
-                    aparams.put("position_card_entity",String.valueOf(1));
-                    aparams.put("article_title",articleTitle);
-                    aparams.put("substory_id",substoryId);
-                    aparams.put("substory_name",substoryname);
-                    aparams.put("article_source",articleSource);
-                    clevertap.event.push("tap_entity", aparams);
-
-                }
-
-                if(view == secondarticle){
-                    String articleUrl = StoryDataList.get(mposition).getArticles().get(1).getUrl();
-                    String articleTitle = StoryDataList.get(mposition).getArticles().get(1).getArticleTitle();
-                    String articleSource = StoryDataList.get(mposition).getArticles().get(1).getSourceName();
-                    Intent intent = new Intent(context, ArticleWebViewActivity.class);
-                    intent.putExtra("substory_id",substoryId);
-                    intent.putExtra("ArticleURL", articleUrl);
-                    intent.putExtra("storycolor", storyColor);
-                    context.startActivity(intent);
-
-                    Bundle nparams = new Bundle();
-                    nparams.putString("screen_name", "collection_screen");
-                    nparams.putString("category", "tap"); //(only if possible)
-                    nparams.putString("position_card_collection",String.valueOf(mposition));
-                    nparams.putString("position_card_entity",String.valueOf(2));
-                    nparams.putString("article_title",articleTitle);
-                    nparams.putString("substory_id",substoryId);
-                    mFirebaseAnalytics.logEvent("tap_entity", nparams);
-
-                    HashMap<String,Object> aparams = new HashMap<>();
-                    aparams.put("screen_name", "collection_screen");
-                    aparams.put("category", "tap"); //(only if possible)
-                    aparams.put("position_card_collection",String.valueOf(mposition));
-                    aparams.put("position_card_entity",String.valueOf(2));
-                    aparams.put("article_title",articleTitle);
-                    aparams.put("substory_id",substoryId);
-                    aparams.put("substory_name",substoryname);
-                    aparams.put("article_source",articleSource);
-                    clevertap.event.push("tap_entity", aparams);
-
-                }
-
-                if(view == thirdarticle){
-                    String articleUrl = StoryDataList.get(mposition).getArticles().get(2).getUrl();
-                    String articleTitle = StoryDataList.get(mposition).getArticles().get(2).getArticleTitle();
-                    String articleSource = StoryDataList.get(mposition).getArticles().get(2).getSourceName();
-                    Intent intent = new Intent(context, ArticleWebViewActivity.class);
-                    intent.putExtra("ArticleURL", articleUrl);
-                    intent.putExtra("storycolor", storyColor);
-                    intent.putExtra("substory_id",substoryId);
-                    context.startActivity(intent);
-
-                    Bundle nparams = new Bundle();
-                    nparams.putString("screen_name", "collection_screen");
-                    nparams.putString("category", "tap"); //(only if possible)
-                    nparams.putString("position_card_collection",String.valueOf(mposition));
-                    nparams.putString("position_card_entity",String.valueOf(3));
-                    nparams.putString("substory_id",substoryId);
-                    nparams.putString("article_title",articleTitle);
-                    mFirebaseAnalytics.logEvent("tap_entity", nparams);
-
-                    HashMap<String,Object> aparams = new HashMap<>();
-                    aparams.put("screen_name", "collection_screen");
-                    aparams.put("category", "tap"); //(only if possible)
-                    aparams.put("position_card_collection",String.valueOf(mposition));
-                    aparams.put("position_card_entity",String.valueOf(3));
-                    aparams.put("substory_id",substoryId);
-                    aparams.put("article_title",articleTitle);
-                    aparams.put("article_source",articleSource);
-                    aparams.put("substory_name",substoryname);
-                    clevertap.event.push("tap_entity", aparams);
-                }
-
-                if(view==shareicon){
-
-
-                    Bundle nparams = new Bundle();
-                    nparams.putString("screen_name", "collection_screen");
-                    nparams.putString("category", "conversion"); //(only if possible)
-                    nparams.putString("position_card_collection",String.valueOf(mposition));;
-                    nparams.putString("substory_id",substoryId);
-                    mFirebaseAnalytics.logEvent("tap_shareicon", nparams);
-
-
-                    HashMap<String,Object> aparams = new HashMap<>();
-                    aparams.put("screen_name", "collection_screen");
-                    aparams.put("category", "conversion"); //(only if possible)
-                    aparams.put("position_card_collection",String.valueOf(mposition));;
-                    aparams.put("substory_id",substoryId);
-                    aparams.put("substory_name",substoryname);
-                    clevertap.event.push("tap_shareicon",aparams);
-
-                    String URL =  "http://thesoup.in/share/"+StoryId+"/"+StoryDataList.get(mposition).getSubstoryId()+"?utm_source=appshare&utm_medium="+StoryId+"&utm_campaign="+ StoryDataList.get(mposition).getSubstoryId();;
-                    Intent i = new Intent(Intent.ACTION_SEND);
-                    i.setType("text/plain");
-                    i.putExtra(Intent.EXTRA_SUBJECT,  "Share via");
-                    i.putExtra(Intent.EXTRA_TEXT, URL);
-                    context.startActivity(Intent.createChooser(i,"Share via"));
-
-
-                }
-
-
-            }
 
         }
 
-
-
-
         @Override
-        public DetailsmainAdapter.StoryDataViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detailscard_main, parent, false);
-                return new StoryDataViewHolder(view);
-             }
+        public void onClick(View view) {
+            int mposition = getAdapterPosition();
+            String storyColor = storyColour;
+            String substoryId = StoryDataList.get(mposition).getSubstoryId();
+            String substoryname = StoryDataList.get(mposition).getSubstoryName();
+
+            if (view == bottomtextnumarticles || view == bottomtextshowmore || view == heroimage || view == seenImage || view == readstatus) {
 
 
+                List<Articles> mArticles = StoryDataList.get(getAdapterPosition()).getArticles();
+                Intent intent = new Intent(context, ArticlesActivity.class);
+                intent.putExtra("LISTARTICLES", (Serializable) mArticles);
+                intent.putExtra("substory_id", substoryId);
+                intent.putExtra("story_color", storyColor);
+                context.startActivity(intent);
 
 
-
-        @Override
-        public void onBindViewHolder(DetailsmainAdapter.StoryDataViewHolder holder, int position) {
-
-
-
-            Log.e("story_Id details",StoryDataList.get(position).getSubstoryId());
-            holder.sideline.setVisibility(View.VISIBLE);
-                holder.seenImage.setVisibility(View.GONE);
-                holder.readstatus.setVisibility(View.GONE);
-                holder.firstarticle.setVisibility(View.VISIBLE);
-                holder.secondarticle.setVisibility(View.VISIBLE);
-                holder.thirdarticle.setVisibility(View.VISIBLE);
-                holder.bottomtextshowmore.setVisibility(View.VISIBLE);
-                holder.bottomtextnumarticles.setVisibility(View.VISIBLE);
-
-            String readstatus = StoryDataList.get(position).getReadStatus();
-
-            if(StoryDataList.get(position).getReadStatus()!=null&&!StoryDataList.get(position).getReadStatus().isEmpty()){
-                holder.seenImage.setVisibility(View.VISIBLE);
-                holder.readstatus.setVisibility(View.VISIBLE);
-            }
-
-            if (storyColour != null && !storyColour.isEmpty()) {
-                holder.bottomtextshowmore.setTextColor(Color.parseColor("#"+storyColour));
-                holder.sideline6.setBackgroundColor(Color.parseColor("#"+storyColour));
-                holder.sideline.setBackgroundColor(Color.parseColor("#"+storyColour));
-                holder.circle3.setColorFilter(Color.parseColor("#"+storyColour));
-                holder.bottommostline.setBackgroundColor(Color.parseColor("#33"+storyColour));
-            }
-
-            if(position==StoryDataList.size()-1){
-                holder.sideline.setVisibility(View.GONE);
-            }
+                if (view == heroimage || view == seenImage || view == readstatus) {
+                    Bundle nparams = new Bundle();
+                    nparams.putString("screen_name", "collection_screen");
+                    nparams.putString("category", "tap");
+                    nparams.putString("position_card_collection", String.valueOf(mposition));
+                    nparams.putString("substory_id", substoryId);
+                    mFirebaseAnalytics.logEvent("tap_card_cover", nparams);
 
 
+                    HashMap<String, Object> aparams = new HashMap<>();
+                    aparams.put("screen_name", "collection_screen");
+                    aparams.put("category", "tap");
+                    aparams.put("position_card_collection", String.valueOf(mposition));
+                    aparams.put("substory_id", substoryId);
+                    aparams.put("substory_name", substoryname);
+                    clevertap.event.push("tap_card_cover", aparams);
+                }
 
-            String time = StoryDataList.get(position).getTime();
-            time = getTime(time);
+                if (view == bottomtextshowmore || view == bottomtextnumarticles) {
+                    Bundle nparams = new Bundle();
+                    nparams.putString("screen_name", "collection_screen");
+                    nparams.putString("category", "tap");
+                    nparams.putString("substory_id", substoryId);
+                    nparams.putString("position_card_collection", String.valueOf(mposition));
+                    mFirebaseAnalytics.logEvent("tap_showall", nparams);
 
-            holder.time3.setText(time);
+                    HashMap<String, Object> aparams = new HashMap<>();
+                    aparams.put("screen_name", "collection_screen");
+                    aparams.put("category", "tap");
+                    aparams.put("position_card_collection", String.valueOf(mposition));
+                    aparams.put("substory_id", substoryId);
+                    aparams.put("substory_name", substoryname);
+                    clevertap.event.push("tap_showall", aparams);
 
-            String ImageUrl = StoryDataList.get(position).getSubstoryImageURL();
-            if (ImageUrl != null && !ImageUrl.isEmpty()) {
-
-                Picasso.with(context).load(ImageUrl).placeholder(R.drawable.placeholder).into(holder.heroimage);
-
-            } else {
-                holder.heroimage.setImageResource(R.drawable.ic_sample);
+                }
             }
 
 
-            fillarticles(holder,position);
+            if (view == firstarticle) {
+
+                String articleUrl = StoryDataList.get(mposition).getArticles().get(0).getUrl();
+                String articleTitle = StoryDataList.get(mposition).getArticles().get(0).getArticleTitle();
+                String articleSource = StoryDataList.get(mposition).getArticles().get(0).getSourceName();
+                Intent intent = new Intent(context, ArticleWebViewActivity.class);
+                intent.putExtra("ArticleURL", articleUrl);
+                intent.putExtra("substory_id", substoryId);
+                intent.putExtra("storycolor", storyColor);
+                context.startActivity(intent);
+
+                Bundle nparams = new Bundle();
+                nparams.putString("screen_name", "collection_screen");
+                nparams.putString("category", "tap"); //(only if possible)
+                nparams.putString("position_card_collection", String.valueOf(mposition));
+                nparams.putString("position_card_entity", String.valueOf(1));
+                nparams.putString("article_title", articleTitle);
+                nparams.putString("substory_id", substoryId);
+                mFirebaseAnalytics.logEvent("tap_entity", nparams);
+
+                HashMap<String, Object> aparams = new HashMap<>();
+                aparams.put("screen_name", "collection_screen");
+                aparams.put("category", "tap"); //(only if possible)
+                aparams.put("position_card_collection", String.valueOf(mposition));
+                aparams.put("position_card_entity", String.valueOf(1));
+                aparams.put("article_title", articleTitle);
+                aparams.put("substory_id", substoryId);
+                aparams.put("substory_name", substoryname);
+                aparams.put("article_source", articleSource);
+                clevertap.event.push("tap_entity", aparams);
+
+            }
+
+            if (view == secondarticle) {
+                String articleUrl = StoryDataList.get(mposition).getArticles().get(1).getUrl();
+                String articleTitle = StoryDataList.get(mposition).getArticles().get(1).getArticleTitle();
+                String articleSource = StoryDataList.get(mposition).getArticles().get(1).getSourceName();
+                Intent intent = new Intent(context, ArticleWebViewActivity.class);
+                intent.putExtra("substory_id", substoryId);
+                intent.putExtra("ArticleURL", articleUrl);
+                intent.putExtra("storycolor", storyColor);
+                context.startActivity(intent);
+
+                Bundle nparams = new Bundle();
+                nparams.putString("screen_name", "collection_screen");
+                nparams.putString("category", "tap"); //(only if possible)
+                nparams.putString("position_card_collection", String.valueOf(mposition));
+                nparams.putString("position_card_entity", String.valueOf(2));
+                nparams.putString("article_title", articleTitle);
+                nparams.putString("substory_id", substoryId);
+                mFirebaseAnalytics.logEvent("tap_entity", nparams);
+
+                HashMap<String, Object> aparams = new HashMap<>();
+                aparams.put("screen_name", "collection_screen");
+                aparams.put("category", "tap"); //(only if possible)
+                aparams.put("position_card_collection", String.valueOf(mposition));
+                aparams.put("position_card_entity", String.valueOf(2));
+                aparams.put("article_title", articleTitle);
+                aparams.put("substory_id", substoryId);
+                aparams.put("substory_name", substoryname);
+                aparams.put("article_source", articleSource);
+                clevertap.event.push("tap_entity", aparams);
+
+            }
+
+            if (view == thirdarticle) {
+                String articleUrl = StoryDataList.get(mposition).getArticles().get(2).getUrl();
+                String articleTitle = StoryDataList.get(mposition).getArticles().get(2).getArticleTitle();
+                String articleSource = StoryDataList.get(mposition).getArticles().get(2).getSourceName();
+                Intent intent = new Intent(context, ArticleWebViewActivity.class);
+                intent.putExtra("ArticleURL", articleUrl);
+                intent.putExtra("storycolor", storyColor);
+                intent.putExtra("substory_id", substoryId);
+                context.startActivity(intent);
+
+                Bundle nparams = new Bundle();
+                nparams.putString("screen_name", "collection_screen");
+                nparams.putString("category", "tap"); //(only if possible)
+                nparams.putString("position_card_collection", String.valueOf(mposition));
+                nparams.putString("position_card_entity", String.valueOf(3));
+                nparams.putString("substory_id", substoryId);
+                nparams.putString("article_title", articleTitle);
+                mFirebaseAnalytics.logEvent("tap_entity", nparams);
+
+                HashMap<String, Object> aparams = new HashMap<>();
+                aparams.put("screen_name", "collection_screen");
+                aparams.put("category", "tap"); //(only if possible)
+                aparams.put("position_card_collection", String.valueOf(mposition));
+                aparams.put("position_card_entity", String.valueOf(3));
+                aparams.put("substory_id", substoryId);
+                aparams.put("article_title", articleTitle);
+                aparams.put("article_source", articleSource);
+                aparams.put("substory_name", substoryname);
+                clevertap.event.push("tap_entity", aparams);
+            }
+
+            if (view == shareicon) {
 
 
+                Bundle nparams = new Bundle();
+                nparams.putString("screen_name", "collection_screen");
+                nparams.putString("category", "conversion"); //(only if possible)
+                nparams.putString("position_card_collection", String.valueOf(mposition));
+                ;
+                nparams.putString("substory_id", substoryId);
+                mFirebaseAnalytics.logEvent("tap_shareicon", nparams);
+
+
+                HashMap<String, Object> aparams = new HashMap<>();
+                aparams.put("screen_name", "collection_screen");
+                aparams.put("category", "conversion"); //(only if possible)
+                aparams.put("position_card_collection", String.valueOf(mposition));
+                ;
+                aparams.put("substory_id", substoryId);
+                aparams.put("substory_name", substoryname);
+                clevertap.event.push("tap_shareicon", aparams);
+
+                String URL = "http://thesoup.in/share/" + StoryId + "/" + StoryDataList.get(mposition).getSubstoryId() + "?utm_source=appshare&utm_medium=" + StoryId + "&utm_campaign=" + StoryDataList.get(mposition).getSubstoryId();
+                ;
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, "Share via");
+                i.putExtra(Intent.EXTRA_TEXT, URL);
+                context.startActivity(Intent.createChooser(i, "Share via"));
+
+
+            }
 
 
         }
+
+    }
+
+
+    @Override
+    public DetailsmainAdapter.StoryDataViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detailscard_main, parent, false);
+        return new StoryDataViewHolder(view);
+    }
+
+
+    @Override
+    public void onBindViewHolder(DetailsmainAdapter.StoryDataViewHolder holder, int position) {
+
+
+        Log.e("story_Id details", StoryDataList.get(position).getSubstoryId());
+        holder.sideline.setVisibility(View.VISIBLE);
+        holder.seenImage.setVisibility(View.GONE);
+        holder.readstatus.setVisibility(View.GONE);
+        holder.firstarticle.setVisibility(View.VISIBLE);
+        holder.secondarticle.setVisibility(View.VISIBLE);
+        holder.thirdarticle.setVisibility(View.VISIBLE);
+        holder.bottomtextshowmore.setVisibility(View.VISIBLE);
+        holder.bottomtextnumarticles.setVisibility(View.VISIBLE);
+
+        String readstatus = StoryDataList.get(position).getReadStatus();
+
+        if (StoryDataList.get(position).getReadStatus() != null && !StoryDataList.get(position).getReadStatus().isEmpty()) {
+            holder.seenImage.setVisibility(View.VISIBLE);
+            holder.readstatus.setVisibility(View.VISIBLE);
+        }
+
+        if (storyColour != null && !storyColour.isEmpty()) {
+            holder.bottomtextshowmore.setTextColor(Color.parseColor("#" + storyColour));
+            holder.sideline6.setBackgroundColor(Color.parseColor("#" + storyColour));
+            holder.sideline.setBackgroundColor(Color.parseColor("#" + storyColour));
+            holder.circle3.setColorFilter(Color.parseColor("#" + storyColour));
+            holder.bottommostline.setBackgroundColor(Color.parseColor("#33" + storyColour));
+        }
+
+        if (position == StoryDataList.size() - 1) {
+            holder.sideline.setVisibility(View.GONE);
+        }
+
+
+        String time = StoryDataList.get(position).getTime();
+        time = getTimedateformat(time);
+
+        holder.time3.setText(time);
+
+        String ImageUrl = StoryDataList.get(position).getSubstoryImageURL();
+        if (ImageUrl != null && !ImageUrl.isEmpty()) {
+
+            Picasso.with(context).load(ImageUrl).placeholder(R.drawable.placeholder).into(holder.heroimage);
+
+        } else {
+            holder.heroimage.setImageResource(R.drawable.ic_sample);
+        }
+
+
+        fillarticles(holder, position);
+
+
+    }
 
     public void fillarticles(StoryDataViewHolder holder, int position) {
 
@@ -412,11 +403,11 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
         if (StoryDataList.get(position).getArticles().size() >= 3) {
 
             LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) holder.bottommostline.getLayoutParams();
-            lp.setMargins(0,65,0,0);
+            lp.setMargins(0, 65, 0, 0);
             holder.bottommostline.setLayoutParams(lp);
 
-            RelativeLayout.LayoutParams Rp = (RelativeLayout.LayoutParams)holder.sideline.getLayoutParams();
-            Rp.addRule(RelativeLayout.ALIGN_BOTTOM,holder.bottommostlinelayout.getId());
+            RelativeLayout.LayoutParams Rp = (RelativeLayout.LayoutParams) holder.sideline.getLayoutParams();
+            Rp.addRule(RelativeLayout.ALIGN_BOTTOM, holder.bottommostlinelayout.getId());
             holder.sideline.setLayoutParams(Rp);
 
 
@@ -463,32 +454,32 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
             holder.bottomtextnumarticles.setVisibility(View.GONE);
 
             int numberofArticles = StoryDataList.get(position).getArticles().size();
-            numberofArticles = numberofArticles -3;
-            if(numberofArticles!=0){
-                String bottomtext = String.valueOf(numberofArticles)+" More Articles In This Update.";
+            numberofArticles = numberofArticles - 3;
+            if (numberofArticles != 0) {
+                String bottomtext = String.valueOf(numberofArticles) + " More Articles In This Update.";
                 holder.bottomtextnumarticles.setText(bottomtext);
                 holder.bottomtextshowmore.setText("SHOW ALL");
 
             }
 
             if (source1icon != null && !source1icon.isEmpty()) {
-                Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).into(holder.sourceimage1);
+                Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).fit().centerCrop().into(holder.sourceimage1);
             } else {
-                holder.sourceimage1.setImageResource(R.drawable.ic_launcher);
+                Picasso.with(context).load(R.drawable.ic_sample).fit().centerCrop().into(holder.sourceimage1);
             }
 
 
             if (source2icon != null && !source2icon.isEmpty()) {
-                Picasso.with(context).load(source2icon).placeholder(R.drawable.placeholder).into(holder.sourceimage2);
+                Picasso.with(context).load(source2icon).placeholder(R.drawable.placeholder).fit().centerCrop().into(holder.sourceimage2);
             } else {
-                holder.sourceimage2.setImageResource(R.drawable.ic_launcher);
+                Picasso.with(context).load(R.drawable.ic_sample).fit().centerCrop().into(holder.sourceimage2);
             }
 
 
             if (source3icon != null && !source3icon.isEmpty()) {
-                Picasso.with(context).load(source3icon).placeholder(R.drawable.placeholder).into(holder.sourceimage3);
+                Picasso.with(context).load(source3icon).placeholder(R.drawable.placeholder).fit().centerCrop().into(holder.sourceimage3);
             } else {
-                holder.sourceimage3.setImageResource(R.drawable.ic_launcher);
+                Picasso.with(context).load(R.drawable.ic_sample).fit().centerCrop().into(holder.sourceimage3);
             }
 
             if (StoryDataList.get(position).getArticles().size() > 3) {
@@ -535,31 +526,31 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
 
             LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) holder.bottommostline.getLayoutParams();
 
-           lp.setMargins(0,0,0,0);
+            lp.setMargins(0, 0, 0, 0);
 
             holder.bottommostline.setLayoutParams(lp);
 
-            RelativeLayout.LayoutParams Rp = (RelativeLayout.LayoutParams)holder.sideline.getLayoutParams();
-            Rp.addRule(RelativeLayout.ALIGN_BOTTOM,holder.bottommostlinelayout.getId());
+            RelativeLayout.LayoutParams Rp = (RelativeLayout.LayoutParams) holder.sideline.getLayoutParams();
+            Rp.addRule(RelativeLayout.ALIGN_BOTTOM, holder.bottommostlinelayout.getId());
             holder.sideline.setLayoutParams(Rp);
 
 
             if (source1icon != null && !source1icon.isEmpty()) {
-                Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).into(holder.sourceimage1);
+                Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).fit().centerCrop().into(holder.sourceimage1);
             } else {
-                holder.sourceimage1.setImageResource(R.drawable.ic_launcher);
+                Picasso.with(context).load(R.drawable.ic_sample).fit().centerCrop().into(holder.sourceimage1);
             }
 
 
             if (source2icon != null && !source2icon.isEmpty()) {
-                Picasso.with(context).load(source2icon).placeholder(R.drawable.placeholder).into(holder.sourceimage2);
+                Picasso.with(context).load(source2icon).placeholder(R.drawable.placeholder).fit().centerCrop().into(holder.sourceimage2);
             } else {
-                holder.sourceimage2.setImageResource(R.drawable.ic_launcher);
+                Picasso.with(context).load(R.drawable.ic_sample).fit().centerCrop().into(holder.sourceimage2);
             }
 
             holder.thirdarticle.setVisibility(View.GONE);
 
-        } else if (StoryDataList.get(position).getArticles().size()== 1) {
+        } else if (StoryDataList.get(position).getArticles().size() == 1) {
 
             List<Articles> Articles = StoryDataList.get(position).getArticles();
 
@@ -580,26 +571,24 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
             holder.articletitle1.setText(articleTitle1);
 
 
-
             holder.bottomtextshowmore.setVisibility(View.GONE);
             holder.bottomtextnumarticles.setVisibility(View.GONE);
 
             LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) holder.bottommostline.getLayoutParams();
 
-            lp.setMargins(0,0,0,0);
+            lp.setMargins(0, 0, 0, 0);
 
             holder.bottommostline.setLayoutParams(lp);
 
-            RelativeLayout.LayoutParams Rp = (RelativeLayout.LayoutParams)holder.sideline.getLayoutParams();
-            Rp.addRule(RelativeLayout.ALIGN_BOTTOM,holder.bottommostlinelayout.getId());
+            RelativeLayout.LayoutParams Rp = (RelativeLayout.LayoutParams) holder.sideline.getLayoutParams();
+            Rp.addRule(RelativeLayout.ALIGN_BOTTOM, holder.bottommostlinelayout.getId());
             holder.sideline.setLayoutParams(Rp);
 
 
-
             if (source1icon != null && !source1icon.isEmpty()) {
-                Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).into(holder.sourceimage1);
+                Picasso.with(context).load(source1icon).placeholder(R.drawable.placeholder).fit().centerCrop().into(holder.sourceimage1);
             } else {
-                holder.sourceimage1.setImageResource(R.drawable.ic_launcher);
+                Picasso.with(context).load(R.drawable.ic_sample).fit().centerCrop().into(holder.sourceimage1);
             }
 
             holder.thirdarticle.setVisibility(View.GONE);
@@ -607,158 +596,123 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
         }
     }
 
-        public String gethtmlString(String title){
+    public String gethtmlString(String title) {
 
-            String titlehtml;
+        String titlehtml;
 
-            if (Build.VERSION.SDK_INT >= 24) {
-                titlehtml = String.valueOf(Html.fromHtml(title, Html.FROM_HTML_MODE_LEGACY));
+        if (Build.VERSION.SDK_INT >= 24) {
+            titlehtml = String.valueOf(Html.fromHtml(title, Html.FROM_HTML_MODE_LEGACY));
 
+        } else {
+            titlehtml = String.valueOf(Html.fromHtml(title));
+        }
+
+        return titlehtml;
+    }
+
+
+    @Override
+    public int getItemCount() {
+
+        //Log.d("tech memw",StoryDataList.size() +" ");
+        return StoryDataList.size();
+    }
+
+    public String timeFormat(String string) throws ParseException {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = timeFormat.parse(string);
+
+        SimpleDateFormat monthFormat2 = new SimpleDateFormat("HH:mm a");
+
+        return monthFormat2.format(date);
+
+
+    }
+
+
+    public String monthFomrat(String string) throws ParseException {
+        SimpleDateFormat monthformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = monthformat.parse(string);
+
+        SimpleDateFormat monthFormat2 = new SimpleDateFormat("MMM");
+
+        return monthFormat2.format(date);
+
+
+    }
+
+    public String yearFomrat(String string) throws ParseException {
+        SimpleDateFormat yearformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = yearformat.parse(string);
+
+        SimpleDateFormat yearFormat2 = new SimpleDateFormat("yyyy");
+
+        return yearFormat2.format(date);
+
+
+    }
+
+
+    public String DateFomrat(String string) throws ParseException {
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = dateformat.parse(string);
+
+
+        SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd");
+
+        return dateFormat2.format(date);
+
+
+    }
+
+
+    public String getTimedateformat(String timeString) {
+
+        String Time = timeString;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentTime = sdf.format(new Date());
+
+
+        Date date1 = null;
+        Date date2 = null;
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            date1 = format.parse(Time);
+            date2 = format.parse(currentTime);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        long Difference = date2.getTime() - date1.getTime();
+
+        Log.d("difference", String.valueOf(Difference));
+
+        int i = (int) (Difference / 86400000);
+        Log.d("kya be", String.valueOf(i));
+
+        if (i < 1) {
+
+            int m = (int) (Difference / 3600000);
+
+            if (m > 1) {
+                return String.valueOf(m) + " hours ago";
             } else {
-                titlehtml =String.valueOf(Html.fromHtml(title));
-            }
 
-            return titlehtml;
-        }
+                int n = (int) (Difference/1440000);
 
-
-
-
-
-        @Override
-        public int getItemCount() {
-
-            //Log.d("tech memw",StoryDataList.size() +" ");
-            return StoryDataList.size();
-        }
-
-        public String timeFormat(String string) throws ParseException {
-            SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = timeFormat.parse(string);
-
-            SimpleDateFormat monthFormat2 = new SimpleDateFormat("HH:mm a");
-
-            return monthFormat2.format(date);
-
-
-        }
-
-
-        public String monthFomrat(String string) throws ParseException {
-            SimpleDateFormat monthformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = monthformat.parse(string);
-
-            SimpleDateFormat monthFormat2 = new SimpleDateFormat("MMM");
-
-            return monthFormat2.format(date);
-
-
-        }
-
-        public String yearFomrat(String string) throws ParseException {
-            SimpleDateFormat yearformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = yearformat.parse(string);
-
-            SimpleDateFormat yearFormat2 = new SimpleDateFormat("yyyy");
-
-            return yearFormat2.format(date);
-
-
-        }
-
-
-        public String DateFomrat(String string) throws ParseException {
-            SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = dateformat.parse(string);
-
-
-            SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd");
-
-            return dateFormat2.format(date);
-
-
-        }
-
-
-        public String getTime(String timeString){
-
-            String Time = timeString;
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String currentTime = sdf.format(new Date());
-
-
-            Date date1=null;
-            Date date2 = null;
-
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            try {
-                date1 = format.parse(Time);
-                date2 = format.parse(currentTime);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-
-            long Difference = date2.getTime()-date1.getTime();
-
-            int i = (int) (Difference/86400000);
-
-            if(i<1){
-
-                int m = (int)(Difference/3600000);
-
-                if(m>1){
-                    return String.valueOf(m)+" hours ago";
-                }else{
-                    return "1 hour ago";
+                if(n>1){
+                    return String.valueOf(n)+" minutes ago";
                 }
 
-            }else{
-
-                String time = null;
-                try {
-                    time = timeFormat(Time);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-
-                String month = null;
-                try {
-                    month = monthFomrat(Time);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    Log.d("Not valid time", Time);
-                }
-
-                // Log.d("Month", month);
-
-
-                String Date = null;
-                try {
-                    Date = DateFomrat(Time);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                String year = null;
-                try {
-                    year = yearFomrat(Time);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                return time + ", " + Date + " " + month + " " + year;
+                return String.valueOf(n)+" minute ago";
 
             }
 
-        }
-
-        public String getTimedateformat(String timeString){
-
-            String Time = timeString;
+        } else {
 
             String time = null;
             try {
@@ -793,9 +747,13 @@ public class DetailsmainAdapter extends RecyclerView.Adapter<DetailsmainAdapter.
                 e.printStackTrace();
             }
 
-            return time + ", " + Date + " " + month + " " + year;
+            return time+ " " + Date + " " + month + " " + year;
 
         }
+
+    }
+
+
     }
 
 

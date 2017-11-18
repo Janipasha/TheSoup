@@ -114,7 +114,7 @@ public class FilterAdapterVersion extends RecyclerView.Adapter <RecyclerView.Vie
                     nparams.put("category", "tap");
                     nparams.put("name_filters_category", "" );
                     nparams.put("count_filters_selected", "" );
-                    cleverTap.event.push("tap_filters_category_remove",nparams);
+                    cleverTap.event.push("tap_filters_remove",nparams);
 
                     datalist.get(mposition-1).changeStatus("0");
 
@@ -129,7 +129,7 @@ public class FilterAdapterVersion extends RecyclerView.Adapter <RecyclerView.Vie
                     mparams.putString("name_filters_category", "" );
                     mparams.putString("count_filters_selected", "" );
 
-                    mFirebaseAnalytics.logEvent("tap_filters_category_add",mparams);
+                    mFirebaseAnalytics.logEvent("tap_filters_add",mparams);
 
 
                     HashMap<String,Object> nparams = new HashMap<>();
@@ -138,7 +138,7 @@ public class FilterAdapterVersion extends RecyclerView.Adapter <RecyclerView.Vie
                     nparams.put("name_filters_category", "" );
                     nparams.put("count_filters_selected", "" );
 
-                    cleverTap.event.push("tap_filters_category_add",nparams);
+                    cleverTap.event.push("tap_filters_add",nparams);
 
 
 
@@ -161,14 +161,14 @@ public class FilterAdapterVersion extends RecyclerView.Adapter <RecyclerView.Vie
     public class HeaderViewHolder extends RecyclerView.ViewHolder {
 
         public TextView userName,discoverfilter,filtertoptext;
-        public LinearLayout filterheadernormal;
+        public RelativeLayout filterheadernormal;
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
 
            userName= (TextView)itemView.findViewById(R.id.filter_heading);
             discoverfilter= (TextView)itemView.findViewById(R.id.discoverfilter);
-            filterheadernormal = (LinearLayout)itemView.findViewById(R.id.filterheadernormal);
+            filterheadernormal = (RelativeLayout) itemView.findViewById(R.id.filterheadernormal);
             filtertoptext = (TextView)itemView.findViewById(R.id.filtertoptext);
 
         }}
@@ -233,17 +233,10 @@ public class FilterAdapterVersion extends RecyclerView.Adapter <RecyclerView.Vie
         } else if(holder instanceof HeaderViewHolder){
 
             String toptext = mcontext.getString(R.string.categories_count);
-            SpannableString ss1 = new SpannableString(toptext);
-            ss1.setSpan(new StyleSpan(Typeface.BOLD),7,16,0);
-
-            ss1.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")),7,16,0);
-
-            ss1.setSpan(new RelativeSizeSpan(1.1f),7,16,0);
-
 
             ((HeaderViewHolder)holder).filterheadernormal.setVisibility(View.VISIBLE);
             ((HeaderViewHolder)holder).discoverfilter.setVisibility(View.GONE);
-            ((HeaderViewHolder)holder).filtertoptext.setText(ss1);
+            ((HeaderViewHolder)holder).filtertoptext.setText(toptext);
 
             if(resetfilter.equals("0")||resetfilter.isEmpty()){
                 ((HeaderViewHolder)holder).filterheadernormal.setVisibility(View.VISIBLE);

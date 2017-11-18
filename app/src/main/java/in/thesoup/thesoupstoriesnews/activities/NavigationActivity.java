@@ -34,6 +34,7 @@ import in.thesoup.thesoupstoriesnews.adapters.FragmentPagerNavigation;
 import in.thesoup.thesoupstoriesnews.fragments.DiscoverFragmentMain;
 import in.thesoup.thesoupstoriesnews.fragments.FollowingFragment;
 import in.thesoup.thesoupstoriesnews.fragments.HomeFragment;
+import in.thesoup.thesoupstoriesnews.fragments.HomeFragment1;
 import in.thesoup.thesoupstoriesnews.preferencesfbauth.PrefUtil;
 import in.thesoup.thesoupstoriesnews.R;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -84,17 +85,17 @@ public class NavigationActivity extends FragmentActivity implements FollowingFra
         setContentView(R.layout.activity_mainversion);
 
 
-        String fragmentPosition = "1";
+        String fragmentPosition = "0";
         Intent startingIntent = getIntent();
         if (getIntent().getStringExtra("fragmentPosition") != null && !getIntent().getStringExtra("fragmentPosition").isEmpty()) {
             fragmentPosition = startingIntent.getStringExtra("fragmentPosition");
         }else if (getIntent().getAction()!=null){
-                fragmentPosition = "2";
+                fragmentPosition = "1";
 
         }
 
         viewPager = (CustomViewPager) findViewById(R.id.viewpager_main);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(2);
 
 
         fragmentPagerNavigation = new FragmentPagerNavigation(getSupportFragmentManager(), this);
@@ -151,10 +152,7 @@ public class NavigationActivity extends FragmentActivity implements FollowingFra
                 }
 
 
-                if (i == 0) {
-                    imageView.setVisibility(View.VISIBLE);
-
-                } else if (i == 1) {
+             if (i == 0) {
                     imageView1.setImageResource(R.drawable.icons8_home_page_filled);
                     imageView1.setVisibility(View.VISIBLE);
                     // int color = Color.parseColor("#b3ffffff");
@@ -163,7 +161,7 @@ public class NavigationActivity extends FragmentActivity implements FollowingFra
                     textView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.icon_attention, 0, 0);
                     tabLayout.getTabAt(1).setCustomView(textView);*/
 
-                } else if (i == 2) {
+                } else if (i == 1) {
                     imageView1.setImageResource(R.drawable.icons8_report_card_filled);
                     imageView1.setVisibility(View.VISIBLE);
                 }
@@ -186,39 +184,29 @@ public class NavigationActivity extends FragmentActivity implements FollowingFra
                 switch (position) {
                     case 0:
                         Bundle mparams = new Bundle();
-                        mparams.putString("screen_name", "discover_screen");
+                        mparams.putString("screen_name", "home_screen");
                         mparams.putString("category", "tap"); //(only if possible)
-                        mFirebaseAnalytics.logEvent("tap_discover", mparams);
+                        mFirebaseAnalytics.logEvent("tap_home", mparams);
 
                         HashMap<String,Object> clickaction = new HashMap<>();
-                        clickaction.put("screen_name", "discover_screen");
+                        clickaction.put("screen_name", "home_screen");
                         clickaction.put("category", "tap"); //(only if possible)
-                        cleverTap.event.push("tap_discover",clickaction);
+                        cleverTap.event.push("tap_home",clickaction);
                         return;
                     case 1:
                         Bundle nparams = new Bundle();
-                        nparams.putString("screen_name", "home_screen");
+                        nparams.putString("screen_name", "following_screen");
                         nparams.putString("category", "tap"); //(only if possible)
-                        mFirebaseAnalytics.logEvent("tap_home", nparams);
+                        mFirebaseAnalytics.logEvent("tap_following", nparams);
 
                         HashMap<String,Object> nclickaction = new HashMap<>();
-                        nclickaction.put("screen_name", "home_screen");
+                        nclickaction.put("screen_name", "following_screen");
                         nclickaction.put("category", "tap"); //(only if possible)
-                        cleverTap.event.push("tap_home",nclickaction);
+                        cleverTap.event.push("tap_following",nclickaction);
 
 
                         return;
 
-                    case 2:
-                        Bundle pparams = new Bundle();
-                        pparams.putString("screen_name", "following_screen");
-                        pparams.putString("category", "tap"); //(only if possible)
-                        mFirebaseAnalytics.logEvent("tap_notifications", pparams);
-
-                        HashMap<String,Object> pclickaction = new HashMap<>();
-                        pclickaction.put("screen_name",  "following_screen");
-                        pclickaction.put("category", "tap"); //(only if possible)
-                        cleverTap.event.push("tap_notifications",pclickaction);
 
                 }
             }
@@ -244,8 +232,8 @@ public class NavigationActivity extends FragmentActivity implements FollowingFra
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 Fragment fragment = (Fragment) viewPager.getAdapter().instantiateItem(viewPager, tab.getPosition());
-                if (fragment instanceof HomeFragment) {
-                    HomeFragment object = (HomeFragment) fragment;
+                if (fragment instanceof HomeFragment1) {
+                    HomeFragment1 object = (HomeFragment1) fragment;
                     object.goToTop();
 
                 } else if (fragment instanceof FollowingFragment) {
@@ -308,8 +296,8 @@ public class NavigationActivity extends FragmentActivity implements FollowingFra
     public Fragment getFragment(int position) {
 
         Fragment fragment = (Fragment) viewPager.getAdapter().instantiateItem(viewPager, position);
-        if (fragment instanceof HomeFragment) {
-            HomeFragment object = (HomeFragment) fragment;
+        if (fragment instanceof HomeFragment1) {
+            HomeFragment1 object = (HomeFragment1) fragment;
 
             return object;
         } else if (fragment instanceof FollowingFragment) {
@@ -337,14 +325,14 @@ public class NavigationActivity extends FragmentActivity implements FollowingFra
 
             if (num_unread.equals("0")) {
 
-                    View view = tabLayout.getTabAt(2).getCustomView();
+                    View view = tabLayout.getTabAt(1).getCustomView();
                     TextView textview = (TextView) view.findViewById(R.id.badge);
                     textview.setVisibility(View.GONE);
 
 
             } else {
 
-                View view = tabLayout.getTabAt(2).getCustomView();
+                View view = tabLayout.getTabAt(1).getCustomView();
                 TextView textview = (TextView) view.findViewById(R.id.badge);
                 textview.setVisibility(View.VISIBLE);
 

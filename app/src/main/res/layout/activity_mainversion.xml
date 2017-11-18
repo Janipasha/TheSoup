@@ -16,6 +16,7 @@
         app:tabMode="fixed"
         android:layout_alignParentBottom="true"
         app:tabGravity="fill"
+        android:elevation="4dp"
         app:tabSelectedTextColor="#ffffff"
         app:tabTextColor="#B3ffffff"/>
 

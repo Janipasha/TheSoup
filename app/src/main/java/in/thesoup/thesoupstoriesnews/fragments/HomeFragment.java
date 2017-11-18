@@ -170,7 +170,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
 
                 NetworkUtilswithTokenMain networkutilsToken = new NetworkUtilswithTokenMain(getActivity(), mStoryData, params);
-                networkutilsToken.getFeed2(1,totalrefresh);
+                networkutilsToken.getFeed2(0,totalrefresh);
             } else {
                 params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
                 params.put("page", "0");
@@ -195,7 +195,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 Log.d("auth_token", pref.getString(SoupContract.AUTH_TOKEN, null));
 
                 NetworkUtilswithTokenMain networkutilsToken = new NetworkUtilswithTokenMain(getActivity(), mStoryData, params);
-                networkutilsToken.getFeed2(1,totalrefresh);
+                networkutilsToken.getFeed2(0,totalrefresh);
 
 
 
@@ -238,7 +238,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     params.put("purpose","foryou");
 
                     NetworkUtilswithTokenMain networkUtilswithTokenMain = new NetworkUtilswithTokenMain(getActivity(),nStoryData,params);
-                    networkUtilswithTokenMain.getFeed3(1,totalrefresh);
+                    networkUtilswithTokenMain.getFeed3(0,totalrefresh);
 
                 } else {
                     params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
@@ -251,7 +251,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     Log.e("home story page",params.get("page"));
 
                     NetworkUtilswithTokenMain networkUtilswithTokenMain = new NetworkUtilswithTokenMain(getActivity(),nStoryData,params);
-                    networkUtilswithTokenMain.getFeed3(1,totalrefresh);
+                    networkUtilswithTokenMain.getFeed3(0,totalrefresh);
 
                 }
 
@@ -273,7 +273,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             Log.e("home story_id",params.get("page"));
 
             NetworkUtilswithTokenMain networkUtilswithTokenMain = new NetworkUtilswithTokenMain(getActivity(),nStoryData,params);
-            networkUtilswithTokenMain.getFeed3(1,totalrefresh);
+            networkUtilswithTokenMain.getFeed3(0,totalrefresh);
 
 
 // Dispatch touch event to view

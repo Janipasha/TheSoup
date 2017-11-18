@@ -3,7 +3,10 @@ package in.thesoup.thesoupstoriesnews.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -27,6 +30,7 @@ import java.util.List;
 
 import in.thesoup.thesoupstoriesnews.activities.ArticleWebViewActivity;
 import in.thesoup.thesoupstoriesnews.gsonclasses.FeedGSONMain.ArticlesMain;
+import in.thesoup.thesoupstoriesnews.gsonclasses.FeedHome.ArticlesMainHome;
 import in.thesoup.thesoupstoriesnews.gsonclasses.SinglestoryGSON.Articles;
 import in.thesoup.thesoupstoriesnews.R;
 
@@ -39,6 +43,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
 
         private List<ArticlesMain> articles;
         private List<Articles> nArticles;
+    private  List<ArticlesMainHome> oArticles;
         private Context mcontext;
         private String StoryTitle , SubstoryId,storyColor;
         private CleverTapAPI cleverTap;
@@ -46,10 +51,11 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
         private SharedPreferences pref;
 
 
-        public ArticlesAdapter(List<ArticlesMain> articles,List<Articles> nArticles,String storyColor,String SubstoryId, Context mcontext) {
+        public ArticlesAdapter(List<ArticlesMain> articles,List<Articles> nArticles,List<ArticlesMainHome> oArticles,String storyColor,String SubstoryId, Context mcontext) {
             this.SubstoryId = SubstoryId;
             this.articles = articles;
             this.nArticles = nArticles;
+            this.oArticles = oArticles;
             this.storyColor = storyColor;
             this.mcontext = mcontext;
             try {
@@ -94,9 +100,9 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
                 holder.articleTitle.setText(articleTitlehtml);
                 holder.newsource.setText(newsSource);
                 if(imageUrl!=null&&!imageUrl.isEmpty()){
-                    Picasso.with(mcontext).load(imageUrl).centerCrop().placeholder(R.drawable.placeholder).resize(80,80).into(holder.imageView);
+                    Picasso.with(mcontext).load(imageUrl).fit().centerCrop().placeholder(R.drawable.placeholder).into(holder.imageView);
                 }else {
-                    Picasso.with(mcontext).load(R.drawable.background_splash).into(holder.imageView);
+                    Picasso.with(mcontext).load(R.drawable.ic_sample).fit().centerCrop().into(holder.imageView);
                 }
                 holder.time.setText(time);
 
@@ -125,11 +131,42 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
                 holder.articleTitle.setText(articleTitlehtml);
                 holder.newsource.setText(newsSource);
                 if(imageUrl!=null&&!imageUrl.isEmpty()){
-                    Picasso.with(mcontext).load(imageUrl).centerCrop().placeholder(R.drawable.placeholder).resize(80,80).into(holder.imageView);
+                    Picasso.with(mcontext).load(imageUrl).placeholder(R.drawable.placeholder).fit().centerCrop().into(holder.imageView);
                 }else {
-                    Picasso.with(mcontext).load(R.drawable.background_splash).into(holder.imageView);
+                    Picasso.with(mcontext).load(R.drawable.ic_sample).fit().centerCrop().into(holder.imageView);
                 }
                 holder.time.setText(time);
+
+
+            }else if(oArticles!=null){
+
+                String imageUrl = oArticles.get(position).getSourceThumb();
+                String articleTitle = oArticles.get(position).getTitle();
+                String time = oArticles.get(position).getPubDate();
+
+                time = getTimedateformat(time);
+                String articleTitlehtml;
+
+
+
+                if(Build.VERSION.SDK_INT >= 24){
+                    articleTitlehtml = String.valueOf(Html.fromHtml(articleTitle , Html.FROM_HTML_MODE_LEGACY));
+
+                }else{
+
+                    articleTitlehtml = String.valueOf (Html.fromHtml(articleTitle));
+                }
+                String newsSource = oArticles.get(position).getsourceName();
+
+                holder.articleTitle.setText(articleTitlehtml);
+                holder.newsource.setText(newsSource);
+                if(imageUrl!=null&&!imageUrl.isEmpty()){
+                    Picasso.with(mcontext).load(imageUrl).placeholder(R.drawable.placeholder).fit().centerCrop().into(holder.imageView);
+                }else {
+                    Picasso.with(mcontext).load(R.drawable.ic_sample).fit().centerCrop().into(holder.imageView);
+                }
+                holder.time.setText(time);
+
 
 
             }
@@ -143,6 +180,8 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
                 return articles.size();
             }else if(nArticles!=null){
                 return nArticles.size();
+            }else if(oArticles!=null){
+                return oArticles.size();
             }
 
             return 0;
@@ -165,6 +204,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
 
                 imageView.setOnClickListener(this);
                 articleTitle.setOnClickListener(this);
+                itemView.setOnClickListener(this);
             }
 
             @Override
@@ -180,12 +220,21 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
                 if(articles!=null){
                      ArticleURL = articles.get(mposition).getUrl();
                     mparams.put("article_title",articles.get(mposition).getTitle());
+                    mparams.put("article_source",articles.get(mposition).getsourceName());
+                    mparams.put("article_publish_date",articles.get(mposition).getPubDate());
                 }else if(nArticles!=null){
                     ArticleURL = nArticles.get(mposition).getUrl();
                     mparams.put("article_title",nArticles.get(mposition).getArticleTitle());
+                    mparams.put("article_source",nArticles.get(mposition).getSourceName());
+                    mparams.put("article_publish_date",nArticles.get(mposition).getTime());
+                }else if(oArticles!=null){
+                    ArticleURL = oArticles.get(mposition).getUrl();
+                    mparams.put("article_title",oArticles.get(mposition).getTitle());
+                    mparams.put("article_source",oArticles.get(mposition).getsourceName());
+                    mparams.put("article_publish_date",oArticles.get(mposition).getPubDate());
                 }
 
-                cleverTap.event.push("tap_article",mparams);
+                cleverTap.event.push("tap_card_source",mparams);
 
 
 
@@ -194,7 +243,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
                 intent.putExtra("ArticleURL",ArticleURL);
                 intent.putExtra("storycolor",storyColor);
                 mcontext.startActivity(intent);
-
+                
 
                 // TODO: add intents for chrome browser
             }
@@ -247,45 +296,90 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
 
     }
 
-
-    public String getTimedateformat(String timeString){
+    public String getTimedateformat(String timeString) {
 
         String Time = timeString;
 
-        String time = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentTime = sdf.format(new Date());
+
+
+        Date date1 = null;
+        Date date2 = null;
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            time = timeFormat(Time);
+            date1 = format.parse(Time);
+            date2 = format.parse(currentTime);
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
 
-        String month = null;
-        try {
-            month = monthFomrat(Time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Log.d("Not valid time", Time);
+        long Difference = date2.getTime() - date1.getTime();
+
+        Log.d("difference", String.valueOf(Difference));
+
+        int i = (int) (Difference / 86400000);
+        Log.d("kya be", String.valueOf(i));
+
+        if (i < 1) {
+
+            int m = (int) (Difference / 3600000);
+
+            if (m > 1) {
+                return String.valueOf(m) + " hours ago";
+            } else {
+
+                int n = (int) (Difference/1440000);
+
+                if(n>1){
+                    return String.valueOf(n)+" minutes ago";
+                }
+
+                return String.valueOf(n)+" minute ago";
+
+            }
+
+        } else {
+
+            String time = null;
+            try {
+                time = timeFormat(Time);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
+            String month = null;
+            try {
+                month = monthFomrat(Time);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.d("Not valid time", Time);
+            }
+
+            // Log.d("Month", month);
+
+
+            String Date = null;
+            try {
+                Date = DateFomrat(Time);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            String year = null;
+            try {
+                year = yearFomrat(Time);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            return time+ " " + Date + " " + month + " " + year;
+
         }
-
-        // Log.d("Month", month);
-
-
-        String Date = null;
-        try {
-            Date = DateFomrat(Time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        String year = null;
-        try {
-            year = yearFomrat(Time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return time + ", " + Date + " " + month + " " + year;
 
     }
     }

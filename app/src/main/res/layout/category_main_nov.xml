@@ -1,32 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/category_swipe"
+    tools:ignore="MissingPrefix">
+
+<RelativeLayout
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/headertop"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_width="match_parent"
-        android:elevation="2dp"
-        android:background="f2f2f2"
+        android:background="#f2f2f2"
+        android:layout_marginBottom="3dp"
+        android:elevation="4dp"
         android:layout_height="wrap_content">
+
+       <LinearLayout
+           android:layout_centerVertical="true"
+           android:id="@+id/back_arrow"
+           android:padding="7dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="10dp"
+            android:layout_height = "17dp"
+            android:src = "@drawable/icon_arrow_left"
+            android:layout_marginLeft="15dp"
+            />
+       </LinearLayout>
 
         <TextView
             android:id="@+id/header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Politics"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="13dp"
+            android:layout_toRightOf="@+id/back_arrow"
             android:textColor="#222222"
-            android:layout_marginTop="11dp"
-            android:layout_marginBottom="11dp"
+            fontPath="fonts/montserrat-bold.ttf"
             android:textSize="17dp"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            />
 
     </RelativeLayout>
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@id/header"
+        android:id="@+id/category_list"
+        android:layout_below="@id/headertop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <ProgressBar
+        android:layout_centerInParent="true"
+        android:id="@+id/progressBar2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:theme="@style/AppTheme.WhiteAccent"
+        android:layout_centerHorizontal="true"
+        />
 
 
-</LinearLayout>
+
+</RelativeLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>

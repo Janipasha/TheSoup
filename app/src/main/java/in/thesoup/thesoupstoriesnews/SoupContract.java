@@ -22,6 +22,7 @@ public class SoupContract {
     public static final String SETCATEGORIES = "http://thesoup.in/api/set_interested_categories";
     public static final String GETFEED = "http://thesoup.in/api/get_feed";
     public static final String GETFOLLOWING = "http://thesoup.in/api/get_following";
+    public static final String GETSINGLEFEED = "http://thesoup.in/api/get_single_feed";
     //analytics events
     public static final String TOTAL_REFRESH = "totalrefresh";
     public static final String PAGE_VIEW = "page_view";

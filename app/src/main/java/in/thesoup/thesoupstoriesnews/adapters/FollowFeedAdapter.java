@@ -153,7 +153,7 @@ public class FollowFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                 NavigationActivity activity = (NavigationActivity)context;
                 if(activity!=null){
-                    FollowingFragment fragment = (FollowingFragment) activity.getFragment(2);
+                    FollowingFragment fragment = (FollowingFragment) activity.getFragment(1);
                     fragment.startActivityForResult(intent,36);
                 }
 
@@ -162,12 +162,12 @@ public class FollowFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 Bundle mparams = new Bundle();
                 mparams.putString("screen_name", "following_screen");
                 mparams.putString("category", "tap");
-                mFirebaseAnalytics.logEvent("tap_following_collection", mparams);
+                mFirebaseAnalytics.logEvent("tap_card_following", mparams);
 
                 HashMap<String,Object> nparams = new HashMap<>();
                 nparams.put("screen_name", "following_screen");
                 nparams.put("category", "tap");
-                cleverTap.event.push("tap_following_collection", nparams);
+                cleverTap.event.push("tap_card_following", nparams);
 
 
             }
@@ -200,22 +200,24 @@ public class FollowFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                 if(activity!=null){
 
-                    Fragment f = activity.getFragment(2);
+                    Fragment f = activity.getFragment(1);
                     ((FollowingFragment)f).NetworkCallFollowing("latest_update");
 
                     HashMap<String,Object> nparams = new HashMap<>();
                     nparams.put("screen_name", "following_screen");
                     nparams.put("category", "tap");
+                    nparams.put("type_sort","latestupdate");
 
                     Bundle mparams = new Bundle();
                     mparams.putString("screen_name", "following_screen");
                     mparams.putString("category", "tap");
+
                     if(StoryDataList!=null){
                         mparams.putString("count_subscribed",String.valueOf(StoryDataList.size()));
                         nparams.put("count_subscribed",String.valueOf(StoryDataList.size()));
                     }
                     mFirebaseAnalytics.logEvent("tap_sortby_latestupdate", mparams);
-                    cleverTap.event.push("tap_sortby_latestupdate", nparams);
+                    cleverTap.event.push("tap_sort", nparams);
 
                 }
 
@@ -224,12 +226,13 @@ public class FollowFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             if(view==newlyfollowed){
                 NavigationActivity activity = (NavigationActivity)context;
                 if(activity!=null){
-                    Fragment f = activity.getFragment(2);
+                    Fragment f = activity.getFragment(1);
                     ((FollowingFragment)f).NetworkCallFollowing("newly_followed");
 
                     HashMap<String,Object> nparams = new HashMap<>();
                     nparams.put("screen_name", "following_screen");
                     nparams.put("category", "tap");
+                    nparams.put("type_sort","newly_followed");
 
                     Bundle mparams = new Bundle();
                     mparams.putString("screen_name", "following_screen");
@@ -239,7 +242,7 @@ public class FollowFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         nparams.put("count_subscribed",String.valueOf(StoryDataList.size()));
                     }
                     mFirebaseAnalytics.logEvent("tap_sortby_newlyadded", mparams);
-                    cleverTap.event.push("tap_sortby_newlyadded", nparams);
+                    cleverTap.event.push("tap_sort", nparams);
 
                 }
 
@@ -290,7 +293,7 @@ public class FollowFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
              if(mStoryData.getHexColor()!=null&&!mStoryData.getHexColor().isEmpty()){
 
                  String color = mStoryData.getHexColor();
-                 ((DataViewHolder)holder).categoryfollow.setTextColor(Color.parseColor("#"+color));
+                // ((DataViewHolder)holder).categoryfollow.setTextColor(Color.parseColor("#"+color));
 
                  ((DataViewHolder)holder).followfilterImage.setColorFilter(Color.parseColor("#"+color));
              }

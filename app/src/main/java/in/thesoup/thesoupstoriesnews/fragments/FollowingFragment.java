@@ -54,16 +54,13 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
         private ImageView warningImage;
         private String filter = "";
         private EndlessRecyclerView scrollListener;
-        //CVIPUL Analytics
         private FirebaseAnalytics mFirebaseAnalytics;
-        private int mLastFirstVisibleItem;
-        private boolean mIsScrollingUp;
         private String unread = "";
         private SwipeRefreshLayout swipeRefreshLayout;
-    private CleverTapAPI cleverTap;
+        private CleverTapAPI cleverTap;
         private int seenStatus = 0;
         private  String followunseen = "";
-        // Analytics end
+
 
 
         @Override
@@ -85,7 +82,7 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
                         HashMap<String,Object> aparams = new HashMap<>();
                         aparams.put("screen_name", "following_screen");
                         aparams.put("category", "tap");
-                        cleverTap.event.push("tap_start_following",aparams);
+                        cleverTap.event.push("tap_startfollowing",aparams);
                         activity.gotoFragment(0);
                     }
                 }
@@ -102,21 +99,6 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
             }
 
 
-            //End Analytics
-
-            //Todo:hardcode remove
-
-            if(pref.getString("filters",null)!=null&&!pref.getString("filters",null).isEmpty()) {
-                filter = pref.getString("filters", null);
-
-                Log.d("filters"," :"+filter);
-            }
-
-            if(filter!=null&&!filter.isEmpty()){
-                filter = filter.substring(0,filter.length()-1);
-            }
-
-
             if(pref.getString(SoupContract.TOTAL_REFRESH,null)!=null&&!pref.getString(SoupContract.TOTAL_REFRESH,null).isEmpty()){
                 totalrefresh = pref.getString(SoupContract.TOTAL_REFRESH,null);
 
@@ -124,7 +106,6 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
 
 
             params = new HashMap<>();
-            params.put("filters", filter);
 
             progress = (ProgressBar) RootView.findViewById(R.id.progressBar2);
             progress.setVisibility(View.GONE);
@@ -152,10 +133,6 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
 
            // NetworkCallFollowing("latest_update");
 
-            // CVIPUL Analytics
-            // TODO : Verify view MyFeed screen
-
-
             return RootView;
         }
 
@@ -164,7 +141,6 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
 
             totalrefresh = "1";
             params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
-            params.put("myfeed", "1"); // 1 is the value required for getting myfeed
             params.put("sortby",value);
             params.put("page", "0");
 
@@ -182,14 +158,13 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
 
             progress.setProgress(0);
             NetworkUtilswithTokenFollow networkutilsToken = new NetworkUtilswithTokenFollow(getActivity(), params);
-            networkutilsToken.getFeedFollow(2, totalrefresh);
+            networkutilsToken.getFeedFollow(1, totalrefresh);
 
         }
 
         private void loadNextDataFromApi(int offset) {
             totalrefresh="0";
             String Page = String.valueOf(offset);
-            params.put("myfeed", "1");
             params.put(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
             params.put("page", Page);
             params.put("sortby",value);
@@ -200,7 +175,7 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
             progress.setProgress(0);
 
             NetworkUtilswithTokenFollow networkutilsToken = new NetworkUtilswithTokenFollow(getActivity(), params);
-            networkutilsToken.getFeedFollow(2, totalrefresh);
+            networkutilsToken.getFeedFollow(1, totalrefresh);
 
 
         }
@@ -242,7 +217,11 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
 
             swipeRefreshLayout.setRefreshing(false);
 
-            ((NavigationActivity)getActivity()).NumberofUnread(followunseen);
+            if(getActivity()!=null){
+                ((NavigationActivity)getActivity()).NumberofUnread(followunseen);
+            }
+
+
 
             Log.d("mStoryData refresh", String.valueOf(nStoryData.size()));
         }
@@ -319,7 +298,7 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
                     Log.d(SoupContract.AUTH_TOKEN, pref.getString(SoupContract.AUTH_TOKEN, null));
 
                     NetworkUtilswithTokenFollow networkutilsToken = new NetworkUtilswithTokenFollow(getActivity(), params);
-                    networkutilsToken.getFeedFollow(2, totalrefresh);
+                    networkutilsToken.getFeedFollow(1, totalrefresh);
 
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString(SoupContract.TOTAL_REFRESH, "0");
@@ -360,8 +339,15 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
                           progress.setVisibility(View.GONE);
                           swipeRefreshLayout.setRefreshing(false);
 
+                          if(getActivity()!=null){
+                              NavigationActivity activity = (NavigationActivity) getActivity();
+                              activity.NumberofUnread("0");
+                          }
+
+                          startRefreshAdapter(mStoryData,followunseen);
+                      }else{
+                          startRefreshAdapter(mStoryData,followunseen);
                       }
-                      startRefreshAdapter(mStoryData,followunseen);
 
                   }
               }

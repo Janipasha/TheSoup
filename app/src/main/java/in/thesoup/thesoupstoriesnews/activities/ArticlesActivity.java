@@ -22,6 +22,7 @@ import java.util.List;
 
 import in.thesoup.thesoupstoriesnews.adapters.ArticlesAdapter;
 import in.thesoup.thesoupstoriesnews.gsonclasses.FeedGSONMain.ArticlesMain;
+import in.thesoup.thesoupstoriesnews.gsonclasses.FeedHome.ArticlesMainHome;
 import in.thesoup.thesoupstoriesnews.gsonclasses.SinglestoryGSON.Articles;
 import in.thesoup.thesoupstoriesnews.R;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -36,6 +37,7 @@ public class ArticlesActivity extends AppCompatActivity {
     private TextView mtextView;
 
     private List<ArticlesMain> mArticles;
+    private List<ArticlesMainHome> oArticles;
     private List<Articles> nArticles;
     private RecyclerView ArticlesView;
     private ArticlesAdapter mArticlesAdapter;
@@ -71,9 +73,9 @@ public class ArticlesActivity extends AppCompatActivity {
         );
 
         HashMap<String,Object> pparams = new HashMap<>();
-        pparams.put("screen_name", "articles_screen");
+        pparams.put("screen_name", "sources_screen");
         pparams.put("category", "screen_view"); //(only if possible)
-        cleverTap.event.push("viewed_articles_screen", pparams);
+        cleverTap.event.push("viewed_screen_sources", pparams);
 
 
 
@@ -103,6 +105,10 @@ public class ArticlesActivity extends AppCompatActivity {
         mtextView = (TextView)findViewById(R.id.number_of_articles);
         Intent in = getIntent();
 
+        if(getIntent().getExtras().getSerializable("ARTICLELISTHOME")!=null){
+            oArticles = (List<ArticlesMainHome>)in.getSerializableExtra("ARTICLELISTHOME");
+        }
+
         if(getIntent().getExtras().getSerializable("ARTICLELIST")!=null){
             mArticles =(List<ArticlesMain>) in.getSerializableExtra("ARTICLELIST");
         }
@@ -113,7 +119,10 @@ public class ArticlesActivity extends AppCompatActivity {
 
 
 
-
+        if(oArticles!=null){
+            int articlesize = oArticles.size();
+            mtextView.setText(String.valueOf(articlesize) + " Articles");
+        }
 
         if(mArticles!=null) {
             int articlesize = mArticles.size();
@@ -143,7 +152,7 @@ public class ArticlesActivity extends AppCompatActivity {
 
         ArticlesView.setHasFixedSize(true);
 
-        mArticlesAdapter = new ArticlesAdapter(mArticles,nArticles,storyColor,SubstoryID,this);
+        mArticlesAdapter = new ArticlesAdapter(mArticles,nArticles,oArticles,storyColor,SubstoryID,this);
 
         ArticlesView.setAdapter(mArticlesAdapter);
 

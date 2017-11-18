@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import in.thesoup.thesoupstoriesnews.activities.CategoryActivity;
 import in.thesoup.thesoupstoriesnews.activities.NavigationActivity;
 import in.thesoup.thesoupstoriesnews.fragments.DiscoverFragmentMain;
 import in.thesoup.thesoupstoriesnews.gsonclasses.FeedGSONMain.StoryDataMain;
@@ -81,6 +82,12 @@ public class NetworkUtilswithTokenDiscover {
                                 //TODO: error response write for fragment
 
                                 if (networkResponse != null) {
+
+                                    if(mcontext instanceof CategoryActivity){
+                                        CategoryActivity activity = (CategoryActivity)mcontext;
+                                        activity.stopProgress();
+
+                                    }
                                     if (networkResponse.statusCode == 404) {
                                         if (mcontext instanceof NavigationActivity) {
 

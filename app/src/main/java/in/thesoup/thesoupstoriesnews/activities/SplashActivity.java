@@ -54,6 +54,7 @@ public class SplashActivity extends AppCompatActivity {
             cleverTapPermissionsNotSatisfied.printStackTrace();
         }
 
+
         UXCam.startWithKey(getString(R.string.uxcam_id));
         PrefUtil prefutil = new PrefUtil(this);
         if(prefutil.getEmail()!=null&&!prefutil.getEmail().isEmpty()){

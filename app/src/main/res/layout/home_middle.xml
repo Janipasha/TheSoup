@@ -4,16 +4,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="35dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_marginTop="15dp"
     android:layout_marginRight="20dp"
-    android:layout_marginBottom="15dp"
+    android:layout_marginBottom="5dp"
     android:layout_marginLeft="20dp"
     tools:ignore="MissingPrefix">
 
     <TextView
-        android:visibility="invisible"
         android:id="@+id/moreforyou"
-        android:layout_width="wrap_content"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textColor="#222222"
@@ -22,10 +22,43 @@
         tools:text="More stories for you"
          />
 
-    <TextView
+    <LinearLayout
+        android:layout_marginLeft="-40dp"
+        android:layout_centerVertical="true"
         android:visibility="invisible"
+        android:layout_toRightOf="@id/moreforyou"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginRight="20dp"
+        android:padding="0.5dp"
+        android:minWidth="27dp"
+        android:id="@+id/notificationNumber"
+        android:background="@drawable/number_background"
+        >
+
+        <TextView
+            android:id="@+id/numberfollowingupdates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="13sp"
+            android:padding="0dp"
+            fontPath="fonts/montserrat-bold.ttf"
+            android:textColor="#ffffff"
+            android:lineSpacingExtra="3sp"
+            android:gravity="center_horizontal"
+            tools:text="02"
+            />
+
+    </LinearLayout>
+
+    <TextView
         android:id="@+id/moreseeall"
-        android:layout_alignBaseline="@id/moreforyou"
+        android:paddingLeft="20dp"
+        android:paddingBottom="4dp"
+        android:paddingTop="10dp"
+        android:layout_alignBottom="@id/moreforyou"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

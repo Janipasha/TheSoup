@@ -1,6 +1,8 @@
 package in.thesoup.thesoupstoriesnews;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -9,18 +11,25 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import in.thesoup.thesoupstoriesnews.activities.CategoryActivity;
 import in.thesoup.thesoupstoriesnews.activities.DetailsActivity;
+import in.thesoup.thesoupstoriesnews.activities.EndlessRecyclerView;
 import in.thesoup.thesoupstoriesnews.activities.NavigationActivity;
+import in.thesoup.thesoupstoriesnews.adapters.CategoryFeedAdapter;
 import in.thesoup.thesoupstoriesnews.fragments.DiscoverFragmentMain;
 import in.thesoup.thesoupstoriesnews.fragments.FollowingFragment;
 import in.thesoup.thesoupstoriesnews.fragments.HomeFragment;
+import in.thesoup.thesoupstoriesnews.fragments.HomeFragment1;
 import in.thesoup.thesoupstoriesnews.gsonclasses.AuthVerify.Authverify;
 import in.thesoup.thesoupstoriesnews.gsonclasses.FeedGSON.GetStoryFeed;
 import in.thesoup.thesoupstoriesnews.gsonclasses.FeedGSON.StoryData;
 import in.thesoup.thesoupstoriesnews.gsonclasses.FeedGSONMain.GetStoryFeedMain;
 import in.thesoup.thesoupstoriesnews.gsonclasses.FeedGSONMain.StoryDataMain;
+import in.thesoup.thesoupstoriesnews.gsonclasses.FeedHome.GetStoryFeedMainHome;
+import in.thesoup.thesoupstoriesnews.gsonclasses.FeedHome.StoryDataMainHome;
 import in.thesoup.thesoupstoriesnews.gsonclasses.FollowingGSON.GetStoryFeedFollowing;
 import in.thesoup.thesoupstoriesnews.gsonclasses.FollowingGSON.StoryDataFollowing;
 import in.thesoup.thesoupstoriesnews.gsonclasses.SinglestoryGSON.GetSingleStory;
@@ -30,6 +39,9 @@ import in.thesoup.thesoupstoriesnews.gsonclasses.filters.Filterdata;
 import in.thesoup.thesoupstoriesnews.gsonclasses.filters.GetFilters;
 import in.thesoup.thesoupstoriesnews.gsonclasses.filters1.FilterAPIJson;
 import in.thesoup.thesoupstoriesnews.gsonclasses.filters1.Filters;
+import in.thesoup.thesoupstoriesnews.networkcalls.NetworkUtilsHome;
+
+import static in.thesoup.thesoupstoriesnews.R.id.section;
 
 /**
  * Created by Jani on 07-04-2017.
@@ -40,12 +52,14 @@ public class gsonConversion {
 
     private JSONObject mJsonObject,nJsonObject;
     private List<StoryData> mListFromJson;
+    private List<StoryDataMainHome> ListFromJson;
     private List<StoryDataMain> nListFromJson,oListFromJson;
     private List<StoryDataFollowing> pListFromJson;
     private Substoryjsondata mSubstoryjsonData;
     private String StoryTitle ,mJsonString, followstatus;
     private List<Substories> mSubstories;
     private Filterdata filterdata;
+    private HashMap <String,String> params;
     private String NetworkCallHome;
 
 
@@ -86,13 +100,13 @@ public class gsonConversion {
 
                 NavigationActivity activity = (NavigationActivity)context;
 
-                if(fragmenttag==1&&totalrefresh.equals("0")) {
+                if(fragmenttag==0&&totalrefresh.equals("0")) {
 
                     Fragment f = activity.getFragment(fragmenttag);
 
                     ((HomeFragment) f).startAdapterfirsttime(nListFromJson,oListFromJson,followcount,followUpdateCount);
 
-                }else if(fragmenttag==1&&totalrefresh.equals("1")){
+                }else if(fragmenttag==0&&totalrefresh.equals("1")){
                     Fragment f = activity.getFragment(fragmenttag);
                     ((HomeFragment)f).startAdapterfirsttime(nListFromJson,oListFromJson,followcount,followUpdateCount);
                 }
@@ -109,15 +123,57 @@ public class gsonConversion {
 
                 NavigationActivity activity = (NavigationActivity)context;
             if(activity!=null){
-                if(fragmenttag==1&&totalrefresh.equals("0")) {
+                if(fragmenttag==0&&totalrefresh.equals("0")) {
                     Fragment f = activity.getFragment(fragmenttag);
                     ((HomeFragment) f).startAdapterAfterPagination(oListFromJson);
-                }else if(fragmenttag==1&&totalrefresh.equals("1")){
+                }else if(fragmenttag==0&&totalrefresh.equals("1")){
                     Fragment f = activity.getFragment(fragmenttag);
                     ((HomeFragment)f).startAdaptersecondcall(oListFromJson);
                 }
 
             }
+
+            }
+        }
+
+        public void fillHome(JSONObject jsonObject, Context context, int fragmenttag, String totalrefresh, String section, EndlessRecyclerView scrollListener) {
+
+            ListFromJson = new ArrayList<>();
+            nJsonObject = jsonObject;
+
+            Gson gson = new Gson();
+            GetStoryFeedMainHome red = gson.fromJson(jsonObject.toString(), GetStoryFeedMainHome.class);
+
+            if (red.getDataStoriesMain().getStories().get(0).getType().equals("7")) {
+
+                if (context != null) {
+
+                    scrollListener.changeoffset(Integer.valueOf(section)-1);
+
+                   // NetworkUtilsHome networkutilsToken = new NetworkUtilsHome(context, ListFromJson, params, scrollListener);
+                   // networkutilsToken.getFeed2(0, totalrefresh);
+                }
+            } else {
+
+                for (int i = 0; i < red.getDataStoriesMain().getStories().size(); i++) {
+                    ListFromJson.add(red.getDataStoriesMain().getStories().get(i));
+                }
+
+                NavigationActivity activity = (NavigationActivity) context;
+
+
+                    if (activity != null) {
+                        if (fragmenttag == 0 && totalrefresh.equals("0")) {
+                            Fragment f = activity.getFragment(fragmenttag);
+                            ((HomeFragment1) f).startAdapterfirsttime(ListFromJson);
+                        } else if (fragmenttag == 0 && totalrefresh.equals("1")) {
+                            Fragment f = activity.getFragment(fragmenttag);
+                            ((HomeFragment1) f).startAdapter(ListFromJson);
+                        }
+
+
+
+                }
 
             }
         }
@@ -142,7 +198,7 @@ public class gsonConversion {
 
         }
 
-        NavigationActivity activity = (NavigationActivity)context;
+       /* NavigationActivity activity = (NavigationActivity)context;
 
         if(activity!=null){
 
@@ -152,11 +208,22 @@ public class gsonConversion {
 
                 ((DiscoverFragmentMain) f).startAdapter(nListFromJson);
 
-            }else if(fragmenttag==0&&totalrefresh.equals("1")){
+            }
+            else if(fragmenttag==0&&totalrefresh.equals("1")){
                 Fragment f = activity.getFragment(fragmenttag);
                 ((DiscoverFragmentMain)f).startRefreshAdapter(nListFromJson);
-            }
+            }*/
+
+        CategoryActivity categoryActivity = (CategoryActivity)context;
+
+        if(categoryActivity!=null&&totalrefresh.equals("1")){
+            categoryActivity.startRefreshAdapter(nListFromJson);
+        }else if(categoryActivity!=null&&totalrefresh.equals("0")){
+            categoryActivity.startAdapter(nListFromJson);
         }
+
+
+
 
     }
 
@@ -237,11 +304,11 @@ public class gsonConversion {
         }
 
         NavigationActivity activity = (NavigationActivity)context;
-        if(fragmenttag==2&&totalrefresh.equals("0")) {
+        if(fragmenttag==1&&totalrefresh.equals("0")) {
             if(activity!=null){
                 Fragment f = activity.getFragment(fragmenttag);
                 ((FollowingFragment) f).startAdapter(pListFromJson,followunseen);}
-        }else if(fragmenttag==2&&totalrefresh.equals("1")){
+        }else if(fragmenttag==1&&totalrefresh.equals("1")){
             if(activity!=null){
                 Fragment f = activity.getFragment(fragmenttag);
                 ((FollowingFragment)f).startRefreshAdapter(pListFromJson,followunseen);

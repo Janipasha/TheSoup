@@ -8,17 +8,21 @@ import java.util.List;
 
 public class SubstoriesMain {
 
-    String substory_id;
+       String substory_id;
     String substory_name;
     String update_number;
     String top_article_image;
     String top_article_date;
+    String substory_read;
     List<ArticlesMain> articles;
 
 
 
     public String getSubStoryName() {
         return substory_name;
+    }
+    public String getReadStatus(){
+        return substory_read;
     }
 
     public String getSubstory_id(){return substory_id;}
